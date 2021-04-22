@@ -17,11 +17,18 @@
       </div>
     </section>
     <section id="mainGame" class="main game-section">
-      <h1>Rock, Paper, Scissors</h1>
+      <h1 id="gameHeader">Rock, Paper, Scissors</h1>
       <h2>Choose your game!</h2>
+      <section class="hidden">
+        <div class="selections">
+          <div class="choice rock"></div>
+          <div class="choice scissors"></div>
+          <div class="choice paper"></div>
+        </div>
+      </section>
       <section id="classicGame" class="game-type">
         <h3>Classic</h3>
-        <p>Rules</p>
+        <p id="classicRules">Rules</p>
       </section>
       <section class="game-type">
         <h3>BotZ</h3>
@@ -39,5 +46,8 @@
         <h3 class="win-count">Wins: 0</h3>
       </div>
     </section>
+  <script type="text/javascript" src="game.js"></script>
+  <script type="text/javascript" src="player.js"></script>
+  <script type="text/javascript" src="main.js"></script>
   </body>
 </html>

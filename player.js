@@ -5,5 +5,3 @@ class Player {
     this.ties = 0;
   }
 }
-
-module.exports = Player;
