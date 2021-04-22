@@ -1,0 +1,20 @@
+* {
+  border: 1px solid blue;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+}
+
+.player-section {
+  width: 15%;
+}
+
+.main-game-section {
+  width: 70%;
+}
+
+.hidden {
+  display: none;
+}
