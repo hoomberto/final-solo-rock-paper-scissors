@@ -5,11 +5,19 @@
 body {
   display: flex;
   height: 100vh;
+  margin: 0;
+}
+
+h1 {
+  font-family: 'Orelega One', cursive;
+  font-size: 4em;
+  color: white;
 }
 
 .player-section {
   width: 15%;
   background: lightblue;
+  text-align: center;
 }
 
 .game-section {
@@ -26,7 +34,8 @@ body {
 
 .game-type {
   width: 20%;
-  margin-top: 10%;
+  height: 25%;
+  margin-top: 5%;
   background: lightgray;
 }
 
