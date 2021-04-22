@@ -1,7 +1,7 @@
 class Game {
-  constructor() {
-    this.name = "";
-    this.description = "";
+  constructor(gameName, gameDescription) {
+    this.name = gameName;
+    this.description = gameDescription;
     this.ties = 0;
 
   }
