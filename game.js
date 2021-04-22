@@ -5,10 +5,10 @@ class Game {
     this.ties = 0;
 
   }
-  playGame() {
+  playGame(userInput) {
     var compInput = randomChoice(choices)
     var randomUser = randomChoice(choices)
-    var randomGame = compareChoices(randomUser, compInput)
+    var randomGame = compareChoices(userInput, compInput)
     return randomGame;
   }
   compareChoices(user, comp) {
