@@ -5,11 +5,15 @@ var gameSubtitle = document.getElementById("gameSubHeader");
 var classicRules = document.getElementById("classicRules");
 var gameChoices = document.getElementById("gameChoices");
 var gameTypes = document.getElementById("gameTypes");
+var gameSelections = document.getElementById("gameSelections");
+var playerWins = document.getElementById("playerWins");
+var compWins = document.getElementById("compWins");
 var rpsChoices = document.querySelectorAll(".choice");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
 console.log(rpsChoices)
+
 for (var choice of rpsChoices) {
   console.log(choice);
   choice.addEventListener("click", function() {
@@ -35,8 +39,21 @@ function displayDefaultGame() {
   currentGame = new Game(gameName, gameDescription);
   currentUser = new Player();
   currentComp = new Player();
+  playerWins.innerText += `${currentUser.wins}`;
+  compWins.innerText += `${currentComp.wins}`;
   gameTitle.innerText = currentGame.name;
   classicRules.innerText += currentGame.description;
+}
+
+function resetWinCount() {
+  playerWins.innerText = "Wins: ";
+  compWins.innerText = "Wins: ";
+}
+
+function setWinCount() {
+  resetWinCount()
+  playerWins.innerText += `${currentUser.wins}`;
+  compWins.innerText += `${currentComp.wins}`;
 }
 
 function hide(element) {
@@ -47,22 +64,7 @@ function add(element) {
   element.classList.remove("hidden");
 }
 
-function selectChoice(event) {
 
-    if (event.target.id === "rock") {
-      console.log("rock")
-      return
-    }
-    if (event.target.id === "paper") {
-      console.log("paper")
-      return
-    }
-    if (event.target.id === "scissors") {
-      console.log("scissors")
-      return
-    }
-
-}
 
 function playClassicGame() {
   hide(classicGameChoice)
