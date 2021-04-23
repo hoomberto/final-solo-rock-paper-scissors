@@ -50,11 +50,12 @@ function displayDefaultGame() {
 
 function playAnother() {
   resultText.innerText = "";
-  add(gameSelections);
+  show(gameSelections);
   hide(gameChoices);
   hide(playAgainBtn)
-  add(classicGameChoice);
-  add(botzGameChoice);
+  show(classicGameChoice);
+  show(botzGameChoice);
+  gameSubtitle.innerText = "Choose your game!"
 }
 
 function resetWinCount() {
@@ -72,13 +73,13 @@ function hide(element) {
   element.classList.add("hidden");
 }
 
-function add(element) {
+function show(element) {
   element.classList.remove("hidden");
 }
 
 function playClassicGame() {
   hide(classicGameChoice)
   hide(botzGameChoice)
-  add(gameChoices)
+  show(gameChoices)
   gameSubtitle.innerText = "Make a choice:";
 }
