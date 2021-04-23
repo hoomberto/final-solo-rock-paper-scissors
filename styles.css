@@ -73,6 +73,20 @@ h2 {
   transform: scale(1.1);
 }
 
+.game-choices {
+  width: 65%;
+  height: 30%;
+  background-color: lightgray;
+  font-family: 'Roboto', sans-serif;
+  border-radius: 6px;
+  box-shadow: 7px 4px 19px -2px rgba(0,0,0,0.23);
+}
+
+.choice {
+  cursor: pointer;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
 
 .hidden {
   display: none;
