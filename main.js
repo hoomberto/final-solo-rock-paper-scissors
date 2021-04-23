@@ -9,9 +9,12 @@ var gameSelections = document.getElementById("gameSelections");
 var playerWins = document.getElementById("playerWins");
 var compWins = document.getElementById("compWins");
 var rpsChoices = document.querySelectorAll(".choice");
+var resultText = document.getElementById("resultText");
+var playAgainBtn = document.getElementById("playAgain");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
+playAgainBtn.addEventListener("click", playAnother);
 console.log(rpsChoices)
 
 for (var choice of rpsChoices) {
@@ -45,6 +48,15 @@ function displayDefaultGame() {
   classicRules.innerText += currentGame.description;
 }
 
+function playAnother() {
+  resultText.innerText = "";
+  add(gameSelections);
+  hide(gameChoices);
+  hide(playAgainBtn)
+  add(classicGameChoice);
+  add(botzGameChoice);
+}
+
 function resetWinCount() {
   playerWins.innerText = "Wins: ";
   compWins.innerText = "Wins: ";
@@ -63,8 +75,6 @@ function hide(element) {
 function add(element) {
   element.classList.remove("hidden");
 }
-
-
 
 function playClassicGame() {
   hide(classicGameChoice)

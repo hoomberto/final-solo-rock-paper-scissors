@@ -14,23 +14,24 @@ class Game {
   }
 
   compareChoices(user, comp) {
-    gameSelections.innerHTML = "";
+    hide(gameSelections);
+    add(playAgainBtn);
     if (user === comp) {
     this.ties++;
-    gameSelections.innerHTML += `It was ${user} vs ${comp} - tie! Play again`
+    resultText.innerText = `It was ${user} vs ${comp} - tie! Play again`
     }
     else if (user === 'rock' && comp === 'scissors' || user === 'scissors' && comp === 'paper' || user === 'paper' && comp === 'rock') {
       currentUser.wins++
       currentComp.losses++
-      gameSelections.innerHTML += `${user} beats ${comp}!`
+      resultText.innerText = `${user} beats ${comp}!`
     }
     else if (user === 'rock' && comp === 'paper' || user === 'scissors' && comp === 'rock' || user === 'paper' && comp === 'scissors') {
       currentUser.losses++
       currentComp.wins++
-      gameSelections.innerHTML += `${user} lost against ${comp}`
+      resultText.innerText = `${user} lost against ${comp}`
     }
-  }
 
+  }
 
 }
 
@@ -57,6 +58,5 @@ function selectChoice(event) {
       // return "scissors"
     }
     currentGame.playGame(currentUser.currentChoice);
-
 
 }
