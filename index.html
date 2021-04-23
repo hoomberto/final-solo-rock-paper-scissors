@@ -13,17 +13,26 @@
       <div id="userInfo" class="player-info">
         <h2 class="user-icon">🟢</h2>
         <h2 class="comp-icon">Player</h2>
-        <h3 class="win-count">Wins: 0</h3>
+        <h3 id="playerWins" class="win-count">Wins:  </h3>
       </div>
     </section>
     <section id="mainGame" class="main game-section">
-      <h1>Rock, Paper, Scissors</h1>
-      <h2>Choose your game!</h2>
-      <section class="game-type">
-        <h3>Classic</h3>
-        <p>Rules</p>
+      <h1 id="gameHeader">Rock, Paper, Scissors</h1>
+      <h2 id="gameSubHeader">Choose your game!</h2>
+      <section id="gameChoices" class="game-choices hidden">
+        <div id="gameSelections" class="selections">
+          <div id ="rock" class="choice">ROCK</div>
+          <div id ="paper" class="choice">PAPER</div>
+          <div id ="scissors" class="choice">SCISSORS</div>
+        </div>
+        <h3 id="resultText"></h3>
+        <button id="playAgain" class="hidden">Play again</button>
       </section>
-      <section class="game-type">
+      <section id="classicGame" class="game-type">
+        <h3>Classic</h3>
+        <p id="classicRules">Rules:</p>
+      </section>
+      <section id="botzGame" class="game-type">
         <h3>BotZ</h3>
         <p>Rules</p>
       </section>
@@ -36,8 +45,11 @@
       <div id="compInfo" class="player-info">
         <h2 class="comp-icon">🤖</h2>
         <h2 class="comp-icon">Computer</h2>
-        <h3 class="win-count">Wins: 0</h3>
+        <h3 id="compWins" class="win-count">Wins:  </h3>
       </div>
     </section>
+  <script type="text/javascript" src="game.js"></script>
+  <script type="text/javascript" src="player.js"></script>
+  <script type="text/javascript" src="main.js"></script>
   </body>
 </html>
