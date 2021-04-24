@@ -100,6 +100,21 @@ h2 {
   cursor: pointer;
 }
 
+.player-box {
+  width: 200px;
+  height: 200px;
+  background-color: lightgray;
+  margin: 5%;
+  z-index: 2;
+}
+
+.player.player-box {
+
+}
+
+.comp.player-box {
+}
+
 .hidden {
   display: none;
 }

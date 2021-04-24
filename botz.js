@@ -47,12 +47,11 @@ function removeSign(player, array) {
 
 function addMoves(sign) {
   var i = 0;
-  while (i < 3) {
+  while (i < 2) {
     sign.moves.push(randomChoice(moves))
     i++
   }
 }
-
 
 function checkAccuracy(moveAccuracy) {
   var randomToCompare = Math.floor(Math.random() * 100 + 1);

@@ -14,6 +14,8 @@ var playAgainBtn = document.getElementById("playAgain");
 var botzGameSection = document.getElementById("botz");
 var mainGameSection = document.getElementById("mainGame");
 var zodiacSignSelection = document.getElementById("signs");
+var playerBox = document.getElementById("playerBox");
+var computerBox = document.getElementById("computerBox");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
@@ -116,6 +118,12 @@ function playBotzGame() {
   currentComp = new Player("Computer");
 }
 
+function startBotzGame() {
+  hide(zodiacSignSelection)
+  show(playerBox);
+  show(computerBox);
+}
+
 function selectSign(event) {
     var selectedSign = event.srcElement.innerText
     currentUser.currentChoice = selectedSign;
@@ -127,5 +135,5 @@ function selectSign(event) {
         removeSign(currentComp, zodiac)
       }
     }
-    hide(zodiacSignSelection)
+    startBotzGame();
 };
