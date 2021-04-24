@@ -9,10 +9,12 @@ var gameSelections = document.getElementById("gameSelections");
 var playerWins = document.getElementById("playerWins");
 var compWins = document.getElementById("compWins");
 var rpsChoices = document.querySelectorAll(".choice");
+var iconChoices = document.querySelectorAll(".icon");
 var resultText = document.getElementById("resultText");
 var playAgainBtn = document.getElementById("playAgain");
 var botzGameSection = document.getElementById("botz");
 var mainGameSection = document.getElementById("mainGame");
+var zodiacSignSelection = document.getElementById("signs");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
@@ -24,6 +26,13 @@ for (var choice of rpsChoices) {
   console.log(choice);
   choice.addEventListener("click", function() {
   selectChoice(event);
+});
+}
+
+for (var icons of iconChoices) {
+  console.log(icon);
+  icon.addEventListener("click", function() {
+  selectSign(event);
 });
 }
 // if (rpsChoices) {
@@ -87,7 +96,16 @@ function playClassicGame() {
   gameSubtitle.innerText = "Make a choice:";
 }
 
+function showSigns() {
+  for (var sign of zodiac) {
+    zodiacSignSelection.innerHTML += `
+    <p class="icon">${sign.name}</p>
+    `
+  }
+}
+
 function playBotzGame() {
   hide(mainGameSection);
   show(botzGameSection);
+  showSigns();
 }
