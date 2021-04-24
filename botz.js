@@ -112,3 +112,28 @@ function checkMoved(currentPlayer, opponent) {
   }
   // console.log(`CHECKING MOVES: CURRENT PLAYER${currentPlayer.hasMoved} OPPONENT PLAYER ${opponent.hasMoved}`)
 }
+
+function runMove(currentPlayer, opponent) {
+  if (currentPlayer.lostRound || opponent.lostRound) {
+    return
+  }
+  currentPlayer.hasMoved = true;
+  const currentPlayerHp = currentPlayer.sign.hp
+  currentMove = currentPlayer.currentMove
+  if (checkAccuracy(currentMove.accuracy)) {
+
+    console.log(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}!`)
+
+    opponent.sign.hp -= ((currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier)
+    if (currentPlayerHp < currentPlayer.sign.hp) {
+      console.log(`${currentPlayer.sign.name} gained ${currentPlayer.sign.hp - currentPlayerHp} health!`)
+    }
+
+
+  }
+  else {
+    console.log(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
+  }
+
+  checkOpponentHealth(currentPlayer, opponent)
+}
