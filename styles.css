@@ -101,8 +101,7 @@ h2 {
 }
 
 .player-box {
-  width: 200px;
-  height: 200px;
+
   background-color: lightgray;
   margin: 5%;
   z-index: 2;

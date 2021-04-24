@@ -122,6 +122,21 @@ function startBotzGame() {
   hide(zodiacSignSelection)
   show(playerBox);
   show(computerBox);
+  setPlayerBox(playerBox, currentUser);
+  setPlayerBox(computerBox, currentComp);
+}
+
+function setPlayerBox(infoContainer, player) {
+  infoContainer.innerHTML = "";
+  infoContainer.innerHTML += `
+    <h3>${player.sign.name}</h3>
+  `
+
+  for (var move of player.sign.moves) {
+    infoContainer.innerHTML += `
+    <p>${move.name}</p>
+    <p>${move.description}</p>`
+  }
 }
 
 function selectSign(event) {
