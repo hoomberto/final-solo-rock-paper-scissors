@@ -79,3 +79,22 @@ function compareElements(currentPlayer, opponent) {
     console.log(`Element Tie! ${currentPlayer.element} tied against ${opponent.element}\n`)
   }
 }
+
+function compareSpeeds(currentPlayer, opponent) {
+  var currentPlayerSpeed = currentPlayer.sign.stats.speed;
+  var currentPlayerBuff = currentPlayer.sign.buffs.speed;
+  var opponentSpeed = opponent.sign.stats.speed;
+  var opponentBuff = opponent.sign.buffs.speed
+  if (currentPlayer.hasMoved && opponent.hasMoved) {
+    return;
+  }
+  if (((currentPlayerSpeed + currentPlayerBuff) > (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
+    runMove(currentPlayer, opponent)
+  }
+  else if (((currentPlayerSpeed + currentPlayerBuff) === (opponentSpeed + opponentBuff))) {
+    runMove(currentPlayer, opponent)
+  }
+  else if (currentPlayer.hasMoved && !opponent.hasMoved){
+    runMove(opponent, currentPlayer)
+  }
+}
