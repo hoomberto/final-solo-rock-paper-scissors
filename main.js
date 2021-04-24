@@ -178,11 +178,35 @@ function selectMove(event) {
       console.log(`User selected ${currentUser.currentMove.name}`)
     }
   }
-  startBattle();
-  // compareSpeeds(currentUser, currentComp);
-  // updateHealth(currentUser);
-  // updateHealth(currentComp);
-  // delayShowMoves();
+  gameRound();
+  // startBattle();
+
+}
+
+function gameRound() {
+  if (currentUser.isWinner && !currentComp.sign.hp) {
+    currentComp.sign = randomChoice(zodiac);
+    removeSign(currentComp, zodiac)
+    setPlayerBox(computerBox, currentComp);
+  }
+  // else if (!currentUser.isWinner && currentUser.lostRound && !currentUser.sign.hp) {
+  //   playerBox.innerHTML == ""
+  //   playerBox.innerHTML += `
+  //   <h4>GAME OVER</h4>
+  //   `
+  // }
+  else {
+    startBattle();
+  }
+}
+
+function checkWinner(user) {
+  if (!currentUser.isWinner && currentUser.lostRound && !currentUser.sign.hp) {
+    playerBox.innerHTML == ""
+    playerBox.innerHTML += `
+    <h4>GAME OVER</h4>
+    `
+  }
 }
 
 function delayShowMoves() {
@@ -200,7 +224,6 @@ function startBattle() {
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
   console.log(`${currentComp.name} selected ${currentComp.currentMove.name}`)
   compareSpeeds(currentUser, currentComp);
-  updateBothHealth()
   checkMoved(currentUser, currentComp)
   resetMoves(currentUser, currentComp)
   delayShowMoves();

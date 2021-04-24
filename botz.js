@@ -109,6 +109,7 @@ function checkOpponentHealth(currentPlayer, opponent) {
     opponent.sign.hp = 0;
     opponent.lostRound = true;
     currentPlayer.lostRound = false;
+    currentPlayer.isWinner = true;
     currentPlayer.winRound();
     currentPlayer.roundsWon++
     if (currentPlayer.name === "user" && currentPlayer.sign.hp > 0) {
@@ -155,4 +156,5 @@ function runMove(currentPlayer, opponent) {
   }
 
   checkOpponentHealth(currentPlayer, opponent)
+  checkWinner(currentPlayer)
 }

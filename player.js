@@ -16,7 +16,7 @@ class Player {
     this.currentMove = undefined;
     this.hasMoved = false;
     this.roundsWon = 0;
-    this.isWinner = true;
+    this.isWinner = false;
     this.lostRound = false;
     this.wins = 0;
     this.losses = 0;
