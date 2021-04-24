@@ -98,3 +98,17 @@ function compareSpeeds(currentPlayer, opponent) {
     runMove(opponent, currentPlayer)
   }
 }
+
+function checkMoved(currentPlayer, opponent) {
+  // console.log(`CHECKING MOVES: CURRENT PLAYER${currentPlayer.hasMoved} OPPONENT PLAYER ${opponent.hasMoved}`)
+  if (currentPlayer.hasMoved && !opponent.hasMoved) {
+    runMove(opponent, currentPlayer)
+  }
+  else if (!currentPlayer.hasMoved && opponent.hasMoved) {
+    runMove(currentPlayer, opponent)
+  }
+  else if (currentPlayer.hasMoved && opponent.hasMoved) {
+    checkRounds(currentPlayer, opponent)
+  }
+  // console.log(`CHECKING MOVES: CURRENT PLAYER${currentPlayer.hasMoved} OPPONENT PLAYER ${opponent.hasMoved}`)
+}
