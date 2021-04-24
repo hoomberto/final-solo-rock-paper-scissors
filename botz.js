@@ -97,6 +97,7 @@ function compareSpeeds(currentPlayer, opponent) {
   else if (currentPlayer.hasMoved && !opponent.hasMoved){
     runMove(opponent, currentPlayer)
   }
+  updateBothHealth();
 }
 
 function checkOpponentHealth(currentPlayer, opponent) {
@@ -127,6 +128,7 @@ function checkMoved(currentPlayer, opponent) {
   else if (currentPlayer.hasMoved && opponent.hasMoved) {
     checkRounds(currentPlayer, opponent)
   }
+  updateBothHealth();
   // console.log(`CHECKING MOVES: CURRENT PLAYER${currentPlayer.hasMoved} OPPONENT PLAYER ${opponent.hasMoved}`)
 }
 

@@ -179,13 +179,40 @@ function selectMove(event) {
     }
   }
   startBattle();
-  compareSpeeds(currentUser, currentComp);
+  // compareSpeeds(currentUser, currentComp);
+  // updateHealth(currentUser);
+  // updateHealth(currentComp);
+  // delayShowMoves();
 }
+
+function delayShowMoves() {
+  setTimeout(setPlayerMoves(playerBox, currentUser), 4000);
+}
+
+function updateBothHealth() {
+  updateHealth(currentUser);
+  updateHealth(currentComp);
+}
+
 
 function startBattle() {
   setPlayerBox(playerBox, currentUser);
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
   console.log(`${currentComp.name} selected ${currentComp.currentMove.name}`)
+  compareSpeeds(currentUser, currentComp);
+  updateBothHealth()
+  checkMoved(currentUser, currentComp)
+  resetMoves(currentUser, currentComp)
+  delayShowMoves();
+  makeMovesSelectable();
+}
+
+function resetMoves(currentPlayer, opponent) {
+  if (currentPlayer.lostRound || opponent.lostRound) {
+    return "NO MORE"
+  }
+  currentPlayer.hasMoved = false;
+  opponent.hasMoved = false;
 }
 
 function selectSign(event) {
