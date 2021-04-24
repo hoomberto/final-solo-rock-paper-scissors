@@ -24,7 +24,7 @@ botzGameChoice.addEventListener("click", playBotzGame);
 console.log(rpsChoices)
 
 for (var choice of rpsChoices) {
-  console.log(choice);
+  // console.log(choice);
   choice.addEventListener("click", function() {
   selectChoice(event);
 });
@@ -100,14 +100,8 @@ function showSigns() {
   }
 }
 
-function makeIconsSelectable() {
-  var iconChoices = document.querySelectorAll(".icon");
-  for (var icon of iconChoices) {
-    icon.addEventListener("click", function() {
-    selectSign(event);
-  });
-  }
-}
+
+
 
 function playBotzGame() {
   hide(mainGameSection);
@@ -123,7 +117,43 @@ function startBotzGame() {
   show(playerBox);
   show(computerBox);
   setPlayerBox(playerBox, currentUser);
+  setPlayerMoves(playerBox, currentUser)
   setPlayerBox(computerBox, currentComp);
+  makeMovesSelectable();
+}
+
+function setPlayerMoves(infoContainer, player) {
+  for (var move of player.sign.moves) {
+    infoContainer.innerHTML += `
+    <p class="move">${move.name}</p>
+    <p>${move.description}</p>`
+  }
+}
+
+function makeIconsSelectable() {
+  var iconChoices = document.querySelectorAll(".icon");
+  for (var icon of iconChoices) {
+    icon.addEventListener("click", function() {
+    selectSign(event);
+  });
+  }
+}
+
+function makeMovesSelectable() {
+  var moveChoices = document.querySelectorAll(".move");
+  for (var move of moveChoices) {
+    // console.log(move)
+    move.addEventListener("click", function() {
+      selectMove(event);
+    });
+  }
+}
+
+
+
+function updateHealth(player) {
+  var userHealth = document.getElementById(player.sign.name)
+  userHealth.value = player.sign.hp
 }
 
 function setPlayerBox(infoContainer, player) {
@@ -132,17 +162,29 @@ function setPlayerBox(infoContainer, player) {
   <div class="player-name-hp">
     <h3>${player.sign.name}</h3>
     <div class="health-bar-container">
-      <progress id="health" value="${player.sign.hp}" max="100"></progress>
+      <progress id="${player.sign.name}" value="${player.sign.hp}" max="100"></progress>
     </div>
     <h4>${player.sign.hp} HP</h4>
     </div>
   `
+}
 
-  for (var move of player.sign.moves) {
-    infoContainer.innerHTML += `
-    <p>${move.name}</p>
-    <p>${move.description}</p>`
+function selectMove(event) {
+  var selectedMove = event.srcElement.innerText
+  currentUser.currentChoice = selectedMove;
+  for (var move of currentUser.sign.moves) {
+    if (selectedMove === move.name) {
+      currentUser.currentMove = move;
+      console.log(`User selected ${currentUser.currentMove.name}`)
+    }
   }
+  startBattle();
+}
+
+function startBattle() {
+  setPlayerBox(playerBox, currentUser);
+  currentComp.currentMove = randomChoice(currentComp.sign.moves);
+  console.log(`${currentComp.name} selected ${currentComp.currentMove.name}`)
 }
 
 function selectSign(event) {
