@@ -11,10 +11,13 @@ var compWins = document.getElementById("compWins");
 var rpsChoices = document.querySelectorAll(".choice");
 var resultText = document.getElementById("resultText");
 var playAgainBtn = document.getElementById("playAgain");
+var botzGameSection = document.getElementById("botz");
+var mainGameSection = document.getElementById("mainGame");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
 playAgainBtn.addEventListener("click", playAnother);
+botzGameChoice.addEventListener("click", playBotzGame);
 console.log(rpsChoices)
 
 for (var choice of rpsChoices) {
@@ -82,4 +85,9 @@ function playClassicGame() {
   hide(botzGameChoice)
   show(gameChoices)
   gameSubtitle.innerText = "Make a choice:";
+}
+
+function playBotzGame() {
+  hide(mainGameSection);
+  show(botzGameSection);
 }
