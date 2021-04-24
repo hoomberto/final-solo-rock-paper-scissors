@@ -33,6 +33,26 @@ var zodiac = [
   pisces
 ];
 
+
+function removeSign(player, array) {
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].name === player.sign.name) {
+      array.splice(i, 1);
+    }
+  }
+}
+
+function selectSign(event) {
+  console.log(event.srcElement.innerText)
+    currentUser.currentChoice = event.srcElement.innertext
+    for (var sign of zodiac) {
+      if (currentUser.currentChoice === sign.name) {
+        currentUser.sign = sign;
+        removeSign(currentUser, zodiac)
+      }
+    }
+};
+
 function checkAccuracy(moveAccuracy) {
   var randomToCompare = Math.floor(Math.random() * 100 + 1);
   if (randomToCompare > moveAccuracy) {

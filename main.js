@@ -9,7 +9,6 @@ var gameSelections = document.getElementById("gameSelections");
 var playerWins = document.getElementById("playerWins");
 var compWins = document.getElementById("compWins");
 var rpsChoices = document.querySelectorAll(".choice");
-var iconChoices = document.querySelectorAll(".icon");
 var resultText = document.getElementById("resultText");
 var playAgainBtn = document.getElementById("playAgain");
 var botzGameSection = document.getElementById("botz");
@@ -29,12 +28,7 @@ for (var choice of rpsChoices) {
 });
 }
 
-for (var icons of iconChoices) {
-  console.log(icon);
-  icon.addEventListener("click", function() {
-  selectSign(event);
-});
-}
+
 // if (rpsChoices) {
 //   console.log(rpsChoices);
 //   for (var choice of rpsChoices) {
@@ -104,8 +98,34 @@ function showSigns() {
   }
 }
 
+function makeIconsSelectable() {
+  var iconChoices = document.querySelectorAll(".icon");
+  for (var icon of iconChoices) {
+    icon.addEventListener("click", function() {
+    selectSign(event);
+  });
+  }
+}
+
 function playBotzGame() {
   hide(mainGameSection);
   show(botzGameSection);
   showSigns();
+  makeIconsSelectable();
+  currentUser = new Player("User");
+  currentComp = new Player("Computer");
 }
+
+function selectSign(event) {
+    var selectedSign = event.srcElement.innerText
+    currentUser.currentChoice = selectedSign;
+    for (var sign of zodiac) {
+      if (currentUser.currentChoice === sign.name) {
+        currentUser.sign = sign;
+        removeSign(currentUser, zodiac)
+        currentComp.sign = randomChoice(zodiac);
+        removeSign(currentComp, zodiac)
+      }
+    }
+    hide(zodiacSignSelection)
+};
