@@ -114,6 +114,11 @@ h2 {
 .comp.player-box {
 }
 
+.player-name-hp {
+  display: flex;
+  justify-content: space-between;
+}
+
 .hidden {
   display: none;
 }

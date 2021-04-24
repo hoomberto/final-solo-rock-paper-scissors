@@ -129,7 +129,13 @@ function startBotzGame() {
 function setPlayerBox(infoContainer, player) {
   infoContainer.innerHTML = "";
   infoContainer.innerHTML += `
+  <div class="player-name-hp">
     <h3>${player.sign.name}</h3>
+    <div class="health-bar-container">
+      <progress id="health" value="${player.sign.hp}" max="100"></progress>
+    </div>
+    <h4>${player.sign.hp} HP</h4>
+    </div>
   `
 
   for (var move of player.sign.moves) {
