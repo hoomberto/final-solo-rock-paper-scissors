@@ -179,6 +179,7 @@ function selectMove(event) {
     }
   }
   startBattle();
+  compareSpeeds(currentUser, currentComp);
 }
 
 function startBattle() {

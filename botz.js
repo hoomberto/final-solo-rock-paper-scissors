@@ -99,6 +99,23 @@ function compareSpeeds(currentPlayer, opponent) {
   }
 }
 
+function checkOpponentHealth(currentPlayer, opponent) {
+  if (opponent.sign.hp > 0) {
+    console.log(`${opponent.sign.name} still standing with ${opponent.sign.hp} HP`)
+    return
+  }
+  else {
+    opponent.sign.hp = 0;
+    opponent.lostRound = true;
+    currentPlayer.lostRound = false;
+    currentPlayer.winRound();
+    currentPlayer.roundsWon++
+    if (currentPlayer.name === "user" && currentPlayer.sign.hp > 0) {
+      console.log(`${currentPlayer.sign.name} continues on to the next round with ${currentPlayer.sign.hp} HP!`)
+    }
+  }
+}
+
 function checkMoved(currentPlayer, opponent) {
   // console.log(`CHECKING MOVES: CURRENT PLAYER${currentPlayer.hasMoved} OPPONENT PLAYER ${opponent.hasMoved}`)
   if (currentPlayer.hasMoved && !opponent.hasMoved) {
