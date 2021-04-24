@@ -18,4 +18,17 @@ var cancer = new Zodiac("cancer", "water", "cardinal");
 var scorpio = new Zodiac("scorpio", "water", "fixed");
 var pisces = new Zodiac("pisces", "water", "mutable");
 
-var zodiac = [aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces];
+var zodiac = [
+  aries,
+  taurus,
+  gemini,
+  cancer,
+  leo,
+  virgo,
+  libra,
+  scorpio,
+  sagittarius,
+  capricorn,
+  aquarius,
+  pisces
+];
