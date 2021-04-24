@@ -15,7 +15,7 @@ class Game {
 
   compareChoices(user, comp) {
     hide(gameSelections);
-    add(playAgainBtn);
+    show(playAgainBtn);
     if (user === comp) {
     this.ties++;
     resultText.innerText = `It was ${user} vs ${comp} - tie! Play again`
