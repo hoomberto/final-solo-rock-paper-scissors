@@ -18,7 +18,7 @@ var cancer = new Zodiac("cancer", "water", "cardinal", '🦀');
 var scorpio = new Zodiac("scorpio", "water", "fixed", '🦂');
 var pisces = new Zodiac("pisces", "water", "mutable", '🐟');
 
-var zodiac =
+const zodiac =
 [
   aries,
   taurus,
@@ -185,6 +185,8 @@ function checkOpponentHealth(currentPlayer, opponent) {
     currentPlayer.lostRound = false;
     currentPlayer.isWinner = true;
     currentPlayer.winRound();
+    opponent.signLoss();
+    currentPlayer.signVictory();
     if (currentPlayer.name === "User" && currentPlayer.isWinner) {
       console.log("NEW CHALLENGER APPROACHES")
       gameRound();
@@ -266,7 +268,7 @@ function gameOver() {
     playerBox.innerHTML += `
     <div id="playBotzAgain" class="play-again-box">
     <h4>GAME OVER</h4>
-    <button>play again</button>
+    <button>Play Again</button>
     </div>
     `
 }
@@ -290,3 +292,11 @@ function playAnotherBotz() {
   // showSigns()
   // makeIconsSelectable();
 }
+
+// function signVictory(currentPlayer) {
+//   for (var sign of zodiac) {
+//     if (currentPlayer.sign.name === currentPlayer.sign.winsAs[currentPlayer.sign.name]) {
+//       currentPlayer.sign.winsAs[currentPlayer.sign.name]++;
+//     }
+//   }
+// }

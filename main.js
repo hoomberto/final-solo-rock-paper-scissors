@@ -179,7 +179,7 @@ function setPlayerBox(infoContainer, player) {
   infoContainer.innerHTML = "";
   infoContainer.innerHTML += `
   <div class="player-name-hp">
-    <h3>${player.sign.name}</h3>
+    <h3>${player.sign.icon} ${player.sign.name}</h3>
     <div class="health-bar-container">
       <progress id="${player.sign.name}" value="${player.sign.hp}" max="100"></progress>
     </div>
