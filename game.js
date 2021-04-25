@@ -24,7 +24,7 @@ class Game {
 
   compareChoices(user, comp) {
     hideAllChoices();
-    show(playAgainBtn);
+    // show(playAgainBtn);
     if (user === comp) {
     this.ties++;
     resultText.innerText = `It was ${user} vs ${comp} - tie! Play again`
@@ -32,14 +32,15 @@ class Game {
     else if (user === 'rock' && comp === 'scissors' || user === 'scissors' && comp === 'paper' || user === 'paper' && comp === 'rock') {
       currentUser.wins++
       currentComp.losses++
-      resultText.innerText = `${user} beats ${comp}!`
+      resultText.innerText = `${user} beats ${comp}! You win!`
     }
     else if (user === 'rock' && comp === 'paper' || user === 'scissors' && comp === 'rock' || user === 'paper' && comp === 'scissors') {
       currentUser.losses++
       currentComp.wins++
-      resultText.innerText = `${user} lost against ${comp}`
+      resultText.innerText = `${user} lost against ${comp}! You lost!`
     }
     showBothChoices();
+    setTimeout(function() {playAnother()}, 2500)
   }
 
 }

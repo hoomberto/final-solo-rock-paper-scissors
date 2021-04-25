@@ -89,6 +89,7 @@ img {
 .selections {
   display: flex;
   justify-content: space-around;
+  align-content: center;
 }
 
 .choice {
