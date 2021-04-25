@@ -319,8 +319,8 @@ function updateBothHealth(currentPlayer, opponent) {
 }
 
 function updateWinCount() {
-  playerWins.innerText = `${currentUser.wins}`
-  compWins.innerText = `${currentComp.wins}`
+  playerWins.innerText = `Rounds won: ${currentUser.wins}`
+  compWins.innerText = `Rounds won: ${currentComp.wins}`
 }
 
 function resetPlayers(currentPlayer, opponent) {
@@ -342,7 +342,8 @@ function startBotzGame() {
 }
 
 function selectSign(event) {
-    var selectedSign = event.target.closest("p").innerText
+    currentUser.currentChoice = "";
+    let selectedSign = event.srcElement.innerText
     currentUser.currentChoice = selectedSign;
     for (var sign of currentGame.currentZodiac) {
       if (currentUser.currentChoice === sign.name || currentUser.currentChoice === sign.icon) {

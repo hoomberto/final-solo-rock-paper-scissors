@@ -113,8 +113,10 @@ h2 {
 .player-box {
 
   background-color: lightgray;
-  margin: 5%;
-  z-index: 2;
+  margin: 3%;
+  z-index: 0;
+  padding-left: 1vw;
+  padding-right: 1vw;
 }
 
 .player.player-box {
@@ -127,6 +129,8 @@ h2 {
 .player-name-hp {
   display: flex;
   justify-content: space-between;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
 .health-bar-container {
@@ -148,6 +152,15 @@ h2 {
   margin: 0;
 }
 
+.player-stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.player-stats h5,
+.player-stats h6 {
+  margin: 0;
+}
 
 .hidden {
   display: none;

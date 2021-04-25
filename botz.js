@@ -44,24 +44,24 @@ function setZodiacMoves(array) {
 
 function setZodiacSigns() {
   // Fire Signs
-  var aries = new Zodiac("aries", "fire", "cardinal");
-  var leo = new Zodiac("leo", "fire", "fixed");
-  var sagittarius = new Zodiac("sagittarius", "fire", "mutable");
+  var aries = new Zodiac("aries", "fire", "cardinal", '🐏');
+  var leo = new Zodiac("leo", "fire", "fixed", '🦁');
+  var sagittarius = new Zodiac("sagittarius", "fire", "mutable", '🐴');
 
   // Earth Signs
-  var virgo = new Zodiac("virgo", "earth", "cardinal");
-  var taurus = new Zodiac("taurus", "earth", "fixed");
-  var capricorn = new Zodiac("capricorn", "earth", "mutable");
+  var virgo = new Zodiac("virgo", "earth", "cardinal", '🌾');
+  var taurus = new Zodiac("taurus", "earth", "fixed", '🐂');
+  var capricorn = new Zodiac("capricorn", "earth", "mutable", '🐐');
 
   // Air Signs
-  var libra = new Zodiac("libra", "air", "cardinal");
-  var aquarius = new Zodiac("aquarius", "air", "fixed");
-  var gemini = new Zodiac("gemini", "air", "mutable");
+  var libra = new Zodiac("libra", "air", "cardinal", '⚖️');
+  var aquarius = new Zodiac("aquarius", "air", "fixed", '🏺');
+  var gemini = new Zodiac("gemini", "air", "mutable", '👯‍♀️');
 
   // Water Signs
-  var cancer = new Zodiac("cancer", "water", "cardinal");
-  var scorpio = new Zodiac("scorpio", "water", "fixed");
-  var pisces = new Zodiac("pisces", "water", "mutable");
+  var cancer = new Zodiac("cancer", "water", "cardinal", '🦀');
+  var scorpio = new Zodiac("scorpio", "water", "fixed", '🦂');
+  var pisces = new Zodiac("pisces", "water", "mutable", '🐟');
 
   let zodiac = [
     aries,
@@ -275,6 +275,7 @@ function gameOver() {
 function endBotzGame() {
   hide(computerBox)
   hide(playerBox)
+  setNewGame()
   show(zodiacSignSelection)
   battleText.innerText = "Choose your fighter"
 }
@@ -283,7 +284,7 @@ function playAnotherBotz() {
   // debugger
   currentUser.roundsWon = 0;
   endBotzGame();
-  setNewGame()
+  // setNewGame()
 
   // playBotzGame();
   // showSigns()
