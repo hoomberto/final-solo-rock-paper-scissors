@@ -9,13 +9,15 @@ body {
 }
 
 h1 {
-  font-family: 'Orelega One', cursive;
+  font-family: 'MuseoModerno', cursive;
+  font-weight: 800;
   font-size: 4em;
   color: white;
 }
 
 h2 {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'MuseoModerno', cursive;
+  font-weight: 100;
 }
 
 img {
@@ -25,16 +27,19 @@ img {
 .user {
   box-shadow: 7px 0px 9px -2px rgba(0,0,0,0.14);
   z-index: 1;
+  border-right: 5px solid #BFCC94;
 }
 
 .computer {
   box-shadow: -7px 0px 9px -2px rgba(0,0,0,0.14);
   z-index: 1;
+  border-left: 5px solid #BFCC94;
 }
 
 .player-section {
   width: 15%;
-  background: lightblue;
+  background: #0D1821;
+  color: #FAFAFF;
   text-align: center;
   font-family: 'Roboto', sans-serif;
 }
@@ -55,7 +60,13 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: cornflowerblue;
+  background: #344966;
+}
+
+.game-section h2 {
+  font-family: Roboto;
+  font-weight: 700;
+  color: white;
 }
 
 .game-section * {
@@ -66,7 +77,7 @@ img {
   width: 20%;
   height: 25%;
   margin-top: 5%;
-  background: lightgray;
+  background: #B4CDED;
   font-family: 'Roboto', sans-serif;
   border-radius: 6px;
   box-shadow: 7px 4px 19px -2px rgba(0,0,0,0.23);
@@ -80,7 +91,7 @@ img {
 .game-choices {
   width: 65%;
   height: 30%;
-  background-color: lightgray;
+  background-color: #B4CDED;
   font-family: 'Roboto', sans-serif;
   border-radius: 6px;
   box-shadow: 7px 4px 19px -2px rgba(0,0,0,0.23);
@@ -127,7 +138,7 @@ img {
 
 .player-box {
   font-family: roboto;
-  background-color: lightgray;
+  background-color: #F0F4EF;
   margin: 3%;
   z-index: 0;
   padding-left: 1vw;
@@ -189,6 +200,11 @@ img {
 .player-stats h6 {
   margin: 0;
 }
+
+/* .botz-header-text {
+  font-family: 'MuseoModerno', cursive;
+  font-weight: 800;
+} */
 
 .hidden {
   display: none;
