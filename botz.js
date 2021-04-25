@@ -104,6 +104,7 @@ function addMoves(sign) {
 }
 
 function checkAccuracy(moveAccuracy) {
+  debugger
   var randomToCompare = Math.floor(Math.random() * 100 + 1);
   if (randomToCompare > moveAccuracy) {
     return false

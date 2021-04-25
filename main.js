@@ -212,6 +212,14 @@ function selectMove(event) {
 }
 
 function newChallenger() {
+  if (!currentGame.currentZodiac.length) {
+    hide(computerBox)
+    hide(battleText)
+    playerBox.innerHTML = ""
+    playerBox.innerHTML += `
+    <h4>YOU BEAT THE ZODIAC AS ${currentUser.sign.name}!</h4>
+    `
+  }
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
   removeSign(currentComp, currentGame.currentZodiac);
