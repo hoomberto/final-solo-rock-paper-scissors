@@ -3,6 +3,7 @@ var botzGameChoice = document.getElementById("botzGame");
 var gameTitle = document.getElementById("gameHeader");
 var gameSubtitle = document.getElementById("gameSubHeader");
 var classicRules = document.getElementById("classicRules");
+var botzRules = document.getElementById("botzRules");
 var gameChoices = document.getElementById("gameChoices");
 var gameTypes = document.getElementById("gameTypes");
 var gameSelections = document.getElementById("gameSelections");
@@ -68,8 +69,11 @@ var currentGame;
 var currentUser;
 var currentComp;
 
+// function generateGame()
+
 function displayDefaultGame() {
   var gameName = "Rock, Paper, Scissors";
+  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
   var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock"
   currentGame = new Game(gameName, gameDescription);
   currentUser = new Player();
@@ -80,6 +84,7 @@ function displayDefaultGame() {
   compWins.innerText += `${currentComp.wins}`;
   gameTitle.innerText = currentGame.name;
   classicRules.innerText += currentGame.description;
+  botzRules.innerText += botzDescription;
 }
 
 function playAnother() {
@@ -87,7 +92,6 @@ function playAnother() {
   showAllChoices();
   show(gameSelections);
   hide(gameChoices);
-  hide(playAgainBtn)
   show(classicGameChoice);
   show(botzGameChoice);
   gameSubtitle.innerText = "Choose your game!"
