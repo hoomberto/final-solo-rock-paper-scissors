@@ -292,11 +292,3 @@ function playAnotherBotz() {
   // showSigns()
   // makeIconsSelectable();
 }
-
-// function signVictory(currentPlayer) {
-//   for (var sign of zodiac) {
-//     if (currentPlayer.sign.name === currentPlayer.sign.winsAs[currentPlayer.sign.name]) {
-//       currentPlayer.sign.winsAs[currentPlayer.sign.name]++;
-//     }
-//   }
-// }

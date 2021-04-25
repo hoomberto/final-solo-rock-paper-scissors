@@ -19,6 +19,8 @@ var computerBox = document.getElementById("computerBox");
 var battleText = document.getElementById("battleText");
 var playerBattleText = document.getElementById("playerBattleText");
 var playerMoveText = document.getElementById("playerMoveText")
+var playerWinLosses = document.getElementById("playerWinLosses");
+var compWinLosses = document.getElementById("compWinLosses");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
@@ -32,6 +34,20 @@ for (var choice of rpsChoices) {
   selectChoice(event);
 });
 }
+
+// function setWinLosses(player, winLossSide) {
+//   winLossSide.innerHTML = "";
+//   var playerWinLosses = Object.entries(player.winsAs)
+//   // for (var sign of player)
+//   for (var [sign, count] of playerWinLosses) {
+//     winLossSide.innerHTML += `
+//       <p class="win-loss-container">
+//         ${player.winsAs[sign]}WINS:${player.winsAs[count]}
+//       </p>
+//     `
+//   }
+//
+// }
 
 
 // if (rpsChoices) {
@@ -353,6 +369,8 @@ function selectSign(event) {
         removeSign(currentComp, currentGame.currentZodiac)
       }
     }
+    // setWinLosses(currentUser, playerWinLosses)
+    // setWinLosses(currentComp, compWinLosses)
     currentUser.sign.hp = 100;
     currentComp.sign.hp = 100;
     // setTimeout(initialBattleText, 1000)
