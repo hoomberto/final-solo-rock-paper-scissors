@@ -186,7 +186,6 @@ function checkOpponentHealth(currentPlayer, opponent) {
     currentPlayer.isWinner = true;
     currentPlayer.winRound();
     opponent.signLoss();
-    currentPlayer.signVictory();
     if (currentPlayer.name === "User" && currentPlayer.isWinner) {
       console.log("NEW CHALLENGER APPROACHES")
       gameRound();

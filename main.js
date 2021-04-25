@@ -78,6 +78,7 @@ function displayDefaultGame() {
 
 function playAnother() {
   resultText.innerText = "";
+  showAllChoices();
   show(gameSelections);
   hide(gameChoices);
   hide(playAgainBtn)

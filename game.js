@@ -15,7 +15,8 @@ class Game {
   }
 
   compareChoices(user, comp) {
-    hide(gameSelections);
+    // hide(gameSelections);
+    hideAllChoices();
     show(playAgainBtn);
     if (user === comp) {
     this.ties++;
@@ -31,7 +32,7 @@ class Game {
       currentComp.wins++
       resultText.innerText = `${user} lost against ${comp}`
     }
-
+    showBothChoices();
   }
 
 }
@@ -44,11 +45,19 @@ function randomChoice(choices) {
   return choices[randomIndex(choices)];
 }
 
-function hideChoices() {
+function hideAllChoices() {
   for (var choice of rpsChoices) {
     hide(choice)
   }
 }
+
+function showAllChoices() {
+  for (var choice of rpsChoices) {
+    show(choice)
+  }
+}
+
+
 
 function showChoice(playerChoice) {
   for (var choice of rpsChoices) {
@@ -58,7 +67,7 @@ function showChoice(playerChoice) {
   }
 }
 
-function showUserCompChoices() {
+function showBothChoices() {
   showChoice(currentUser.currentChoice);
   showChoice(currentComp.currentChoice);
 }
@@ -67,7 +76,6 @@ function selectChoice(event) {
 
     if (event.target.id === "rock") {
       currentUser.currentChoice = "rock"
-      show(`${currentUser.currentChoice}`)
       // return "rock"
     }
     if (event.target.id === "paper") {
