@@ -51,6 +51,15 @@ img {
   width: 100%;
 }
 
+.icons-section {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 40px;
+  margin-top: 10%;
+}
+
 @media screen and (max-width: 787px) {
 
   .player-info {
@@ -64,6 +73,13 @@ img {
   .player-section h3 {
     margin: 0 25% -20% 0;
     padding: 10%;
+  }
+
+  .icons-section {
+    grid-template-columns: repeat(2, 1fr);
+grid-template-rows: repeat(6, 1fr);
+grid-column-gap: 50px;
+grid-row-gap: 0px;
   }
 }
 
@@ -127,14 +143,7 @@ img {
   margin-top: 5%;
 }
 
-.icons-section {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 10px;
-  grid-row-gap: 40px;
-  margin-top: 10%;
-}
+
 
 .icon, .move {
   cursor: pointer;
