@@ -55,12 +55,13 @@ class Player {
     playerBattleText.innerText = `${this.sign.name} is the winner!`
     this.roundsWon++
     this.wins++
+    this.winsAs[this.sign.name]++;
     updateWinCount();
     return true
   }
-  signVictory() {
-    this.winsAs[this.sign.name]++;
-  }
+  // signVictory() {
+  //   this.winsAs[this.sign.name]++;
+  // }
   signLoss() {
     this.lossesAs[this.sign.name]++;
   }
