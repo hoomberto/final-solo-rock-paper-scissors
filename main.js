@@ -372,8 +372,9 @@ function selectSign(event) {
     currentUser.currentChoice = "";
     let selectedSign = event.srcElement.innerText
     currentUser.currentChoice = selectedSign;
+    var lowerCase = currentUser.currentChoice.toLowerCase();
     for (var sign of currentGame.currentZodiac) {
-      if (currentUser.currentChoice === sign.name || currentUser.currentChoice === sign.icon) {
+      if (lowerCase === sign.name || currentUser.currentChoice === sign.icon) {
         currentUser.sign = sign;
         removeSign(currentUser, currentGame.currentZodiac)
         currentComp.sign = randomChoice(currentGame.currentZodiac);
