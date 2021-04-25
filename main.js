@@ -8,7 +8,7 @@ var gameTypes = document.getElementById("gameTypes");
 var gameSelections = document.getElementById("gameSelections");
 var playerWins = document.getElementById("playerWins");
 var compWins = document.getElementById("compWins");
-var rpsChoices = document.querySelectorAll(".choice");
+// var rpsChoices = document.querySelectorAll(".choice");
 var resultText = document.getElementById("resultText");
 var playAgainBtn = document.getElementById("playAgain");
 var botzGameSection = document.getElementById("botz");
@@ -27,14 +27,18 @@ window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
 playAgainBtn.addEventListener("click", playAnother);
 botzGameChoice.addEventListener("click", playBotzGame);
-console.log(rpsChoices)
+// console.log(rpsChoices)
 
-for (var choice of rpsChoices) {
-  // console.log(choice);
-  choice.addEventListener("click", function() {
-  selectChoice(event);
-});
+
+function makeChoicesSelectable() {
+  var rpsChoices = document.querySelectorAll(".choice");
+  for (var choice of rpsChoices) {
+      choice.addEventListener("click", function() {
+      selectChoice(event);
+    });
+  }
 }
+
 
 // function setWinLosses(player, winLossSide) {
 //   winLossSide.innerHTML = "";
@@ -70,6 +74,8 @@ function displayDefaultGame() {
   currentGame = new Game(gameName, gameDescription);
   currentUser = new Player();
   currentComp = new Player();
+  currentGame.renderRPS();
+  makeChoicesSelectable();
   playerWins.innerText += `${currentUser.wins}`;
   compWins.innerText += `${currentComp.wins}`;
   gameTitle.innerText = currentGame.name;

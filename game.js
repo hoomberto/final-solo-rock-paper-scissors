@@ -6,6 +6,14 @@ class Game {
     this.choices = ["rock", "paper", "scissors"];
     this.currentZodiac = zodiac;
   }
+  renderRPS() {
+    gameSelections.innerHTML = "";
+    for (var choice of this.choices) {
+      gameSelections.innerHTML += `
+      <img id="${choice}" class="choice" src="./assets/${choice}.png" alt="${choice}">
+      `
+    }
+  }
 
   playGame(userInput) {
     currentComp.currentChoice = randomChoice(this.choices)
@@ -15,7 +23,6 @@ class Game {
   }
 
   compareChoices(user, comp) {
-    // hide(gameSelections);
     hideAllChoices();
     show(playAgainBtn);
     if (user === comp) {
@@ -46,12 +53,14 @@ function randomChoice(choices) {
 }
 
 function hideAllChoices() {
+  rpsChoices = document.querySelectorAll(".choice");
   for (var choice of rpsChoices) {
     hide(choice)
   }
 }
 
 function showAllChoices() {
+  let rpsChoices = document.querySelectorAll(".choice");
   for (var choice of rpsChoices) {
     show(choice)
   }
@@ -60,6 +69,7 @@ function showAllChoices() {
 
 
 function showChoice(playerChoice) {
+  let rpsChoices = document.querySelectorAll(".choice");
   for (var choice of rpsChoices) {
     if (choice.id === playerChoice) {
       show(choice)
@@ -73,7 +83,7 @@ function showBothChoices() {
 }
 
 function selectChoice(event) {
-
+  console.log("SOMETHING HAPPENING")
     if (event.target.id === "rock") {
       currentUser.currentChoice = "rock"
       // return "rock"
