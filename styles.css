@@ -88,6 +88,98 @@ h2 {
   margin-top: 5%;
 }
 
+.icons-section {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 40px;
+  margin-top: 10%;
+}
+
+.icon, .move {
+  cursor: pointer;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: roboto;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: white;
+}
+
+.icon-container p {
+  margin: 0;
+}
+
+.player-box {
+  font-family: roboto;
+  background-color: lightgray;
+  margin: 3%;
+  z-index: 0;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  border-radius: 4px;
+}
+
+.player.player-box {
+
+}
+
+.comp.player-box {
+  border-radius: 4px;
+}
+
+.player-name-hp {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  text-transform: uppercase;
+}
+
+.health-bar-container {
+  width: 40%;
+}
+
+.play-again-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10%;
+}
+
+.play-again-box button {
+  cursor: pointer;
+}
+
+.player-battle-text {
+  margin: 0;
+}
+
+.player-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3%;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.battle-text,
+.player-battle-text,
+.player-move-text{
+  color: white;
+  text-transform: uppercase;
+}
+
+.player-stats h5,
+.player-stats h6 {
+  margin: 0;
+}
+
 .hidden {
   display: none;
 }

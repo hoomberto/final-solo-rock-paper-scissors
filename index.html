@@ -14,6 +14,7 @@
         <h2 class="user-icon">🟢</h2>
         <h2 class="comp-icon">Player</h2>
         <h3 id="playerWins" class="win-count">Wins:  </h3>
+        <section id="playerWinLosses" class="zodiac-stats"></section>
       </div>
     </section>
     <section id="mainGame" class="main game-section">
@@ -38,18 +39,30 @@
       </section>
     </section>
     <section id="botz" class="botz game-section hidden">
-      <h1>BotZ</h1>
-      <h2>BotZ subheading</h2>
+      <h1>Battle of the Zodiac</h1>
+      <h2 id="battleText" class="battle-text">Choose your fighter</h2>
+      <section id="botzSelection">
+        <div id="signs" class="icons-section"></div>
+      </section>
+      <div id="computerBox"class="comp player-box hidden"></div>
+      <div id="playerBox" class="player player-box hidden"></div>
+      <h2 id="playerBattleText" class="player-battle-text hidden">user side text</h2>
+      <h2 id="playerMoveText" class="player-move-text hidden">user side text</h2>
+
     </section>
     <section id="compSide" class="computer player-section">
       <div id="compInfo" class="player-info">
         <h2 class="comp-icon">🤖</h2>
         <h2 class="comp-icon">Computer</h2>
         <h3 id="compWins" class="win-count">Wins:  </h3>
+        <section id="compWinLosses" class="zodiac-stats"></section>
       </div>
     </section>
   <script type="text/javascript" src="game.js"></script>
   <script type="text/javascript" src="player.js"></script>
+  <script type="text/javascript" src="zodiac.js"></script>
+  <script type="text/javascript" src="move.js"></script>
+  <script type="text/javascript" src="botz.js"></script>
   <script type="text/javascript" src="main.js"></script>
   </body>
 </html>
