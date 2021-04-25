@@ -16,6 +16,9 @@ var mainGameSection = document.getElementById("mainGame");
 var zodiacSignSelection = document.getElementById("signs");
 var playerBox = document.getElementById("playerBox");
 var computerBox = document.getElementById("computerBox");
+var battleText = document.getElementById("battleText");
+var playerBattleText = document.getElementById("playerBattleText");
+var playerMoveText = document.getElementById("playerMoveText")
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
@@ -93,9 +96,12 @@ function playClassicGame() {
 }
 
 function showSigns() {
-  for (var sign of zodiac) {
+  for (var sign of currentGame.currentZodiac) {
     zodiacSignSelection.innerHTML += `
+    <div class="icon-container">
+    <p class="icon">${sign.icon}</p>
     <p class="icon">${sign.name}</p>
+    </div>
     `
   }
 }
@@ -106,28 +112,31 @@ function showSigns() {
 function playBotzGame() {
   hide(mainGameSection);
   show(botzGameSection);
-  showSigns();
-  makeIconsSelectable();
+  // endBotzGame();
   currentUser = new Player("User");
   currentComp = new Player("Computer");
+  currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
+  showSigns();
+  makeIconsSelectable();
+
 }
 
-function startBotzGame() {
-  hide(zodiacSignSelection)
-  show(playerBox);
-  show(computerBox);
+function setBothBoxes() {
   setPlayerBox(playerBox, currentUser);
-  setPlayerMoves(playerBox, currentUser)
   setPlayerBox(computerBox, currentComp);
-  makeMovesSelectable();
 }
+
+
 
 function setPlayerMoves(infoContainer, player) {
-  for (var move of player.sign.moves) {
-    infoContainer.innerHTML += `
-    <p class="move">${move.name}</p>
-    <p>${move.description}</p>`
+  if (currentUser.sign.hp > 0) {
+    for (var move of player.sign.moves) {
+      infoContainer.innerHTML += `
+      <p class="move">${move.name}</p>
+      <p>${move.description}</p>`
+    }
   }
+
 }
 
 function makeIconsSelectable() {
@@ -152,8 +161,18 @@ function makeMovesSelectable() {
 
 
 function updateHealth(player) {
-  var userHealth = document.getElementById(player.sign.name)
-  userHealth.value = player.sign.hp
+  let playerHP = player.sign.hp
+  if (playerHP < 0) {
+    playerHP = 0;
+  }
+  let userHealth = document.getElementById(player.sign.name)
+  let userHPVal = document.getElementById(player.sign.id)
+  userHealth.value = playerHP;
+  userHPVal.innerText = `${playerHP} HP`;
+
+  // if (userHealth > 0) {
+  //   userHealth.value = player.sign.hp
+  // }
 }
 
 function setPlayerBox(infoContainer, player) {
@@ -164,12 +183,17 @@ function setPlayerBox(infoContainer, player) {
     <div class="health-bar-container">
       <progress id="${player.sign.name}" value="${player.sign.hp}" max="100"></progress>
     </div>
-    <h4>${player.sign.hp} HP</h4>
-    </div>
+    <h4 id="${player.sign.id}">${player.sign.hp} HP</h4>
+  </div>
+  <div id="playerStats" class="player-stats">
+    <h5>Element: ${player.sign.element}</h5>
+    <h6>Quality: ${player.sign.quality}</h6>
+  </div>
   `
 }
 
 function selectMove(event) {
+  // debugger
   var selectedMove = event.srcElement.innerText
   currentUser.currentChoice = selectedMove;
   for (var move of currentUser.sign.moves) {
@@ -178,76 +202,163 @@ function selectMove(event) {
       console.log(`User selected ${currentUser.currentMove.name}`)
     }
   }
-  gameRound();
+  // debugger
+  showPlayerChoice();
+  setBothBoxes();
+  setTimeout(function() {gameRound()}, 1000);
+  setTimeout(function() {hide(playerMoveText)}, 900)
+  // gameRound();
   // startBattle();
 
 }
 
+// function newChallenger(comp, array, user) {
+//   console.log("NEW CHALLENGER SET")
+//   comp.sign = randomChoice(array);
+//   battleText.innerText = `NEW CHALLENGER APPEARS: ${comp.sign.name}`
+//   removeSign(comp, array);
+//   hide(playerBattleText)
+//   setBothBoxes();
+//   // delayShowMoves();
+// }
+
+function newChallenger() {
+  currentComp.sign = randomChoice(currentGame.currentZodiac);
+  battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
+  removeSign(currentComp, currentGame.currentZodiac);
+  hide(playerBattleText)
+  setBothBoxes();
+  setPlayerMoves(playerBox, currentUser);
+  makeMovesSelectable();
+}
+
 function gameRound() {
-  if (currentUser.isWinner && !currentComp.sign.hp) {
-    currentComp.sign = randomChoice(zodiac);
-    removeSign(currentComp, zodiac)
-    setPlayerBox(computerBox, currentComp);
+  // debugger
+  if (!currentComp.sign.hp) {
+    // debugger
+
+    setTimeout(newChallenger, 800);
+
+    resetPlayers(currentUser, currentComp)
+
+    console.log("RESET")
   }
-  // else if (!currentUser.isWinner && currentUser.lostRound && !currentUser.sign.hp) {
-  //   playerBox.innerHTML == ""
-  //   playerBox.innerHTML += `
-  //   <h4>GAME OVER</h4>
-  //   `
-  // }
+
   else {
     startBattle();
   }
 }
 
-function checkWinner(user) {
-  if (!currentUser.isWinner && currentUser.lostRound && !currentUser.sign.hp) {
-    playerBox.innerHTML == ""
-    playerBox.innerHTML += `
-    <h4>GAME OVER</h4>
-    `
+function showCompMove() {
+  battleText.innerText = `${currentComp.name} selected ${currentComp.currentMove.name}`
+}
+
+function compMiss(currentPlayer) {
+  var missText = `${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`
+  if (currentPlayer.name === "Computer") {
+    battleText.innerText = missText;
   }
+  else {
+    playerBattleText.innerText = missText;
+  }
+
 }
 
-function delayShowMoves() {
-  setTimeout(setPlayerMoves(playerBox, currentUser), 4000);
+function showMoveUsed(currentPlayer) {
+  var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier
+  if (currentPlayer.name === "Computer") {
+    battleText.innerText = `${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It dealt ${damageCalculation} damage!`
+  }
+  else {
+    playerBattleText.innerText = `${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It dealt ${damageCalculation} damage!`
+  }
+
 }
 
-function updateBothHealth() {
-  updateHealth(currentUser);
-  updateHealth(currentComp);
+function showDamageDealt(currentPlayer, damageCalculation) {
+  battleText.innerText = `${currentPlayer.sign.name} dealt ${damageCalculation} damage!`
 }
 
+function showPlayerBattleText(opponent) {
+  show(playerBattleText);
+  playerBattleText.innerText = `${opponent.sign.name} still standing with ${opponent.sign.hp} HP`
+}
+
+function showPlayerChoice() {
+  show(playerMoveText);
+  playerMoveText.innerText = `${currentUser.name} selected ${currentUser.currentMove.name}`
+}
 
 function startBattle() {
-  setPlayerBox(playerBox, currentUser);
+  setBothBoxes()
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
-  console.log(`${currentComp.name} selected ${currentComp.currentMove.name}`)
+  // console.log(`${currentComp.name} selected ${currentComp.currentMove.name}`)
+  // setTimeout(showCompMove, 500);
+  // showCompMove();
+  // showPlayerChoice();
   compareSpeeds(currentUser, currentComp);
+  // setTimeout(function() {compareSpeeds(currentUser, currentComp)}, 1000)
+  // setTimeout(function() {
+  //   checkMoved(currentUser, currentComp);
+  // }, 1000);
+  // setTimeout(function() {checkMoved(currentUser, currentComp)}, 400)
   checkMoved(currentUser, currentComp)
-  resetMoves(currentUser, currentComp)
-  delayShowMoves();
+  resetPlayers(currentUser, currentComp)
+  setPlayerMoves(playerBox, currentUser)
+  // delayShowMoves();
   makeMovesSelectable();
 }
 
-function resetMoves(currentPlayer, opponent) {
-  if (currentPlayer.lostRound || opponent.lostRound) {
-    return "NO MORE"
-  }
+function delayShowMoves() {
+  setTimeout(setPlayerMoves(playerBox, currentUser), 8000);
+}
+
+function updateBothHealth(currentPlayer, opponent) {
+  updateHealth(currentPlayer);
+  updateHealth(opponent);
+}
+
+function updateWinCount() {
+  playerWins.innerText = `${currentUser.wins}`
+  compWins.innerText = `${currentComp.wins}`
+}
+
+function resetPlayers(currentPlayer, opponent) {
   currentPlayer.hasMoved = false;
   opponent.hasMoved = false;
 }
 
+function initialBattleText() {
+  battleText.innerText = "";
+  battleText.innerText += "FIGHT!!"
+}
+
+function startBotzGame() {
+  show(playerBox);
+  show(computerBox);
+  setBothBoxes()
+  setPlayerMoves(playerBox, currentUser)
+  makeMovesSelectable();
+}
+
 function selectSign(event) {
-    var selectedSign = event.srcElement.innerText
+    var selectedSign = event.target.closest("p").innerText
     currentUser.currentChoice = selectedSign;
-    for (var sign of zodiac) {
-      if (currentUser.currentChoice === sign.name) {
+    for (var sign of currentGame.currentZodiac) {
+      if (currentUser.currentChoice === sign.name || currentUser.currentChoice === sign.icon) {
         currentUser.sign = sign;
-        removeSign(currentUser, zodiac)
-        currentComp.sign = randomChoice(zodiac);
-        removeSign(currentComp, zodiac)
+        removeSign(currentUser, currentGame.currentZodiac)
+        currentComp.sign = randomChoice(currentGame.currentZodiac);
+        removeSign(currentComp, currentGame.currentZodiac)
       }
     }
-    startBotzGame();
+    currentUser.sign.hp = 100;
+    currentComp.sign.hp = 100;
+    // setTimeout(initialBattleText, 1000)
+    initialBattleText();
+    hide(zodiacSignSelection);
+    setTimeout(function() {startBotzGame()}, 500)
+    // initialBattleText();
+    // battleText.innerText = "FIGHT!"
+    // startBotzGame();
 };

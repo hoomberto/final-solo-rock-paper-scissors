@@ -1,24 +1,25 @@
 // Fire Signs
-var aries = new Zodiac("aries", "fire", "cardinal");
-var leo = new Zodiac("leo", "fire", "fixed");
-var sagittarius = new Zodiac("sagittarius", "fire", "mutable");
+var aries = new Zodiac("aries", "fire", "cardinal", '🐏');
+var leo = new Zodiac("leo", "fire", "fixed", '🦁');
+var sagittarius = new Zodiac("sagittarius", "fire", "mutable", '🐴');
 
 // Earth Signs
-var virgo = new Zodiac("virgo", "earth", "cardinal");
-var taurus = new Zodiac("taurus", "earth", "fixed");
-var capricorn = new Zodiac("capricorn", "earth", "mutable");
+var virgo = new Zodiac("virgo", "earth", "cardinal", '🌾');
+var taurus = new Zodiac("taurus", "earth", "fixed", '🐂');
+var capricorn = new Zodiac("capricorn", "earth", "mutable", '🐐');
 
 // Air Signs
-var libra = new Zodiac("libra", "air", "cardinal");
-var aquarius = new Zodiac("aquarius", "air", "fixed");
-var gemini = new Zodiac("gemini", "air", "mutable");
+var libra = new Zodiac("libra", "air", "cardinal", '⚖️');
+var aquarius = new Zodiac("aquarius", "air", "fixed", '🏺');
+var gemini = new Zodiac("gemini", "air", "mutable", '👯‍♀️');
 
 // Water Signs
-var cancer = new Zodiac("cancer", "water", "cardinal");
-var scorpio = new Zodiac("scorpio", "water", "fixed");
-var pisces = new Zodiac("pisces", "water", "mutable");
+var cancer = new Zodiac("cancer", "water", "cardinal", '🦀');
+var scorpio = new Zodiac("scorpio", "water", "fixed", '🦂');
+var pisces = new Zodiac("pisces", "water", "mutable", '🐟');
 
-var zodiac = [
+var zodiac =
+[
   aries,
   taurus,
   gemini,
@@ -33,9 +34,58 @@ var zodiac = [
   pisces
 ];
 
-for (var sign of zodiac) {
-  addMoves(sign)
+setZodiacMoves(zodiac);
+
+function setZodiacMoves(array) {
+  for (var sign of array) {
+    addMoves(sign)
+  }
 }
+
+function setZodiacSigns() {
+  // Fire Signs
+  var aries = new Zodiac("aries", "fire", "cardinal");
+  var leo = new Zodiac("leo", "fire", "fixed");
+  var sagittarius = new Zodiac("sagittarius", "fire", "mutable");
+
+  // Earth Signs
+  var virgo = new Zodiac("virgo", "earth", "cardinal");
+  var taurus = new Zodiac("taurus", "earth", "fixed");
+  var capricorn = new Zodiac("capricorn", "earth", "mutable");
+
+  // Air Signs
+  var libra = new Zodiac("libra", "air", "cardinal");
+  var aquarius = new Zodiac("aquarius", "air", "fixed");
+  var gemini = new Zodiac("gemini", "air", "mutable");
+
+  // Water Signs
+  var cancer = new Zodiac("cancer", "water", "cardinal");
+  var scorpio = new Zodiac("scorpio", "water", "fixed");
+  var pisces = new Zodiac("pisces", "water", "mutable");
+
+  let zodiac = [
+    aries,
+    taurus,
+    gemini,
+    cancer,
+    leo,
+    virgo,
+    libra,
+    scorpio,
+    sagittarius,
+    capricorn,
+    aquarius,
+    pisces
+  ];
+return zodiac
+}
+
+function resetZodiac() {
+  setZodiacSigns();
+  setZodiacMoves();
+}
+
+// resetZodiac();
 
 function removeSign(player, array) {
   for (var i = 0; i < array.length; i++) {
@@ -80,6 +130,21 @@ function compareElements(currentPlayer, opponent) {
   }
 }
 
+// function delayPlayerMove(currentPlayer, opponent) { setTimeout(
+// function() {
+// runMove(currentPlayer, opponent)
+// }
+// , 1000);
+// }
+
+// function delayCompMove(currentPlayer, opponent) {
+//   setTimeout(
+// function() {
+//   runMove(opponent, currentPlayer)
+// }
+// , 1000);
+// }
+
 function compareSpeeds(currentPlayer, opponent) {
   var currentPlayerSpeed = currentPlayer.sign.stats.speed;
   var currentPlayerBuff = currentPlayer.sign.buffs.speed;
@@ -90,20 +155,29 @@ function compareSpeeds(currentPlayer, opponent) {
   }
   if (((currentPlayerSpeed + currentPlayerBuff) > (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
     runMove(currentPlayer, opponent)
+    // setTimeout(function() {runMove(currentPlayer, opponent)}, 1000)
+    // delayPlayerMove(currentPlayer, opponent)
   }
   else if (((currentPlayerSpeed + currentPlayerBuff) === (opponentSpeed + opponentBuff))) {
     runMove(currentPlayer, opponent)
+    // delayPlayerMove(currentPlayer, opponent)
   }
   else if (currentPlayer.hasMoved && !opponent.hasMoved){
     runMove(opponent, currentPlayer)
+    // delayCompMove(currentPlayer, opponent)
+
   }
-  updateBothHealth();
+  // updateBothHealth(currentPlayer, opponent);
 }
 
 function checkOpponentHealth(currentPlayer, opponent) {
+  // debugger
+  // updateBothHealth();
   if (opponent.sign.hp > 0) {
+    showPlayerBattleText(opponent)
+    setBothBoxes();
+    // updateHealth(opponent)
     console.log(`${opponent.sign.name} still standing with ${opponent.sign.hp} HP`)
-    return
   }
   else {
     opponent.sign.hp = 0;
@@ -111,15 +185,32 @@ function checkOpponentHealth(currentPlayer, opponent) {
     currentPlayer.lostRound = false;
     currentPlayer.isWinner = true;
     currentPlayer.winRound();
-    currentPlayer.roundsWon++
-    if (currentPlayer.name === "user" && currentPlayer.sign.hp > 0) {
-      console.log(`${currentPlayer.sign.name} continues on to the next round with ${currentPlayer.sign.hp} HP!`)
+    if (currentPlayer.name === "User" && currentPlayer.isWinner) {
+      console.log("NEW CHALLENGER APPROACHES")
+      gameRound();
+      // newChallenger();
     }
+    else if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
+      gameOver()
+      var playBotzAgainBtn = document.getElementById("playBotzAgain");
+      playBotzAgainBtn.addEventListener("click", playAnotherBotz);
+    }
+
+  }
+}
+
+
+function checkRounds(currentPlayer, opponent) {
+    if (opponent.lostRound) {
+    console.log("ROUND OVER, NEXT ROUND SOON");
+  }
+  else if (currentPlayer.lostRound) {
+    console.log("Player lost!")
   }
 }
 
 function checkMoved(currentPlayer, opponent) {
-  // console.log(`CHECKING MOVES: CURRENT PLAYER${currentPlayer.hasMoved} OPPONENT PLAYER ${opponent.hasMoved}`)
+
   if (currentPlayer.hasMoved && !opponent.hasMoved) {
     runMove(opponent, currentPlayer)
   }
@@ -129,32 +220,72 @@ function checkMoved(currentPlayer, opponent) {
   else if (currentPlayer.hasMoved && opponent.hasMoved) {
     checkRounds(currentPlayer, opponent)
   }
-  updateBothHealth();
-  // console.log(`CHECKING MOVES: CURRENT PLAYER${currentPlayer.hasMoved} OPPONENT PLAYER ${opponent.hasMoved}`)
+
 }
 
-function runMove(currentPlayer, opponent) {
-  if (currentPlayer.lostRound || opponent.lostRound) {
-    return
-  }
-  currentPlayer.hasMoved = true;
-  const currentPlayerHp = currentPlayer.sign.hp
-  currentMove = currentPlayer.currentMove
-  if (checkAccuracy(currentMove.accuracy)) {
+function hitOrMiss(currentPlayer, opponent) {
+  if (checkAccuracy(currentPlayer.currentMove)) {
+    var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier
+    showMoveUsed(currentPlayer);
+    console.log(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes`)
 
-    console.log(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}!`)
-
-    opponent.sign.hp -= ((currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier)
-    if (currentPlayerHp < currentPlayer.sign.hp) {
-      console.log(`${currentPlayer.sign.name} gained ${currentPlayer.sign.hp - currentPlayerHp} health!`)
-    }
-
+    opponent.sign.hp -= damageCalculation
 
   }
   else {
+
+    compMiss(currentPlayer);
     console.log(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
   }
+}
 
+function runMove(currentPlayer, opponent) {
+
+  currentPlayer.hasMoved = true;
+  var currentPlayerHp = currentPlayer.sign.hp
+  currentMove = currentPlayer.currentMove;
+
+  // setTimeout(function() {hitOrMiss(currentPlayer, opponent)}, 1000);
+  hitOrMiss(currentPlayer, opponent)
   checkOpponentHealth(currentPlayer, opponent)
-  checkWinner(currentPlayer)
+  // updateBothHealth();
+  // checkWinner(currentPlayer)
+}
+
+function setNewGame() {
+  var newZodiac = setZodiacSigns();
+  setZodiacMoves(newZodiac);
+  currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", newZodiac)
+}
+
+function gameOver() {
+    hide(playerBattleText)
+    hide(playerMoveText)
+    battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`
+    playerBox.innerHTML = ""
+    playerBox.innerHTML += `
+    <div id="playBotzAgain" class="play-again-box">
+    <h4>GAME OVER</h4>
+    <button>play again</button>
+    </div>
+    `
+}
+
+
+function endBotzGame() {
+  hide(computerBox)
+  hide(playerBox)
+  show(zodiacSignSelection)
+  battleText.innerText = "Choose your fighter"
+}
+
+function playAnotherBotz() {
+  // debugger
+  currentUser.roundsWon = 0;
+  endBotzGame();
+  setNewGame()
+
+  // playBotzGame();
+  // showSigns()
+  // makeIconsSelectable();
 }

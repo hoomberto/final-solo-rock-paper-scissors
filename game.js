@@ -1,11 +1,12 @@
 class Game {
-  constructor(gameName, gameDescription) {
+  constructor(gameName, gameDescription, zodiac) {
     this.name = gameName;
     this.description = gameDescription;
     this.ties = 0;
     this.choices = ["rock", "paper", "scissors"];
-
+    this.currentZodiac = zodiac;
   }
+
   playGame(userInput) {
     currentComp.currentChoice = randomChoice(this.choices)
     var compInput = currentComp.currentChoice

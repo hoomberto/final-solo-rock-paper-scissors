@@ -24,6 +24,10 @@ class Player {
   }
   winRound() {
     console.log(`${this.sign.name} is the winner!`)
+    battleText.innerText = `${this.sign.name} is the winner!`
+    this.roundsWon++
+    this.wins++
+    updateWinCount();
     return true
   }
 }

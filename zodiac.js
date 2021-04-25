@@ -1,5 +1,6 @@
 class Zodiac {
-  constructor(name, element, quality) {
+  constructor(name, element, quality, icon) {
+    this.id = Date.now();
     this.hp =  100,
     this.stats = {
     shield: 0,
@@ -28,5 +29,6 @@ class Zodiac {
   this.hasElementAdvantage = false;
   this.hasQualityAdvantage = false;
   this.moves = []
+  this.icon = icon;
   }
 }

@@ -100,6 +100,16 @@ h2 {
   cursor: pointer;
 }
 
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-container p {
+  margin: 0;
+}
+
 .player-box {
 
   background-color: lightgray;
@@ -121,6 +131,21 @@ h2 {
 
 .health-bar-container {
   width: 40%;
+}
+
+.play-again-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10%;
+}
+
+.play-again-box button {
+  cursor: pointer;
+}
+
+.player-battle-text {
+  margin: 0;
 }
 
 
