@@ -114,36 +114,22 @@ function checkAccuracy(moveAccuracy) {
 }
 
 function compareElements(currentPlayer, opponent) {
-  if (currentPlayer.element === opponent.element) {
-    console.log(`Element Tie! ${currentPlayer.element} is the same as ${opponent.element}\n`)
+  if (currentPlayer.sign.element === opponent.sign.element) {
+    console.log(`Element Tie! ${currentPlayer.sign.element} is the same as ${opponent.sign.element}\n`)
   }
-  if (currentPlayer.element === 'air' && opponent.element === 'earth' || currentPlayer.element === 'earth' && opponent.element === 'water' || currentPlayer.element === 'water' && opponent.element === 'fire' || currentPlayer.element === 'fire' && opponent.element === 'air') {
+  if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'air') {
     currentPlayer.hasElementAdvantage = true;
-    console.log(`Element win! ${currentPlayer.element} won against ${opponent.element}\n`)
+    console.log(`Element win! ${currentPlayer.sign.element} won against ${opponent.sign.element}\n`)
   }
-    if (currentPlayer.element === 'air' && opponent.element === 'fire' || currentPlayer.element === 'earth' && opponent.element === 'air' || currentPlayer.element === 'water' && opponent.element === 'earth' || currentPlayer.element === 'fire' && opponent.element === 'water') {
+    if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'water') {
     opponent.hasElementAdvantage = true;
-    console.log(`Element loss! ${currentPlayer.element} lost against ${opponent.element}\n`)
+    console.log(`Element loss! ${currentPlayer.sign.element} lost against ${opponent.sign.element}\n`)
   }
-    if (currentPlayer.element === 'air' && opponent.element === 'water' || currentPlayer.element === 'earth' && opponent.element === 'fire' || currentPlayer.element === 'water' && opponent.element === 'air' || currentPlayer.element === 'fire' && opponent.element === 'earth') {
-    console.log(`Element Tie! ${currentPlayer.element} tied against ${opponent.element}\n`)
+    if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'earth') {
+    console.log(`Element Tie! ${currentPlayer.sign.element} tied against ${opponent.sign.element}\n`)
   }
 }
 
-// function delayPlayerMove(currentPlayer, opponent) { setTimeout(
-// function() {
-// runMove(currentPlayer, opponent)
-// }
-// , 1000);
-// }
-
-// function delayCompMove(currentPlayer, opponent) {
-//   setTimeout(
-// function() {
-//   runMove(opponent, currentPlayer)
-// }
-// , 1000);
-// }
 
 function compareSpeeds(currentPlayer, opponent) {
   var currentPlayerSpeed = currentPlayer.sign.stats.speed;
@@ -155,28 +141,19 @@ function compareSpeeds(currentPlayer, opponent) {
   }
   if (((currentPlayerSpeed + currentPlayerBuff) > (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
     runMove(currentPlayer, opponent)
-    // setTimeout(function() {runMove(currentPlayer, opponent)}, 1000)
-    // delayPlayerMove(currentPlayer, opponent)
   }
   else if (((currentPlayerSpeed + currentPlayerBuff) === (opponentSpeed + opponentBuff))) {
     runMove(currentPlayer, opponent)
-    // delayPlayerMove(currentPlayer, opponent)
   }
   else if (currentPlayer.hasMoved && !opponent.hasMoved){
     runMove(opponent, currentPlayer)
-    // delayCompMove(currentPlayer, opponent)
-
   }
-  // updateBothHealth(currentPlayer, opponent);
 }
 
 function checkOpponentHealth(currentPlayer, opponent) {
-  // debugger
-  // updateBothHealth();
   if (opponent.sign.hp > 0) {
     showPlayerBattleText(opponent)
     setBothBoxes();
-    // updateHealth(opponent)
     console.log(`${opponent.sign.name} still standing with ${opponent.sign.hp} HP`)
   }
   else {
@@ -189,7 +166,6 @@ function checkOpponentHealth(currentPlayer, opponent) {
     if (currentPlayer.name === "User" && currentPlayer.isWinner) {
       console.log("NEW CHALLENGER APPROACHES")
       gameRound();
-      // newChallenger();
     }
     else if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
       gameOver()
@@ -199,7 +175,6 @@ function checkOpponentHealth(currentPlayer, opponent) {
 
   }
 }
-
 
 function checkRounds(currentPlayer, opponent) {
     if (opponent.lostRound) {
@@ -246,11 +221,8 @@ function runMove(currentPlayer, opponent) {
   var currentPlayerHp = currentPlayer.sign.hp
   currentMove = currentPlayer.currentMove;
 
-  // setTimeout(function() {hitOrMiss(currentPlayer, opponent)}, 1000);
   hitOrMiss(currentPlayer, opponent)
   checkOpponentHealth(currentPlayer, opponent)
-  // updateBothHealth();
-  // checkWinner(currentPlayer)
 }
 
 function setNewGame() {
@@ -272,7 +244,6 @@ function gameOver() {
     `
 }
 
-
 function endBotzGame() {
   hide(computerBox)
   hide(playerBox)
@@ -282,12 +253,6 @@ function endBotzGame() {
 }
 
 function playAnotherBotz() {
-  // debugger
   currentUser.roundsWon = 0;
   endBotzGame();
-  // setNewGame()
-
-  // playBotzGame();
-  // showSigns()
-  // makeIconsSelectable();
 }

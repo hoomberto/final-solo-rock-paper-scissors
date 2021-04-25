@@ -40,31 +40,6 @@ function makeChoicesSelectable() {
   }
 }
 
-
-// function setWinLosses(player, winLossSide) {
-//   winLossSide.innerHTML = "";
-//   var playerWinLosses = Object.entries(player.winsAs)
-//   // for (var sign of player)
-//   for (var [sign, count] of playerWinLosses) {
-//     winLossSide.innerHTML += `
-//       <p class="win-loss-container">
-//         ${player.winsAs[sign]}WINS:${player.winsAs[count]}
-//       </p>
-//     `
-//   }
-//
-// }
-
-
-// if (rpsChoices) {
-//   console.log(rpsChoices);
-//   for (var choice of rpsChoices) {
-//     console.log(choice);
-//     choice.addEventListener("click", function() {
-//     selectChoice(event);
-//   });
-//   }
-// }
 var currentGame;
 var currentUser;
 var currentComp;
@@ -197,10 +172,6 @@ function updateHealth(player) {
   let userHPVal = document.getElementById(player.sign.id)
   userHealth.value = playerHP;
   userHPVal.innerText = `${playerHP} HP`;
-
-  // if (userHealth > 0) {
-  //   userHealth.value = player.sign.hp
-  // }
 }
 
 function setPlayerBox(infoContainer, player) {
@@ -240,16 +211,6 @@ function selectMove(event) {
 
 }
 
-// function newChallenger(comp, array, user) {
-//   console.log("NEW CHALLENGER SET")
-//   comp.sign = randomChoice(array);
-//   battleText.innerText = `NEW CHALLENGER APPEARS: ${comp.sign.name}`
-//   removeSign(comp, array);
-//   hide(playerBattleText)
-//   setBothBoxes();
-//   // delayShowMoves();
-// }
-
 function newChallenger() {
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
@@ -263,7 +224,6 @@ function newChallenger() {
 function gameRound() {
   // debugger
   if (!currentComp.sign.hp) {
-    // debugger
 
     setTimeout(newChallenger, 800);
 
@@ -372,23 +332,20 @@ function selectSign(event) {
     currentUser.currentChoice = "";
     let selectedSign = event.srcElement.innerText
     currentUser.currentChoice = selectedSign;
+    var lowerCase = currentUser.currentChoice.toLowerCase();
     for (var sign of currentGame.currentZodiac) {
-      if (currentUser.currentChoice === sign.name || currentUser.currentChoice === sign.icon) {
+      if (lowerCase === sign.name || currentUser.currentChoice === sign.icon) {
         currentUser.sign = sign;
         removeSign(currentUser, currentGame.currentZodiac)
         currentComp.sign = randomChoice(currentGame.currentZodiac);
         removeSign(currentComp, currentGame.currentZodiac)
       }
     }
-    // setWinLosses(currentUser, playerWinLosses)
-    // setWinLosses(currentComp, compWinLosses)
     currentUser.sign.hp = 100;
     currentComp.sign.hp = 100;
     // setTimeout(initialBattleText, 1000)
     initialBattleText();
     hide(zodiacSignSelection);
     setTimeout(function() {startBotzGame()}, 500)
-    // initialBattleText();
-    // battleText.innerText = "FIGHT!"
-    // startBotzGame();
+
 };
