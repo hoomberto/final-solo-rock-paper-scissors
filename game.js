@@ -44,10 +44,30 @@ function randomChoice(choices) {
   return choices[randomIndex(choices)];
 }
 
+function hideChoices() {
+  for (var choice of rpsChoices) {
+    hide(choice)
+  }
+}
+
+function showChoice(playerChoice) {
+  for (var choice of rpsChoices) {
+    if (choice.id === playerChoice) {
+      show(choice)
+    }
+  }
+}
+
+function showUserCompChoices() {
+  showChoice(currentUser.currentChoice);
+  showChoice(currentComp.currentChoice);
+}
+
 function selectChoice(event) {
 
     if (event.target.id === "rock") {
       currentUser.currentChoice = "rock"
+      show(`${currentUser.currentChoice}`)
       // return "rock"
     }
     if (event.target.id === "paper") {

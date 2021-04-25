@@ -22,6 +22,7 @@ var playerMoveText = document.getElementById("playerMoveText")
 var playerWinLosses = document.getElementById("playerWinLosses");
 var compWinLosses = document.getElementById("compWinLosses");
 
+
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
 playAgainBtn.addEventListener("click", playAnother);
