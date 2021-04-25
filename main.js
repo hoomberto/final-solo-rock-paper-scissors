@@ -288,7 +288,6 @@ function showMoveUsed(currentPlayer) {
   else {
     playerBattleText.innerText = `${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It dealt ${damageCalculation} damage!`
   }
-
 }
 
 function showDamageDealt(currentPlayer, damageCalculation) {
