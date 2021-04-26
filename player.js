@@ -9,9 +9,10 @@
 
 
 class Player {
-  constructor(name, sign) {
+  constructor(name, icon, sign) {
     this.currentChoice = "";
     this.name = name;
+    this.icon = icon
     this.sign = sign;
     this.currentMove = undefined;
     this.hasMoved = false;

@@ -122,8 +122,8 @@ function evaluateSigns(currentUser, currentComp) {
   setTimeout(function() {compareElements(currentUser, currentComp)}, 4100);
   // setTimeout(function() {resetText(compareBox)}, 4500);
   setTimeout(function() {compareQualities(currentUser.sign, currentComp.sign)},4100);
-  setTimeout(function() {resetText(compareBox)}, 6400);
-  setTimeout(function() {compareAdvantages(currentUser.sign, currentComp.sign)}, 6500);
+  setTimeout(function() {resetText(compareBox)}, 6800);
+  setTimeout(function() {compareAdvantages(currentUser.sign, currentComp.sign)}, 6900);
   setTimeout(function() {resetText(compareBox)}, 8900);
   setTimeout(function() {hide(compareBox)}, 8900);
 }

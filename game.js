@@ -11,10 +11,14 @@ class Game {
     gameSelections.innerHTML = "";
     for (var choice of this.choices) {
       gameSelections.innerHTML += `
-      <img id="${choice}" class="choice" src="./assets/${choice}.png" alt="${choice}">
+      <div id="${choice}ChoiceContainer" class="choice-container choice">
+        <img id="${choice}" src="./assets/${choice}.png" alt="${choice}">
+        <p id="${choice}Text" class="choice-icon"></p>
+      </div>
       `
     }
   }
+
   initializeZodiac() {
     // Fire Signs
     var aries = new Zodiac("aries", "fire", "cardinal", '🐏');
@@ -79,10 +83,14 @@ class Game {
       resultText.innerText = `${user} lost against ${comp}! You lost!`
     }
     showBothChoices();
-    setTimeout(function() {playAnother()}, 2500)
+    setTimeout(function() {playClassicGame()}, 2500)
   }
-
 }
+
+// function setPlayerChoice(player) {
+//   var selected = document.getElementById("selectedChoice")
+//   selected.innerText += currentUser.icon
+// }
 
 function randomIndex(array) {
   return Math.floor(Math.random() * array.length);
@@ -93,33 +101,39 @@ function randomChoice(choices) {
 }
 
 function hideAllChoices() {
-  rpsChoices = document.querySelectorAll(".choice");
-  for (var choice of rpsChoices) {
+      var choiceContainers = document.querySelectorAll(".choice-container")
+  // rpsChoices = document.querySelectorAll(".choice");
+  for (var choice of choiceContainers) {
     hide(choice)
   }
 }
 
 function showAllChoices() {
-  let rpsChoices = document.querySelectorAll(".choice");
-  for (var choice of rpsChoices) {
+  // let rpsChoices = document.querySelectorAll(".choice");
+      var choiceContainers = document.querySelectorAll(".choice-container")
+  for (var choice of choiceContainers) {
     show(choice)
   }
 }
 
 
 
-function showChoice(playerChoice) {
+function showChoice(player) {
+  var playerChoice = player.currentChoice
   let rpsChoices = document.querySelectorAll(".choice");
-  for (var choice of rpsChoices) {
-    if (choice.id === playerChoice) {
+  let choiceContainers = document.querySelectorAll(".choice-container")
+  for (var choice of choiceContainers) {
+    if (choice.children[0].id === playerChoice) {
       show(choice)
+      choice.children[1].innerText += `${player.icon}`
     }
   }
+
 }
 
 function showBothChoices() {
-  showChoice(currentUser.currentChoice);
-  showChoice(currentComp.currentChoice);
+  showChoice(currentUser);
+  showChoice(currentComp);
 }
 
 function selectChoice(event) {

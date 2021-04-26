@@ -12,8 +12,8 @@
   <body>
     <section id="userSide" class="user player-section">
       <div id="userInfo" class="player-info">
-        <h2 class="user-icon">🟢</h2>
-        <h2 class="comp-icon">Player</h2>
+        <h2 id="userIcon" class="user-icon"></h2>
+        <h2 class="user-icon">Player</h2>
         <h3 id="playerWins" class="win-count">Wins:  </h3>
         <section id="playerWinLosses" class="zodiac-stats"></section>
       </div>
@@ -25,7 +25,7 @@
       <section id="gameChoices" class="game-choices hidden">
         <div id="gameSelections" class="selections">
         </div>
-        <h3 id="resultText"></h3>
+        <h3 id="resultText" class="result-text"></h3>
         <button id="playAgain" class="hidden">Play again</button>
       </section>
       <section id="classicGame" class="game-type">
@@ -52,7 +52,7 @@
     </section>
     <section id="compSide" class="computer player-section">
       <div id="compInfo" class="player-info">
-        <h2 class="comp-icon">🤖</h2>
+        <h2 id="compIcon" class="comp-icon"></h2>
         <h2 class="comp-icon">Computer</h2>
         <h3 id="compWins" class="win-count">Wins:  </h3>
         <section id="compWinLosses" class="zodiac-stats"></section>

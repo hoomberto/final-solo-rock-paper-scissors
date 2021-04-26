@@ -9,6 +9,8 @@ var gameTypes = document.getElementById("gameTypes");
 var gameSelections = document.getElementById("gameSelections");
 var playerWins = document.getElementById("playerWins");
 var compWins = document.getElementById("compWins");
+var userIcon = document.getElementById("userIcon");
+var compIcon = document.getElementById("compIcon");
 // var rpsChoices = document.querySelectorAll(".choice");
 var resultText = document.getElementById("resultText");
 var playAgainBtn = document.getElementById("playAgain");
@@ -23,6 +25,10 @@ var playerMoveText = document.getElementById("playerMoveText")
 var playerWinLosses = document.getElementById("playerWinLosses");
 var compWinLosses = document.getElementById("compWinLosses");
 var goBackBtn = document.getElementById("goBack");
+var choiceContainers = document.querySelectorAll(".choice-container")
+
+
+
 
 // Battle Elements
 var compareBox = document.getElementById("comparisonBox");
@@ -36,8 +42,9 @@ goBackBtn.addEventListener("click", goBack)
 
 
 function makeChoicesSelectable() {
-  var rpsChoices = document.querySelectorAll(".choice");
-  for (var choice of rpsChoices) {
+  // var rpsChoices = document.querySelectorAll(".choice");
+    var choiceContainers = document.querySelectorAll(".choice-container")
+    for (var choice of choiceContainers) {
       choice.addEventListener("click", function() {
       selectChoice(event);
     });
@@ -55,10 +62,12 @@ function displayDefaultGame() {
   var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
   var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock"
   currentGame = new Game(gameName, gameDescription);
-  currentUser = new Player();
-  currentComp = new Player();
+  currentUser = new Player("User", "🟢");
+  currentComp = new Player("Computer", "🤖");
   currentGame.renderRPS();
   makeChoicesSelectable();
+  userIcon.innerText += currentUser.icon
+  compIcon.innerText += currentComp.icon
   playerWins.innerText += `${currentUser.wins}`;
   compWins.innerText += `${currentComp.wins}`;
   gameTitle.innerText = currentGame.name;
@@ -81,9 +90,20 @@ function resetBotz() {
   hide(playerBattleText)
 }
 
+function resetTokens() {
+  var choiceIcons = document.querySelectorAll(".choice-icon")
+  for (var choice of choiceIcons) {
+    if (choice.innerText) {
+      resetText(choice);
+    }
+  }
+}
+
 function playAnother() {
   resultText.innerText = "";
   showAllChoices();
+  // resetTokens();
+  // resetPlayerChoices();
   show(gameSelections);
   hide(gameChoices);
   hide(goBackBtn);
@@ -91,6 +111,13 @@ function playAnother() {
   show(botzGameChoice);
   gameSubtitle.innerText = "Choose your game!"
 }
+
+// function resetPlayerChoices() {
+//   if ()
+//   resetText(rockText)
+//   resetText(paperText)
+//   resetText(scissorsText)
+// }
 
 function resetWinCount() {
   playerWins.innerText = "Wins: ";
@@ -111,11 +138,24 @@ function show(element) {
   element.classList.remove("hidden");
 }
 
+// function resetPlayerChoices(choiceContainers) {
+//   for (var choice of choiceContainers) {
+//     resetText(choice.children[1])
+//   }
+// }
+
 function playClassicGame() {
+  resultText.innerText = "Take your pick";
   hide(classicGameChoice)
   hide(botzGameChoice)
   show(goBackBtn);
   show(gameChoices)
+  showAllChoices();
+  resetTokens();
+  // if (choiceContainers.children) {
+  //   currentGame.resetPlayerChoices();
+  // }
+
   gameSubtitle.innerText = "Make a choice:";
 }
 

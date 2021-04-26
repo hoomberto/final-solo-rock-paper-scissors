@@ -137,8 +137,14 @@ img {
 .selections {
   display: flex;
   justify-content: space-around;
-  align-content: center;
+  align-items: center;
+  height: 80%;
 }
+
+.result-text {
+  margin: 0;
+}
+
 
 .choice {
   cursor: pointer;
