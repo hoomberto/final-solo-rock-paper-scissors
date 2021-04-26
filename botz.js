@@ -114,20 +114,42 @@ function checkAccuracy(moveAccuracy) {
   }
 }
 
+function evaluateSigns(currentUser, currentComp) {
+  show(compareBox)
+  announce(currentUser, currentComp)
+  setTimeout(function() {resetText(compareBox)}, 3000);
+  setTimeout(function() {compareElements(currentPlayer, opponent)}, 3100);
+  setTimeout(function() {resetText(compareBox)}, 4500);
+  setTimeout(function() {qualityMsg()},4700);
+  setTimeout(function() {hideText()}, 4000);
+  setTimeout(function() {overallMsg()}, 5500);
+  setTimeout(function() {hideText()}, 5600);
+}
+
+function announce(currentUser, currentComp) {
+  var playerSign = currentUser.sign.name.toUpperCase();
+  var opponentSign = currentComp.sign.name.toUpperCase();
+  resetElement(compareBox)
+  compareBox.innerHTML = `It's ${playerSign} vs ${opponentSign}!!\n`
+  compareBox.innerHTML += `${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality} \n`
+  compareBox.innerHTML += `${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality} \n`
+}
+
 function compareElements(currentPlayer, opponent) {
+  compareBox.innerHTML = "";
   if (currentPlayer.sign.element === opponent.sign.element) {
-    console.log(`Element Tie! ${currentPlayer.sign.element} is the same as ${opponent.sign.element}\n`)
+    compareBox.innerHTML =`Element Tie! ${currentPlayer.sign.element} is the same as ${opponent.sign.element}\n`
   }
   if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'air') {
     currentPlayer.hasElementAdvantage = true;
-    console.log(`Element win! ${currentPlayer.sign.element} won against ${opponent.sign.element}\n`)
+    compareBox.innerHTML =`Element win! ${currentPlayer.sign.element} won against ${opponent.sign.element}\n`
   }
     if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'water') {
     opponent.hasElementAdvantage = true;
-    console.log(`Element loss! ${currentPlayer.sign.element} lost against ${opponent.sign.element}\n`)
+    compareBox.innerHTML =`Element loss! ${currentPlayer.sign.element} lost against ${opponent.sign.element}\n`
   }
     if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'earth') {
-    console.log(`Element Tie! ${currentPlayer.sign.element} tied against ${opponent.sign.element}\n`)
+    compareBox.innerHTML =`Element Tie! ${currentPlayer.sign.element} tied against ${opponent.sign.element}\n`
   }
 }
 

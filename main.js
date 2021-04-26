@@ -24,6 +24,9 @@ var playerWinLosses = document.getElementById("playerWinLosses");
 var compWinLosses = document.getElementById("compWinLosses");
 var goBackBtn = document.getElementById("goBack");
 
+// Battle Elements
+var compareBox = document.getElementById("compareBox");
+
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
 playAgainBtn.addEventListener("click", playAnother);
@@ -358,6 +361,14 @@ function startBotzGame() {
   setBothBoxes()
   setPlayerMoves(playerBox, currentUser)
   makeMovesSelectable();
+}
+
+function resetElement(element) {
+  element.innerHTML = "";
+}
+
+function resetText(element) {
+  element.innerText = "";
 }
 
 function selectSign(event) {
