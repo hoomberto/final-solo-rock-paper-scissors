@@ -25,7 +25,7 @@ var compWinLosses = document.getElementById("compWinLosses");
 var goBackBtn = document.getElementById("goBack");
 
 // Battle Elements
-var compareBox = document.getElementById("compareBox");
+var compareBox = document.getElementById("comparisonBox");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
@@ -311,24 +311,34 @@ function showPlayerChoice() {
   playerMoveText.innerText = `${currentUser.name} selected ${currentUser.currentMove.name}`
 }
 
+// function beginFight() {
+//   compareSpeeds(currentUser, currentComp);
+//
+//   checkMoved(currentUser, currentComp)
+//   resetPlayers(currentUser, currentComp)
+//   setPlayerMoves(playerBox, currentUser)
+//   // delayShowMoves();
+//   makeMovesSelectable();
+// }
+
 function startBattle() {
   setBothBoxes()
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
-  // console.log(`${currentComp.name} selected ${currentComp.currentMove.name}`)
-  // setTimeout(showCompMove, 500);
-  // showCompMove();
-  // showPlayerChoice();
+  // setTimeout(function() {beginFight()}, 6900);
   compareSpeeds(currentUser, currentComp);
-  // setTimeout(function() {compareSpeeds(currentUser, currentComp)}, 1000)
-  // setTimeout(function() {
-  //   checkMoved(currentUser, currentComp);
-  // }, 1000);
-  // setTimeout(function() {checkMoved(currentUser, currentComp)}, 400)
+
   checkMoved(currentUser, currentComp)
   resetPlayers(currentUser, currentComp)
   setPlayerMoves(playerBox, currentUser)
   // delayShowMoves();
   makeMovesSelectable();
+  // compareSpeeds(currentUser, currentComp);
+  //
+  // checkMoved(currentUser, currentComp)
+  // resetPlayers(currentUser, currentComp)
+  // setPlayerMoves(playerBox, currentUser)
+  // // delayShowMoves();
+  // makeMovesSelectable();
 }
 
 function delayShowMoves() {
@@ -389,6 +399,8 @@ function selectSign(event) {
     // setTimeout(initialBattleText, 1000)
     initialBattleText();
     hide(zodiacSignSelection);
-    setTimeout(function() {startBotzGame()}, 500)
+    evaluateSigns(currentUser, currentComp)
+    setTimeout(function() {show(goBackBtn)}, 9000)
+    setTimeout(function() {startBotzGame()}, 9000)
 
 };

@@ -115,30 +115,32 @@ function checkAccuracy(moveAccuracy) {
 }
 
 function evaluateSigns(currentUser, currentComp) {
+  hide(goBackBtn)
   show(compareBox)
   announce(currentUser, currentComp)
-  setTimeout(function() {resetText(compareBox)}, 3000);
-  setTimeout(function() {compareElements(currentPlayer, opponent)}, 3100);
+  setTimeout(function() {resetText(compareBox)}, 4000);
+  setTimeout(function() {compareElements(currentUser, currentComp)}, 4100);
   // setTimeout(function() {resetText(compareBox)}, 4500);
-  setTimeout(function() {compareQualities(currentPlayer.sign, currentComp.sign)},3600);
-  setTimeout(function() {hideText()}, 5400);
-  setTimeout(function() {compareAdvantages(currentPlayer.sign, currentComp.sign)}, 5500);
-  setTimeout(function() {hideText()}, 6700);
+  setTimeout(function() {compareQualities(currentUser.sign, currentComp.sign)},4100);
+  setTimeout(function() {resetText(compareBox)}, 6400);
+  setTimeout(function() {compareAdvantages(currentUser.sign, currentComp.sign)}, 6500);
+  setTimeout(function() {resetText(compareBox)}, 8900);
+  setTimeout(function() {hide(compareBox)}, 8900);
 }
 
 function announce(currentUser, currentComp) {
   var playerSign = currentUser.sign.name.toUpperCase();
   var opponentSign = currentComp.sign.name.toUpperCase();
-  resetElement(compareBox)
-  compareBox.innerHTML = `It's ${playerSign} vs ${opponentSign}!!\n`
-  compareBox.innerHTML += `${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality} \n`
-  compareBox.innerHTML += `${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality} \n`
+  resetElement(compareBox);
+  compareBox.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
+  compareBox.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
+  compareBox.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
 }
 
 function compareQualities(user, comp) {
   // compareBox.innerHTML = "";
   if (user.quality === comp.quality) {
-    compareBox.innerHTML +=`It was ${user.quality} vs ${comp.quality} - tie!\n`
+    compareBox.innerHTML +=`<p>It was ${user.quality} vs ${comp.quality} - tie!</p>\n`
   }
   if ((user.quality === 'cardinal' && comp.quality === 'fixed') || (user.quality === 'fixed' && comp.quality === 'mutable') || (user.quality === 'mutable' && comp.quality === 'cardinal')) {
     user.qualityMultiplier = 2;
@@ -146,7 +148,7 @@ function compareQualities(user, comp) {
     user.buffs.speed = 1.2;
     comp.buffs.attack = -10;
     user.hasQualityAdvantage = true;
-    compareBox.innerHTML +=`Quality win! ${user.quality} beats ${comp.quality}!\n`
+    compareBox.innerHTML +=`<p>Quality win! ${user.quality} beats ${comp.quality}!</p>\n`
   }
   if ((user.quality === 'cardinal' && comp.quality === 'mutable') || (user.quality === 'fixed' && comp.quality === 'cardinal') || (user.quality === 'mutable' && comp.quality === 'fixed')) {
     user.buffs.attack = -10;
@@ -154,7 +156,7 @@ function compareQualities(user, comp) {
     comp.buffs.speed = 1.2;
     comp.qualityMultiplier = 2;
     comp.hasQualityAdvantage = true;
-    compareBox.innerHTML +=`Quality loss! ${user.quality} lost against ${comp.quality}\n`
+    compareBox.innerHTML +=`<p>Quality loss! ${user.quality} lost against ${comp.quality}</p>\n`
   }
 }
 
@@ -164,11 +166,11 @@ function compareElements(currentPlayer, opponent) {
     compareBox.innerHTML =`Element Tie! ${currentPlayer.sign.element} is the same as ${opponent.sign.element}\n`
   }
   if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'air') {
-    currentPlayer.hasElementAdvantage = true;
+    currentPlayer.sign.hasElementAdvantage = true;
     compareBox.innerHTML =`Element win! ${currentPlayer.sign.element} won against ${opponent.sign.element}\n`
   }
     if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'water') {
-    opponent.hasElementAdvantage = true;
+    opponent.sign.hasElementAdvantage = true;
     compareBox.innerHTML =`Element loss! ${currentPlayer.sign.element} lost against ${opponent.sign.element}\n`
   }
     if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'earth') {
@@ -177,35 +179,30 @@ function compareElements(currentPlayer, opponent) {
 }
 
 function compareAdvantages(currentPlayer, opponent) {
-  if (currentPlayer.hasElementAdvantage && currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
-    compareBox.innerHTML = `${currentPlayer.name} has a total advantage!\n`
-    return
-  }
-  if (currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage && !opponent.hasElementAdvantage) {
-    compareBox.innerHTML = "All right! You have an elemental advantage!\n"
-    return
-  }
-  if (!currentPlayer.hasElementAdvantage && currentPlayer.hasQualityAdvantage && !opponent.hasQualityAdvantage) {
-    compareBox.innerHTML = "Yes! You have a quality advantage!\n"
-    return
-  }
-  if (opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
-    compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n"
-    return
-  }
-  if (!opponent.hasElementAdvantage && opponent.hasQualityAdvantage) {
-    compareBox.innerHTML = "Uh oh! The opponent has a quality advantage!\n"
-    return
-  }
-  if (opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
-    compareBox.innerHTML = "Yikes! You're at an elemental disadvantage!\n"
-    return
-  }
   if (!currentPlayer.hasElementAdvantage && !currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = "You are both evenly matched!\n"
-    return
+  }
+
+  if (currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
+    compareBox.innerHTML = "All right! You have an elemental advantage!\n"
+  }
+  if (opponent.hasElementAdvantage && !opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
+    compareBox.innerHTML = "Yikes! You're at an elemental disadvantage!\n"
+  }
+  if (!currentPlayer.hasElementAdvantage && currentPlayer.hasQualityAdvantage && !opponent.hasQualityAdvantage && !opponent.hasElementAdvantage) {
+    compareBox.innerHTML = "Yes! You have a quality advantage!\n"
+  }
+  if (!opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
+    compareBox.innerHTML = "Uh oh! The opponent has a quality advantage!\n"
+  }
+  else if (currentPlayer.hasElementAdvantage && currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
+    compareBox.innerHTML = `${currentPlayer.name} has a total advantage!\n`
+  }
+  else if (opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
+    compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n"
   }
 }
+
 
 
 function compareSpeeds(currentPlayer, opponent) {

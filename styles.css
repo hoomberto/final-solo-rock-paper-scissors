@@ -231,6 +231,18 @@ img {
   margin: 0;
 }
 
+.comparison-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto;
+  background-color: lightgray;
+  width: 200px;
+  min-height: 40%;
+  border-radius: 4px;
+}
+
 /* .botz-header-text {
   font-family: 'MuseoModerno', cursive;
   font-weight: 800;
