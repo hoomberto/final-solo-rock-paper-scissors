@@ -22,12 +22,13 @@ var playerBattleText = document.getElementById("playerBattleText");
 var playerMoveText = document.getElementById("playerMoveText")
 var playerWinLosses = document.getElementById("playerWinLosses");
 var compWinLosses = document.getElementById("compWinLosses");
-
+var goBackBtn = document.getElementById("goBack");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
 playAgainBtn.addEventListener("click", playAnother);
 botzGameChoice.addEventListener("click", playBotzGame);
+goBackBtn.addEventListener("click", goBack)
 // console.log(rpsChoices)
 
 
@@ -62,11 +63,27 @@ function displayDefaultGame() {
   botzRules.innerText += botzDescription;
 }
 
+function goBack() {
+  playAnother()
+  hide(botzGameSection)
+  resetBotz();
+  show(mainGameSection)
+}
+
+function resetBotz() {
+  hide(playerBox)
+  hide(computerBox)
+  battleText.innerHTML = "Choose your fighter"
+  hide(battleText)
+  hide(playerBattleText)
+}
+
 function playAnother() {
   resultText.innerText = "";
   showAllChoices();
   show(gameSelections);
   hide(gameChoices);
+  hide(goBackBtn);
   show(classicGameChoice);
   show(botzGameChoice);
   gameSubtitle.innerText = "Choose your game!"
@@ -94,11 +111,13 @@ function show(element) {
 function playClassicGame() {
   hide(classicGameChoice)
   hide(botzGameChoice)
+  show(goBackBtn);
   show(gameChoices)
   gameSubtitle.innerText = "Make a choice:";
 }
 
 function showSigns() {
+  zodiacSignSelection.innerHTML = ""
   for (var sign of currentGame.currentZodiac) {
     zodiacSignSelection.innerHTML += `
     <div class="icon-container">
@@ -110,18 +129,23 @@ function showSigns() {
 }
 
 
-
-
 function playBotzGame() {
   hide(mainGameSection);
   show(botzGameSection);
+  show(goBackBtn)
+  show(battleText)
+  show(signs)
   // endBotzGame();
   currentUser = new Player("User");
   currentComp = new Player("Computer");
   currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
+  if (currentGame.currentZodiac.length < 12 || !currentGame.currentZodiac.length) {
+    var resetZodiac = setZodiacSigns();
+    setZodiacMoves(resetZodiac)
+    currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", resetZodiac)
+  }
   showSigns();
   makeIconsSelectable();
-
 }
 
 function setBothBoxes() {
@@ -212,6 +236,14 @@ function selectMove(event) {
 }
 
 function newChallenger() {
+  if (!currentGame.currentZodiac.length) {
+    hide(computerBox)
+    hide(battleText)
+    playerBox.innerHTML = ""
+    playerBox.innerHTML += `
+    <h4>YOU BEAT THE ZODIAC AS ${currentUser.sign.name}!</h4>
+    `
+  }
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
   removeSign(currentComp, currentGame.currentZodiac);
