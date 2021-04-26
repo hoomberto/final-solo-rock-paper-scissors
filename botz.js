@@ -119,8 +119,8 @@ function evaluateSigns(currentUser, currentComp) {
   announce(currentUser, currentComp)
   setTimeout(function() {resetText(compareBox)}, 3000);
   setTimeout(function() {compareElements(currentPlayer, opponent)}, 3100);
-  setTimeout(function() {resetText(compareBox)}, 4500);
-  setTimeout(function() {qualityMsg()},4700);
+  // setTimeout(function() {resetText(compareBox)}, 4500);
+  setTimeout(function() {compareQualities(currentPlayer.sign, currentComp.sign)},3300);
   setTimeout(function() {hideText()}, 4000);
   setTimeout(function() {overallMsg()}, 5500);
   setTimeout(function() {hideText()}, 5600);
@@ -133,6 +133,29 @@ function announce(currentUser, currentComp) {
   compareBox.innerHTML = `It's ${playerSign} vs ${opponentSign}!!\n`
   compareBox.innerHTML += `${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality} \n`
   compareBox.innerHTML += `${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality} \n`
+}
+
+function compareQualities(user, comp) {
+  // compareBox.innerHTML = "";
+  if (user.quality === comp.quality) {
+    compareBox.innerHTML +=`It was ${user.quality} vs ${comp.quality} - tie!\n`
+  }
+  if ((user.quality === 'cardinal' && comp.quality === 'fixed') || (user.quality === 'fixed' && comp.quality === 'mutable') || (user.quality === 'mutable' && comp.quality === 'cardinal')) {
+    user.qualityMultiplier = 2;
+    user.buffs.attack = 10;
+    user.buffs.speed = 1.2;
+    comp.buffs.attack = -10;
+    user.hasQualityAdvantage = true;
+    compareBox.innerHTML +=`Quality win! ${user.quality} beats ${comp.quality}!\n`
+  }
+  if ((user.quality === 'cardinal' && comp.quality === 'mutable') || (user.quality === 'fixed' && comp.quality === 'cardinal') || (user.quality === 'mutable' && comp.quality === 'fixed')) {
+    user.buffs.attack = -10;
+    comp.buffs.attack = 10;
+    comp.buffs.speed = 1.2;
+    comp.qualityMultiplier = 2;
+    comp.hasQualityAdvantage = true;
+    compareBox.innerHTML +=`Quality loss! ${user.quality} lost against ${comp.quality}\n`
+  }
 }
 
 function compareElements(currentPlayer, opponent) {
