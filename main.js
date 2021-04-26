@@ -179,8 +179,8 @@ function playBotzGame() {
   show(battleText)
   show(signs)
   // endBotzGame();
-  currentUser = new Player("User");
-  currentComp = new Player("Computer");
+  // currentUser = new Player("User", "🟢");
+  // currentComp = new Player("Computer", "🤖");
   currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
   if (currentGame.currentZodiac.length < 12 || !currentGame.currentZodiac.length) {
     var resetZodiac = setZodiacSigns();

@@ -71,6 +71,14 @@ img {
   cursor: pointer;
 }
 
+.go-back-button {
+  width: 44%;
+  padding: 7px;
+  align-self: center;
+  margin-top: 10%;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 787px) {
 
   .player-info {
@@ -81,7 +89,9 @@ img {
   }
 
   .player-section h2,
-  .player-section h3 {
+  .player-section h3,
+  .go-back-button {
+
     margin: 0 25% -20% 0;
     padding: 10%;
   }
@@ -94,6 +104,9 @@ img {
   }
   .game-type {
     width: 150px;
+  }
+  .go-back-button {
+    height: 40%;
   }
 }
 

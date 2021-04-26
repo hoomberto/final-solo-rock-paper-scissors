@@ -109,11 +109,12 @@ function hideAllChoices() {
 }
 
 function showAllChoices() {
-  // let rpsChoices = document.querySelectorAll(".choice");
-      var choiceContainers = document.querySelectorAll(".choice-container")
-  for (var choice of choiceContainers) {
-    show(choice)
-  }
+    goBackBtn.style.pointerEvents = 'auto'
+    var choiceContainers = document.querySelectorAll(".choice-container")
+    for (var choice of choiceContainers) {
+        show(choice)
+        choice.style.pointerEvents = 'auto'
+    }
 }
 
 
@@ -122,9 +123,11 @@ function showChoice(player) {
   var playerChoice = player.currentChoice
   let rpsChoices = document.querySelectorAll(".choice");
   let choiceContainers = document.querySelectorAll(".choice-container")
+  goBackBtn.style.pointerEvents = 'none'
   for (var choice of choiceContainers) {
     if (choice.children[0].id === playerChoice) {
       show(choice)
+      choice.style.pointerEvents = 'none';
       choice.children[1].innerText += `${player.icon}`
     }
   }
