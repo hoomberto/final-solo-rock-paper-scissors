@@ -275,7 +275,6 @@ function checkOpponentHealth(currentPlayer, opponent) {
       return
     }
     else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
-      console.log("NEW CHALLENGER APPROACHES")
       hide(playerBox)
       hide(computerBox)
       gameRound();
