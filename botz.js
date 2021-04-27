@@ -242,14 +242,16 @@ function hitOrMiss(currentPlayer, opponent) {
   if (checkAccuracy(currentPlayer.currentMove.accuracy)) {
     var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier
     showMoveUsed(currentPlayer);
-    console.log(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes`)
+    battleLog.innerHTML += `<p>${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes ${damageCalculation} damage!</p>`
+    // console.log(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes`)
 
     opponent.sign.hp -= damageCalculation
 
   }
   else {
     announceMiss(currentPlayer);
-    console.log(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
+    battleLog.innerHTML += `<p>${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!</p>`
+    // console.log(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
   }
 }
 
@@ -313,9 +315,18 @@ function gameOver() {
     playerBox.innerHTML = "";
 }
 
+function resetBattleLog() {
+  resetElement(battleLog);
+  battleLog.innerHTML += `
+  <h3>Battle Log</h3>
+  `
+}
+
 function endBotzGame() {
   hide(computerBox)
   hide(playerBox)
+  hide(battleLog)
+  resetBattleLog()
   setNewGame()
   show(goBackBtn)
   show(zodiacSignSelection)
