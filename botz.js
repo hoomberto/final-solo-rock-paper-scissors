@@ -183,28 +183,36 @@ function compareElements(currentPlayer, opponent) {
 function compareAdvantages(currentPlayer, opponent) {
   if (!currentPlayer.hasElementAdvantage && !currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = "You are both evenly matched!\n"
+    battleLog.innerHTML += `<p>You are both evenly matched!</p>`
     return
   }
   if (currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = "All right! You have an elemental advantage!\n"
+    battleLog.innerHTML += `<p>All right! You have an elemental advantage!</p>`
   }
   if (opponent.hasElementAdvantage && !opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
     compareBox.innerHTML += "Yikes! You're at an elemental disadvantage!\n"
+    battleLog.innerHTML += `<p>Yikes! You're at an elemental disadvantage!</p>`
   }
   if (!currentPlayer.hasElementAdvantage && currentPlayer.hasQualityAdvantage && !opponent.hasQualityAdvantage && !opponent.hasElementAdvantage) {
     compareBox.innerHTML += "Yes! You have a quality advantage!\n"
+    battleLog.innerHTML += `<p>Yes! You have a quality advantage!</p>`
   }
   if (!opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
     compareBox.innerHTML += "Uh oh! The opponent has a quality advantage!\n"
+    battleLog.innerHTML += `<p>Uh oh! The opponent has a quality advantage!</p>`
   }
   else if (currentPlayer.hasElementAdvantage && currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML += `${currentPlayer.name} has a total advantage!\n`
+    battleLog.innerHTML += `<p>${currentPlayer.name} has a total advantage!</p>`
   }
   else if (opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
     compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n"
+    battleLog.innerHTML += `<p>Oh no! You're at a total disadvantage!</p>`
   }
   else  {
     compareBox.innerHTML = "This could be a close one!\n"
+    battleLog.innerHTML += `<p>This could be a close one!</p>`
   }
 }
 
@@ -261,7 +269,8 @@ function checkOpponentHealth(currentPlayer, opponent) {
     setBothBoxes();
     setPlayerMoves(playerBox, currentUser)
     makeMovesSelectable();
-    console.log(`${opponent.sign.name} still standing with ${opponent.sign.hp} HP`)
+    battleLog.innerHTML += `<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`
+    // console.log(`${opponent.sign.name} still standing with ${opponent.sign.hp} HP`)
   }
   else {
     opponent.sign.hp = 0;

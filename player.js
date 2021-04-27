@@ -52,8 +52,10 @@ class Player {
     }
   }
   winRound() {
+    var capitalSign = this.sign.name.toUpperCase();
     console.log(`${this.sign.name} is the winner!`)
     playerBattleText.innerText = `${this.sign.name} is the winner!`
+    battleLog.innerHTML += `<p>${capitalSign} is the winner!</p>`
     this.roundsWon++
     this.wins++
     this.winsAs[this.sign.name]++;

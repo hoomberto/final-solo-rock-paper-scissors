@@ -287,11 +287,15 @@ function newChallenger() {
     playerBox.innerHTML += `
     <h4>YOU BEAT THE ZODIAC AS ${userSign}!</h4>
     `
+    battleLog.innerHTML += `
+    <p>YOU BEAT THE ZODIAC AS ${userSign}!</p>
+    `
     setTimeout(function() {playAnotherBotz()}, 3500);
     return
   }
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
+  battleLog.innerHTML += `<p>NEW CHALLENGER APPEARS: ${currentComp.sign.name}</p>`
   removeSign(currentComp, currentGame.currentZodiac);
   hide(playerBattleText);
   resetAdvantages(currentUser, currentComp)
