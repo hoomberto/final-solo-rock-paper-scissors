@@ -286,7 +286,7 @@ function selectMove(event) {
   for (var move of currentUser.sign.moves) {
     if (selectedMove === move.name) {
       currentUser.currentMove = move;
-      console.log(`User selected ${currentUser.currentMove.name}`)
+      updateBattleLog(`User selected ${currentUser.currentMove.name}`)
     }
   }
   makeMovesUnselectable()

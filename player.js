@@ -1,13 +1,3 @@
-// class Player {
-//   constructor() {
-//     this.currentChoice = "";
-//     this.wins = 0;
-//     this.losses = 0;
-//     this.ties = 0;
-//   }
-// }
-
-
 class Player {
   constructor(name, icon, sign) {
     this.currentChoice = "";
@@ -62,9 +52,6 @@ class Player {
     updateWinCount();
     return true
   }
-  // signVictory() {
-  //   this.winsAs[this.sign.name]++;
-  // }
   signLoss() {
     this.lossesAs[this.sign.name]++;
   }

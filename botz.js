@@ -125,26 +125,30 @@ function evaluateSigns(currentUser, currentComp) {
   setTimeout(function() {hide(compareBox)}, 8900);
 }
 
+function battleLogAnnounce() {
+  updateBattleLog(`${currentUser.sign.name} encounters ${currentComp.sign.name}!!`);
+  updateBattleLog(`${currentUser.sign.name} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}`);
+  updateBattleLog(`${currentComp.sign.name} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}`);
+}
+
 function announce(currentUser, currentComp) {
   var playerSign = currentUser.sign.name.toUpperCase();
   var opponentSign = currentComp.sign.name.toUpperCase();
   resetElement(compareBox);
   compareBox.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
-  compareBox.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
-  compareBox.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
-  updateBattleLog(`${playerSign} encounters ${opponentSign}!!`)
-  updateBattleLog(`${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}`)
-  updateBattleLog(`${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}`)
-
-  // battleLog.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
-  // battleLog.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
-  // battleLog.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
+  compareBox.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`;
+  compareBox.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`;
+  battleLogAnnounce();
+  // updateBattleLog(`${playerSign} encounters ${opponentSign}!!`);
+  // updateBattleLog(`${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}`);
+  // updateBattleLog(`${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}`);
 }
+
 
 function compareQualities(user, comp) {
   // compareBox.innerHTML = "";
   if (user.quality === comp.quality) {
-    compareBox.innerHTML +=`<p>It was ${user.quality} vs ${comp.quality} - tie!</p>\n`
+    compareBox.innerHTML +=`<p>It was ${user.quality} vs ${comp.quality} - tie!</p>\n`;
   }
   if ((user.quality === 'cardinal' && comp.quality === 'fixed') || (user.quality === 'fixed' && comp.quality === 'mutable') || (user.quality === 'mutable' && comp.quality === 'cardinal')) {
     user.qualityMultiplier = 2;
@@ -152,7 +156,7 @@ function compareQualities(user, comp) {
     user.buffs.speed = 1.2;
     comp.buffs.attack = -10;
     user.hasQualityAdvantage = true;
-    compareBox.innerHTML +=`<p>Quality win! ${user.quality} beats ${comp.quality}!</p>\n`
+    compareBox.innerHTML +=`<p>Quality win! ${user.quality} beats ${comp.quality}!</p>\n`;
   }
   if ((user.quality === 'cardinal' && comp.quality === 'mutable') || (user.quality === 'fixed' && comp.quality === 'cardinal') || (user.quality === 'mutable' && comp.quality === 'fixed')) {
     user.buffs.attack = -10;
@@ -160,7 +164,7 @@ function compareQualities(user, comp) {
     comp.buffs.speed = 1.2;
     comp.qualityMultiplier = 2;
     comp.hasQualityAdvantage = true;
-    compareBox.innerHTML +=`<p>Quality loss! ${user.quality} lost against ${comp.quality}</p>\n`
+    compareBox.innerHTML +=`<p>Quality loss! ${user.quality} lost against ${comp.quality}</p>\n`;
   }
 }
 
@@ -173,56 +177,48 @@ function compareElements(currentPlayer, opponent) {
     currentPlayer.sign.hasElementAdvantage = true;
     compareBox.innerHTML =`Element win! ${currentPlayer.sign.element} won against ${opponent.sign.element}\n`
   }
-    if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'water') {
+  if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'water') {
     opponent.sign.hasElementAdvantage = true;
     compareBox.innerHTML =`Element loss! ${currentPlayer.sign.element} lost against ${opponent.sign.element}\n`
   }
-    if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'earth') {
+  if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'earth') {
     compareBox.innerHTML =`Element Tie! ${currentPlayer.sign.element} tied against ${opponent.sign.element}\n`
   }
 }
 
 function compareAdvantages(currentPlayer, opponent) {
   if (!currentPlayer.hasElementAdvantage && !currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
-    compareBox.innerHTML = "You are both evenly matched!\n"
-    updateBattleLog(`You are both evenly matched!`)
-    // battleLog.innerHTML += `<p>You are both evenly matched!</p>`
+    compareBox.innerHTML = "You are both evenly matched!\n";
+    updateBattleLog(`You are both evenly matched!`);
     return
   }
   if (currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
-    compareBox.innerHTML = "All right! You have an elemental advantage!\n"
-    updateBattleLog(`All right! You have an elemental advantage!`)
-    // battleLog.innerHTML += `<p>All right! You have an elemental advantage!</p>`
+    compareBox.innerHTML = "All right! You have an elemental advantage!\n";
+    updateBattleLog(`All right! You have an elemental advantage!`);
   }
   if (opponent.hasElementAdvantage && !opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
-    compareBox.innerHTML += "Yikes! You're at an elemental disadvantage!\n"
-    updateBattleLog(`Yikes! You're at an elemental disadvantage!`)
-    // battleLog.innerHTML += `<p>Yikes! You're at an elemental disadvantage!</p>`
+    compareBox.innerHTML += "Yikes! You're at an elemental disadvantage!\n";
+    updateBattleLog(`Yikes! You're at an elemental disadvantage!`);
   }
   if (!currentPlayer.hasElementAdvantage && currentPlayer.hasQualityAdvantage && !opponent.hasQualityAdvantage && !opponent.hasElementAdvantage) {
-    compareBox.innerHTML += "Yes! You have a quality advantage!\n"
-    // battleLog.innerHTML += `<p>Yes! You have a quality advantage!</p>`
-    updateBattleLog(`Yes! You have a quality advantage!`)
+    compareBox.innerHTML += "Yes! You have a quality advantage!\n";
+    updateBattleLog(`Yes! You have a quality advantage!`);
   }
   if (!opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
-    compareBox.innerHTML += "Uh oh! The opponent has a quality advantage!\n"
-    updateBattleLog(`Uh oh! The opponent has a quality advantage!`)
-    // battleLog.innerHTML += `<p>Uh oh! The opponent has a quality advantage!</p>`
+    compareBox.innerHTML += "Uh oh! The opponent has a quality advantage!\n";
+    updateBattleLog(`Uh oh! The opponent has a quality advantage!`);
   }
   else if (currentPlayer.hasElementAdvantage && currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
-    compareBox.innerHTML += `${currentPlayer.name} has a total advantage!\n`
-    updateBattleLog(`${currentPlayer.name} has a total advantage!`)
-    // battleLog.innerHTML += `<p>${currentPlayer.name} has a total advantage!</p>`
+    compareBox.innerHTML += `${currentPlayer.name} has a total advantage!\n`;
+    updateBattleLog(`${currentPlayer.name} has a total advantage!`);
   }
   else if (opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
-    compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n"
-    updateBattleLog(`Oh no! You're at a total disadvantage!`)
-    // battleLog.innerHTML += `<p>Oh no! You're at a total disadvantage!</p>`
+    compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n";
+    updateBattleLog(`Oh no! You're at a total disadvantage!`);
   }
   else  {
-    compareBox.innerHTML = "This could be a close one!\n"
-    updateBattleLog(`This could be a close one!`)
-    // battleLog.innerHTML += `<p>This could be a close one!</p>`
+    compareBox.innerHTML = "This could be a close one!\n";
+    updateBattleLog(`This could be a close one!`);
   }
 }
 
@@ -230,46 +226,42 @@ function compareSpeeds(currentPlayer, opponent) {
   var currentPlayerSpeed = currentPlayer.sign.stats.speed;
   var currentPlayerBuff = currentPlayer.sign.buffs.speed;
   var opponentSpeed = opponent.sign.stats.speed;
-  var opponentBuff = opponent.sign.buffs.speed
+  var opponentBuff = opponent.sign.buffs.speed;
   if (currentPlayer.hasMoved && opponent.hasMoved) {
     return;
   }
   if (((currentPlayerSpeed + currentPlayerBuff) > (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
-    runMove(currentPlayer, opponent)
+    runMove(currentPlayer, opponent);
   }
   else if (((currentPlayerSpeed + currentPlayerBuff) < (opponentSpeed + opponentBuff)) && !opponent.hasMoved) {
-    runMove(opponent, currentPlayer)
+    runMove(opponent, currentPlayer);
   }
   else if (((currentPlayerSpeed + currentPlayerBuff) === (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
-    runMove(currentPlayer, opponent)
+    runMove(currentPlayer, opponent);
   }
-  else if (currentPlayer.hasMoved && !opponent.hasMoved){
-    runMove(opponent, currentPlayer)
+  else if (currentPlayer.hasMoved && !opponent.hasMoved) {
+    runMove(opponent, currentPlayer);
   }
 }
 
 function runMove(currentPlayer, opponent) {
   currentPlayer.hasMoved = true;
-  var currentPlayerHp = currentPlayer.sign.hp
+  var currentPlayerHp = currentPlayer.sign.hp;
   currentMove = currentPlayer.currentMove;
-  hitOrMiss(currentPlayer, opponent)
-  setTimeout(function() {checkOpponentHealth(currentPlayer, opponent)}, 1000)
+  hitOrMiss(currentPlayer, opponent);
+  setTimeout(function() {checkOpponentHealth(currentPlayer, opponent)}, 1000);
 }
 
 function hitOrMiss(currentPlayer, opponent) {
   if (checkAccuracy(currentPlayer.currentMove.accuracy)) {
-    var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier
+    var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier;
     showMoveUsed(currentPlayer);
-    updateBattleLog(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes ${damageCalculation} damage!`)
-    // battleLog.innerHTML += `<p>${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes ${damageCalculation} damage!</p>`
-
-    opponent.sign.hp -= damageCalculation
-
+    updateBattleLog(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes ${damageCalculation} damage!`);
+    opponent.sign.hp -= damageCalculation;
   }
   else {
     announceMiss(currentPlayer);
-    updateBattleLog(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
-    // battleLog.innerHTML += `<p>${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!</p>`
+    updateBattleLog(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`);
   }
 }
 
@@ -279,8 +271,7 @@ function checkOpponentHealth(currentPlayer, opponent) {
     setBothBoxes();
     setPlayerMoves(playerBox, currentUser)
     makeMovesSelectable();
-    updateBattleLog(`<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`)
-    // battleLog.innerHTML += `<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`
+    updateBattleLog(`<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`);
   }
   else {
     opponent.sign.hp = 0;
@@ -342,11 +333,6 @@ function resetBattleLog() {
   <div id="battleLog" class="battle">
   </div>
   `)
-  // battleLog.innerHTML += `
-  // <h3>Battle Log</h3>
-  // <div id="battleLog" class="battle">
-  // </div>
-  // `
 }
 
 function endBotzGame() {

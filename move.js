@@ -13,13 +13,12 @@ var psiThunder = new Move("PK Thunder", "Deals 30 damage without fail", 30, 100,
 var psiFire = new Move("PK Fire", "Deals lots of damage, but tends to miss", 60, 20, "fire");
 var psiFreeze = new Move("PK Freeze", "Deals 40 with decent accuracy", 40, 80, "water");
 
-
 var emeraldSplash = new Move("Emerald Splash", "Nobody can deflect this?!", 35, 70, "water");
 var detroitSmash = new Move("Detroit Smash", "デトロイトスマッシュ", 50, 80, "fire");
-var negativeEnergy = new Move("Negative Energy", "Overwhelming bad vibes!", 35, 70, "water");
+var negativeEnergy = new Move("Negative Energy", "Overwhelming bad vibes!", 35, 70, "earth");
 
 var poke = new Move("Poke", "Doesn't do much, but usually work", 15, 70, "earth");
-var machineWashCold = new Move("Machine Wash Cold", "Less likely to fade!", 50, 80, "water");
+var machineWashCold = new Move("Machine Wash Cold", "Less likely to fade", 50, 80, "air");
 var sneeze = new Move("Sneeze", "Is your opponent wearing a mask?", 35, 70, "water");
 
 var moodKill = new Move("Mood Kill", "Bring it to a halt!", 35, 70, "water");
@@ -34,4 +33,5 @@ var pout = new Move("Pout", "Sometimes it's effective?", 50, 30, "water");
 var moves = [
   rockin, psiThunder, psiFire, psiFreeze, emeraldSplash,
   detroitSmash, negativeEnergy, poke, machineWashCold,
-  sneeze, moodKill, scoff, saltSplash, jojoPose, blink, pout];
+  sneeze, moodKill, scoff, saltSplash, jojoPose, blink, pout
+];
