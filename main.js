@@ -170,14 +170,22 @@ function showSigns() {
   }
 }
 
-
-function playBotzGame() {
+function displayZodiacSelection() {
   hide(mainGameSection);
   show(botzGameSection);
   show(goBackBtn)
   show(battleText)
   show(signs)
-  // endBotzGame();
+}
+
+
+function playBotzGame() {
+  displayZodiacSelection()
+  // hide(mainGameSection);
+  // show(botzGameSection);
+  // show(goBackBtn)
+  // show(battleText)
+  // show(signs)
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
   currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
@@ -205,7 +213,6 @@ function setPlayerMoves(infoContainer, player) {
       <p>${move.description}</p>`
     }
   }
-
 }
 
 function makeIconsSelectable() {
@@ -220,8 +227,6 @@ function makeIconsSelectable() {
 function makeMovesSelectable() {
   var moveChoices = document.querySelectorAll(".move");
   for (var move of moveChoices) {
-    // console.log(move)
-
     move.addEventListener("click", function() {
       selectMove(event);
     });
@@ -232,7 +237,6 @@ function makeMovesSelectable() {
 function makeMovesUnselectable() {
   var moveChoices = document.querySelectorAll(".move");
   for (var move of moveChoices) {
-    // console.log(move)
     move.style.pointerEvents = "none";
   }
 }
@@ -268,28 +272,18 @@ function setPlayerBox(infoContainer, player) {
 }
 
 function selectMove(event) {
-  // debugger
   var selectedMove = event.srcElement.innerText
   currentUser.currentChoice = selectedMove;
   for (var move of currentUser.sign.moves) {
     if (selectedMove === move.name) {
       currentUser.currentMove = move;
       console.log(`User selected ${currentUser.currentMove.name}`)
-      // resetPlayers(currentUser, currentComp)
     }
   }
-  // resetPlayers(currentUser, currentComp)
   makeMovesUnselectable()
-  // debugger
   showPlayerChoice();
-  // setBothBoxes();
   gameRound();
   hide(playerMoveText);
-  // setTimeout(function() {gameRound()}, 1000);
-  // setTimeout(function() {hide(playerMoveText)}, 900)
-  // gameRound();
-  // startBattle();
-
 }
 
 function setBoxesAndMoves() {
@@ -314,11 +308,6 @@ function newChallenger() {
   removeSign(currentComp, currentGame.currentZodiac);
   hide(playerBattleText);
   resetAdvantages(currentUser, currentComp)
-  // evaluateSigns(currentUser, currentComp);
-  // setTimeout(function() {startBotzGame()}, 9000);
-  // setBothBoxes();
-  // setPlayerMoves(playerBox, currentUser);
-  // makeMovesSelectable();
 }
 
 function resetAdvantages(currentUser, currentComp) {
