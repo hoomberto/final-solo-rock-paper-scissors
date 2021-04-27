@@ -6,6 +6,8 @@ class Game {
     this.choices = ["rock", "paper", "scissors"];
     this.zodiac = [];
     this.currentZodiac = zodiac;
+    this.player1 = "";
+    this.player2 = "";
   }
   renderRPS() {
     gameSelections.innerHTML = "";
@@ -155,4 +157,39 @@ function selectChoice(event) {
     }
     currentGame.playGame(currentUser.currentChoice);
 
+}
+
+function resetStorage() {
+  var gameObject = { player1: "", player2: "" };
+  var strGameObject = JSON.stringify(gameObject);
+  localStorage.setItem("game", strGameObject);
+}
+
+function checkLocalStorage() {
+  if (!localStorage.getItem("game")) {
+    resetStorage()
+  }
+}
+
+function saveToStorage() {
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  parsedGame.player1 = currentUser;
+  parsedGame.player2 = currentComp;
+  localStorage.setItem("game", JSON.stringify(parsedGame));
+}
+
+function renderFromLocal() {
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  userIcon.innerText += parsedGame.player1.icon
+  compIcon.innerText += parsedGame.player2.icon
+  playerWins.innerText += parsedGame.player1.wins;
+  compWins.innerText += parsedGame.player2.wins;
+}
+
+function getGameFromLocal() {
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  return parsedGame;
 }

@@ -58,18 +58,25 @@ var currentComp;
 // function generateGame()
 
 function displayDefaultGame() {
+  checkLocalStorage();
   var gameName = "Rock, Paper, Scissors";
   var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
   var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock"
   currentGame = new Game(gameName, gameDescription);
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
+  var currentLocalGame = getGameFromLocal();
+  if (!currentLocalGame.player1.wins) {
+    saveToStorage();
+  }
+  renderFromLocal();
+
   currentGame.renderRPS();
   makeChoicesSelectable();
-  userIcon.innerText += currentUser.icon
-  compIcon.innerText += currentComp.icon
-  playerWins.innerText += `${currentUser.wins}`;
-  compWins.innerText += `${currentComp.wins}`;
+  // userIcon.innerText += currentUser.icon
+  // compIcon.innerText += currentComp.icon
+  // playerWins.innerText += `${currentUser.wins}`;
+  // compWins.innerText += `${currentComp.wins}`;
   gameTitle.innerText = currentGame.name;
   classicRules.innerText += currentGame.description;
   botzRules.innerText += botzDescription;
@@ -102,8 +109,6 @@ function resetTokens() {
 function playAnother() {
   resultText.innerText = "";
   showAllChoices();
-  // resetTokens();
-  // resetPlayerChoices();
   show(gameSelections);
   hide(gameChoices);
   hide(goBackBtn);
@@ -111,13 +116,6 @@ function playAnother() {
   show(botzGameChoice);
   gameSubtitle.innerText = "Choose your game!"
 }
-
-// function resetPlayerChoices() {
-//   if ()
-//   resetText(rockText)
-//   resetText(paperText)
-//   resetText(scissorsText)
-// }
 
 function resetWinCount() {
   playerWins.innerText = "Wins: ";
