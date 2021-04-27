@@ -24,7 +24,7 @@ var sneeze = new Move("Sneeze", "Is your opponent wearing a mask?", 35, 70, "wat
 
 var moodKill = new Move("Mood Kill", "Bring it to a halt!", 35, 70, "water");
 var scoff = new Move("Scoff", "An expression of scornful derision", 50, 80, "air");
-var saltSplash = new Move("Salt Splash", "ソルトスプラッシュ", 35, 70, "water");
+var saltSplash = new Move("Salt Splash", "Works best against strange opponents", 35, 70, "water");
 
 var jojoPose = new Move("JoJo Pose", "Best against enemy stand users", 15, 70, "fire");
 var blink = new Move("Blink", "Is there hidden power behind this move?", 100, 5, "air");
