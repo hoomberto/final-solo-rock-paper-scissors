@@ -36,7 +36,7 @@ var compareBox = document.getElementById("comparisonBox");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
-playAgainBtn.addEventListener("click", playAnother);
+// playAgainBtn.addEventListener("click", playAnother);
 botzGameChoice.addEventListener("click", playBotzGame);
 goBackBtn.addEventListener("click", goBack)
 // console.log(rpsChoices)
@@ -74,10 +74,7 @@ function displayDefaultGame() {
 
   currentGame.renderRPS();
   makeChoicesSelectable();
-  // userIcon.innerText += currentUser.icon
-  // compIcon.innerText += currentComp.icon
-  // playerWins.innerText += `${currentUser.wins}`;
-  // compWins.innerText += `${currentComp.wins}`;
+
   gameTitle.innerText = currentGame.name;
   classicRules.innerText += currentGame.description;
   botzRules.innerText += botzDescription;
@@ -88,6 +85,16 @@ function goBack() {
   hide(botzGameSection)
   resetBotz();
   show(mainGameSection)
+}
+
+function playAnother() {
+  hide(gameChoices);
+  hide(goBackBtn);
+  resultText.innerText = "";
+  show(gameSelections);
+  show(classicGameChoice);
+  show(botzGameChoice);
+  gameSubtitle.innerText = "Choose your game!"
 }
 
 function resetBotz() {
@@ -107,16 +114,7 @@ function resetTokens() {
   }
 }
 
-function playAnother() {
-  resultText.innerText = "";
-  showAllChoices();
-  show(gameSelections);
-  hide(gameChoices);
-  hide(goBackBtn);
-  show(classicGameChoice);
-  show(botzGameChoice);
-  gameSubtitle.innerText = "Choose your game!"
-}
+
 
 function resetWinCount() {
   playerWins.innerText = "Wins: ";
@@ -137,24 +135,18 @@ function show(element) {
   element.classList.remove("hidden");
 }
 
-// function resetPlayerChoices(choiceContainers) {
-//   for (var choice of choiceContainers) {
-//     resetText(choice.children[1])
-//   }
-// }
-
-function playClassicGame() {
-  resultText.innerText = "Take your pick";
+function displayClassicGame() {
   hide(classicGameChoice)
   hide(botzGameChoice)
   show(goBackBtn);
   show(gameChoices)
   showAllChoices();
-  resetTokens();
-  // if (choiceContainers.children) {
-  //   currentGame.resetPlayerChoices();
-  // }
+}
 
+function playClassicGame() {
+  displayClassicGame()
+  resultText.innerText = "Take your pick";
+  resetTokens();
   gameSubtitle.innerText = "Make a choice:";
 }
 
@@ -181,11 +173,6 @@ function displayZodiacSelection() {
 
 function playBotzGame() {
   displayZodiacSelection()
-  // hide(mainGameSection);
-  // show(botzGameSection);
-  // show(goBackBtn)
-  // show(battleText)
-  // show(signs)
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
   currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
