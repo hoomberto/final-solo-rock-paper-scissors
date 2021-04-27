@@ -169,6 +169,7 @@ grid-template-rows: repeat(2, 1fr);
 
 .quality-matchups-container {
   margin-left: 3%;
+  margin-bottom: 4%;
 }
 
 @media screen and (max-width: 787px) {
@@ -372,9 +373,19 @@ grid-template-rows: repeat(2, 1fr);
   background-color: lightgray;
   min-width: 40%;
   height: 90px;
-  overflow: auto;
+  /* overflow: auto; */
   border-radius: 4px;
 }
+
+.battle {
+
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
 
 .battle-log p,
 .battle-log h3 {

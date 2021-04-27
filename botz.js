@@ -185,36 +185,44 @@ function compareElements(currentPlayer, opponent) {
 function compareAdvantages(currentPlayer, opponent) {
   if (!currentPlayer.hasElementAdvantage && !currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = "You are both evenly matched!\n"
-    battleLog.innerHTML += `<p>You are both evenly matched!</p>`
+    updateBattleLog(`You are both evenly matched!`)
+    // battleLog.innerHTML += `<p>You are both evenly matched!</p>`
     return
   }
   if (currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = "All right! You have an elemental advantage!\n"
-    battleLog.innerHTML += `<p>All right! You have an elemental advantage!</p>`
+    updateBattleLog(`All right! You have an elemental advantage!`)
+    // battleLog.innerHTML += `<p>All right! You have an elemental advantage!</p>`
   }
   if (opponent.hasElementAdvantage && !opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
     compareBox.innerHTML += "Yikes! You're at an elemental disadvantage!\n"
-    battleLog.innerHTML += `<p>Yikes! You're at an elemental disadvantage!</p>`
+    updateBattleLog(`Yikes! You're at an elemental disadvantage!`)
+    // battleLog.innerHTML += `<p>Yikes! You're at an elemental disadvantage!</p>`
   }
   if (!currentPlayer.hasElementAdvantage && currentPlayer.hasQualityAdvantage && !opponent.hasQualityAdvantage && !opponent.hasElementAdvantage) {
     compareBox.innerHTML += "Yes! You have a quality advantage!\n"
-    battleLog.innerHTML += `<p>Yes! You have a quality advantage!</p>`
+    // battleLog.innerHTML += `<p>Yes! You have a quality advantage!</p>`
+    updateBattleLog(`Yes! You have a quality advantage!`)
   }
   if (!opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
     compareBox.innerHTML += "Uh oh! The opponent has a quality advantage!\n"
-    battleLog.innerHTML += `<p>Uh oh! The opponent has a quality advantage!</p>`
+    updateBattleLog(`Uh oh! The opponent has a quality advantage!`)
+    // battleLog.innerHTML += `<p>Uh oh! The opponent has a quality advantage!</p>`
   }
   else if (currentPlayer.hasElementAdvantage && currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML += `${currentPlayer.name} has a total advantage!\n`
-    battleLog.innerHTML += `<p>${currentPlayer.name} has a total advantage!</p>`
+    updateBattleLog(`${currentPlayer.name} has a total advantage!`)
+    // battleLog.innerHTML += `<p>${currentPlayer.name} has a total advantage!</p>`
   }
   else if (opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
     compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n"
-    battleLog.innerHTML += `<p>Oh no! You're at a total disadvantage!</p>`
+    updateBattleLog(`Oh no! You're at a total disadvantage!`)
+    // battleLog.innerHTML += `<p>Oh no! You're at a total disadvantage!</p>`
   }
   else  {
     compareBox.innerHTML = "This could be a close one!\n"
-    battleLog.innerHTML += `<p>This could be a close one!</p>`
+    updateBattleLog(`This could be a close one!`)
+    // battleLog.innerHTML += `<p>This could be a close one!</p>`
   }
 }
 
@@ -252,14 +260,16 @@ function hitOrMiss(currentPlayer, opponent) {
   if (checkAccuracy(currentPlayer.currentMove.accuracy)) {
     var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier
     showMoveUsed(currentPlayer);
-    battleLog.innerHTML += `<p>${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes ${damageCalculation} damage!</p>`
+    updateBattleLog(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes ${damageCalculation} damage!`)
+    // battleLog.innerHTML += `<p>${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes ${damageCalculation} damage!</p>`
 
     opponent.sign.hp -= damageCalculation
 
   }
   else {
     announceMiss(currentPlayer);
-    battleLog.innerHTML += `<p>${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!</p>`
+    updateBattleLog(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
+    // battleLog.innerHTML += `<p>${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!</p>`
   }
 }
 
@@ -269,7 +279,8 @@ function checkOpponentHealth(currentPlayer, opponent) {
     setBothBoxes();
     setPlayerMoves(playerBox, currentUser)
     makeMovesSelectable();
-    battleLog.innerHTML += `<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`
+    updateBattleLog(`<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`)
+    // battleLog.innerHTML += `<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`
   }
   else {
     opponent.sign.hp = 0;
@@ -320,21 +331,28 @@ function setNewGame() {
 function gameOver() {
     resetElement(playerBattleText)
     battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
-    battleLog.innerHTML += `<p>Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}</p>`
+    updateBattleLog(`Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`)
+    // battleLog.innerHTML += `<p>Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}</p>`
     playerBox.innerHTML = "";
 }
 
 function resetBattleLog() {
   resetElement(battleLog);
-  battleLog.innerHTML += `
-  <h3>Battle Log</h3>
-  `
+  updateBattleLog(`
+  <div id="battleLog" class="battle">
+  </div>
+  `)
+  // battleLog.innerHTML += `
+  // <h3>Battle Log</h3>
+  // <div id="battleLog" class="battle">
+  // </div>
+  // `
 }
 
 function endBotzGame() {
   hide(computerBox)
   hide(playerBox)
-  hide(battleLog)
+  hide(battleLogContainer)
   resetBattleLog()
   setNewGame()
   show(goBackBtn)
