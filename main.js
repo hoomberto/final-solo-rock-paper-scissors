@@ -168,6 +168,11 @@ function displayZodiacSelection() {
   show(signs)
 }
 
+function updateBattleLog(content) {
+  battleLog.scrollTop = battleLog.scrollHeight;
+  battleLog.innerHTML += `<p>${content}</p>`
+}
+
 
 function playBotzGame() {
   displayZodiacSelection()

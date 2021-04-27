@@ -85,8 +85,6 @@ function resetZodiac() {
   setZodiacMoves();
 }
 
-// resetZodiac();
-
 function removeSign(player, array) {
   for (var i = 0; i < array.length; i++) {
     if (array[i].name === player.sign.name) {
@@ -134,9 +132,13 @@ function announce(currentUser, currentComp) {
   compareBox.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
   compareBox.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
   compareBox.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
-  battleLog.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
-  battleLog.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
-  battleLog.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
+  updateBattleLog(`${playerSign} encounters ${opponentSign}!!`)
+  updateBattleLog(`${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}`)
+  updateBattleLog(`${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}`)
+
+  // battleLog.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
+  // battleLog.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
+  // battleLog.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
 }
 
 function compareQualities(user, comp) {
@@ -251,7 +253,6 @@ function hitOrMiss(currentPlayer, opponent) {
     var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier
     showMoveUsed(currentPlayer);
     battleLog.innerHTML += `<p>${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes ${damageCalculation} damage!</p>`
-    // console.log(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes`)
 
     opponent.sign.hp -= damageCalculation
 
@@ -259,7 +260,6 @@ function hitOrMiss(currentPlayer, opponent) {
   else {
     announceMiss(currentPlayer);
     battleLog.innerHTML += `<p>${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!</p>`
-    // console.log(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
   }
 }
 
@@ -270,7 +270,6 @@ function checkOpponentHealth(currentPlayer, opponent) {
     setPlayerMoves(playerBox, currentUser)
     makeMovesSelectable();
     battleLog.innerHTML += `<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`
-    // console.log(`${opponent.sign.name} still standing with ${opponent.sign.hp} HP`)
   }
   else {
     opponent.sign.hp = 0;
