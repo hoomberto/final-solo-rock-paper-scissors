@@ -122,13 +122,10 @@ function evaluateSigns(currentUser, currentComp) {
   setTimeout(function() {compareElements(currentUser, currentComp)}, 4300);
   setTimeout(function() {resetText(compareBox)}, 5500);
   setTimeout(function() {compareQualities(currentUser.sign, currentComp.sign)},5600);
-  // debugger
   setTimeout(function() {resetText(compareBox)}, 6800);
   setTimeout(function() {compareAdvantages(currentUser.sign, currentComp.sign)}, 6900);
   setTimeout(function() {resetText(compareBox)}, 8900);
   setTimeout(function() {hide(compareBox)}, 8900);
-  // currentUser.hasMoved = false;
-  // currentComp.hasMoved = false;
 }
 
 function announce(currentUser, currentComp) {
@@ -186,7 +183,6 @@ function compareAdvantages(currentPlayer, opponent) {
     compareBox.innerHTML = "You are both evenly matched!\n"
     return
   }
-
   if (currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = "All right! You have an elemental advantage!\n"
   }
@@ -235,14 +231,11 @@ function compareSpeeds(currentPlayer, opponent) {
 }
 
 function runMove(currentPlayer, opponent) {
-
   currentPlayer.hasMoved = true;
   var currentPlayerHp = currentPlayer.sign.hp
   currentMove = currentPlayer.currentMove;
   hitOrMiss(currentPlayer, opponent)
   setTimeout(function() {checkOpponentHealth(currentPlayer, opponent)}, 1000)
-
-  // checkOpponentHealth(currentPlayer, opponent)
 }
 
 function hitOrMiss(currentPlayer, opponent) {
@@ -255,7 +248,6 @@ function hitOrMiss(currentPlayer, opponent) {
 
   }
   else {
-
     announceMiss(currentPlayer);
     console.log(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
   }
@@ -266,7 +258,6 @@ function checkOpponentHealth(currentPlayer, opponent) {
     showPlayerBattleText(opponent)
     setBothBoxes();
     setPlayerMoves(playerBox, currentUser)
-    // delayShowMoves();
     makeMovesSelectable();
     console.log(`${opponent.sign.name} still standing with ${opponent.sign.hp} HP`)
   }
@@ -279,10 +270,9 @@ function checkOpponentHealth(currentPlayer, opponent) {
     opponent.signLoss();
     if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
       gameOver()
+      setTimeout(function() {resetElement(playerBattleText)}, 3400);
       setTimeout(function() {playAnotherBotz()}, 3500);
       return
-      // var playBotzAgainBtn = document.getElementById("playBotzAgain");
-      // playBotzAgainBtn.addEventListener("click", playAnotherBotz);
     }
     else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
       console.log("NEW CHALLENGER APPROACHES")
@@ -335,17 +325,15 @@ function setNewGame() {
 }
 
 function gameOver() {
+  // debugger
     resetElement(playerBattleText)
-    hide(playerMoveText)
+    playerBattleText.classList.add("hidden")
+    // hide(playerBattleText)
+    // hide(playerMoveText)
+
     console.log("GAME ENDED AT LINE 315");
     battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
     playerBox.innerHTML = "";
-    // playerBox.innerHTML += `
-    // <div id="playBotzAgain" class="play-again-box">
-    // <h4>GAME OVER</h4>
-    // <button>Play Again</button>
-    // </div>
-    // `;
     console.log("what about here?")
 }
 
