@@ -105,7 +105,7 @@ function addMoves(sign) {
 
 function checkAccuracy(moveAccuracy) {
   debugger
-  var randomToCompare = Math.floor(Math.random() * 100 + 1);
+  var randomToCompare = Math.floor(Math.random() * 150 + 1);
   if (randomToCompare > moveAccuracy) {
     return false
   }
@@ -219,7 +219,10 @@ function compareSpeeds(currentPlayer, opponent) {
   if (((currentPlayerSpeed + currentPlayerBuff) > (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
     runMove(currentPlayer, opponent)
   }
-  else if (((currentPlayerSpeed + currentPlayerBuff) === (opponentSpeed + opponentBuff))) {
+  else if (((currentPlayerSpeed + currentPlayerBuff) < (opponentSpeed + opponentBuff)) && !opponent.hasMoved) {
+    runMove(opponent, currentPlayer)
+  }
+  else if (((currentPlayerSpeed + currentPlayerBuff) === (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
     runMove(currentPlayer, opponent)
   }
   else if (currentPlayer.hasMoved && !opponent.hasMoved){
@@ -240,18 +243,18 @@ function checkOpponentHealth(currentPlayer, opponent) {
     currentPlayer.isWinner = true;
     currentPlayer.winRound();
     opponent.signLoss();
-    if (currentPlayer.name === "User" && currentPlayer.isWinner) {
+    if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
+      gameOver()
+      setTimeout(function() {playAnotherBotz()}, 3500);
+      // var playBotzAgainBtn = document.getElementById("playBotzAgain");
+      // playBotzAgainBtn.addEventListener("click", playAnotherBotz);
+    }
+    else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
       console.log("NEW CHALLENGER APPROACHES")
       hide(playerBox)
       hide(computerBox)
       gameRound();
     }
-    else if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
-      gameOver()
-      var playBotzAgainBtn = document.getElementById("playBotzAgain");
-      playBotzAgainBtn.addEventListener("click", playAnotherBotz);
-    }
-
   }
 }
 
@@ -311,16 +314,18 @@ function setNewGame() {
 }
 
 function gameOver() {
-    hide(playerBattleText)
+    resetElement(playerBattleText)
     hide(playerMoveText)
-    battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`
-    playerBox.innerHTML = ""
-    playerBox.innerHTML += `
-    <div id="playBotzAgain" class="play-again-box">
-    <h4>GAME OVER</h4>
-    <button>Play Again</button>
-    </div>
-    `
+    console.log("GAME ENDED AT LINE 315");
+    battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
+    playerBox.innerHTML = "";
+    // playerBox.innerHTML += `
+    // <div id="playBotzAgain" class="play-again-box">
+    // <h4>GAME OVER</h4>
+    // <button>Play Again</button>
+    // </div>
+    // `;
+    console.log("what about here?")
 }
 
 function endBotzGame() {

@@ -270,9 +270,11 @@ function selectMove(event) {
   }
   // debugger
   showPlayerChoice();
-  setBothBoxes();
-  setTimeout(function() {gameRound()}, 1000);
-  setTimeout(function() {hide(playerMoveText)}, 900)
+  // setBothBoxes();
+  gameRound();
+  hide(playerMoveText);
+  // setTimeout(function() {gameRound()}, 1000);
+  // setTimeout(function() {hide(playerMoveText)}, 900)
   // gameRound();
   // startBattle();
 
@@ -288,10 +290,12 @@ function newChallenger() {
   if (!currentGame.currentZodiac.length) {
     hide(computerBox)
     hide(battleText)
+    show(playerBox)
     playerBox.innerHTML = ""
     playerBox.innerHTML += `
     <h4>YOU BEAT THE ZODIAC AS ${currentUser.sign.name}!</h4>
     `
+    setTimeout(function() {playAnotherBotz()}, 4000)
   }
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`

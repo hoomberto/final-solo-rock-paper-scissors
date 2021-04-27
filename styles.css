@@ -71,6 +71,10 @@ img {
   cursor: pointer;
 }
 
+.game-type h3 {
+  font-family: MuseoModerno;
+}
+
 .go-back-button {
   width: 44%;
   font-family: Roboto;
