@@ -1,10 +1,14 @@
 /* * {
   border: 1px solid blue;
 } */
+html {
+  height: 100%
+}
+
 
 body {
   display: flex;
-  height: 100vh;
+  min-height: 100%;
   margin: 0;
 }
 
@@ -100,6 +104,69 @@ img {
 .choice-container:hover,
 .choice-container:active {
   transform: translateY(-10px) scale(1.1);
+}
+
+ul {
+  list-style-type: none;
+  padding: 10px;
+  margin: 0;
+  min-width: 120px;
+}
+
+.element-matchups {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-template-rows: repeat(2, 1fr);
+}
+
+
+.botz-explanation {
+  height: auto;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+/*   justify-content: space-around; */
+  align-items: center;
+  font-family: Roboto;
+  font-size: 13px;
+  color: white;
+}
+
+.main-botz-description {
+  margin-top: 8%;
+  background-color: #0D1821;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.matchups-container {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
+}
+
+.quality-matchups {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.element-matchup-container p,
+.quality-matchups-container p {
+  margin: 0;
+}
+
+.element-matchup-container ,
+.quality-matchups-container {
+  background-color: #0D1821;
+  padding: 5px;
+  border-radius: 4px;
+  height: fit-content;
+}
+
+.quality-matchups-container {
+  margin-left: 3%;
 }
 
 @media screen and (max-width: 787px) {
@@ -289,6 +356,7 @@ img {
   font-family: 'MuseoModerno', cursive;
   font-weight: 800;
 } */
+
 
 .hidden {
   display: none;
