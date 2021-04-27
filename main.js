@@ -67,7 +67,7 @@ function displayDefaultGame() {
   currentComp = new Player("Computer", "🤖");
   var currentLocalGame = getGameFromLocal();
   if (!currentLocalGame.player1.wins) {
-    saveToStorage();
+    saveToStorage(currentUser, currentComp);
   }
   renderFromLocal();
 
