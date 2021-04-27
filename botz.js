@@ -139,14 +139,10 @@ function announce(currentUser, currentComp) {
   compareBox.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`;
   compareBox.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`;
   battleLogAnnounce();
-  // updateBattleLog(`${playerSign} encounters ${opponentSign}!!`);
-  // updateBattleLog(`${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}`);
-  // updateBattleLog(`${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}`);
 }
 
 
 function compareQualities(user, comp) {
-  // compareBox.innerHTML = "";
   if (user.quality === comp.quality) {
     compareBox.innerHTML +=`<p>It was ${user.quality} vs ${comp.quality} - tie!</p>\n`;
   }
@@ -274,17 +270,19 @@ function checkOpponentHealth(currentPlayer, opponent) {
     updateBattleLog(`<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`);
   }
   else {
-    opponent.sign.hp = 0;
-    opponent.lostRound = true;
-    currentPlayer.lostRound = false;
-    currentPlayer.isWinner = true;
-    currentPlayer.winRound();
-    opponent.signLoss();
+    // opponent.sign.hp = 0;
+    // opponent.lostRound = true;
+    // currentPlayer.lostRound = false;
+    // currentPlayer.isWinner = true;
+    // currentPlayer.winRound();
+    // opponent.signLoss();
+    setWinnerLoser(currentPlayer, opponent);
     if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
       gameOver()
-      setTimeout(function() {resetElement(playerBattleText)}, 3400);
-      setTimeout(function() {resetElement(battleText)}, 3450)
-      setTimeout(function() {playAnotherBotz()}, 3500);
+      setTimeout(function() {delayPlayBotzAgain()}, 3500);
+      // setTimeout(function() {resetElement(playerBattleText)}, 3400);
+      // setTimeout(function() {resetElement(battleText)}, 3450)
+      // setTimeout(function() {playAnotherBotz()}, 3500);
       return
     }
     else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
@@ -293,6 +291,22 @@ function checkOpponentHealth(currentPlayer, opponent) {
       gameRound();
     }
   }
+}
+
+function setWinnerLoser(currentPlayer, opponent) {
+  opponent.sign.hp = 0;
+  opponent.lostRound = true;
+  currentPlayer.lostRound = false;
+  currentPlayer.isWinner = true;
+  currentPlayer.winRound();
+  opponent.signLoss();
+}
+
+
+function delayPlayBotzAgain() {
+  resetElement(battleText);
+  resetElement(playerBattleText);
+  playAnotherBotz();
 }
 
 function checkMoved(currentPlayer, opponent) {
@@ -323,7 +337,6 @@ function gameOver() {
     resetElement(playerBattleText)
     battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
     updateBattleLog(`Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`)
-    // battleLog.innerHTML += `<p>Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}</p>`
     playerBox.innerHTML = "";
 }
 
