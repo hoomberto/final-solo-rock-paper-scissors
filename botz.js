@@ -105,7 +105,7 @@ function addMoves(sign) {
 
 function checkAccuracy(moveAccuracy) {
   debugger
-  var randomToCompare = Math.floor(Math.random() * 100 + 1);
+  var randomToCompare = Math.floor(Math.random() * 150 + 1);
   if (randomToCompare > moveAccuracy) {
     return false
   }
@@ -114,22 +114,98 @@ function checkAccuracy(moveAccuracy) {
   }
 }
 
-function compareElements(currentPlayer, opponent) {
-  if (currentPlayer.sign.element === opponent.sign.element) {
-    console.log(`Element Tie! ${currentPlayer.sign.element} is the same as ${opponent.sign.element}\n`)
+function evaluateSigns(currentUser, currentComp) {
+  hide(goBackBtn)
+  show(compareBox)
+  announce(currentUser, currentComp)
+  setTimeout(function() {resetText(compareBox)}, 4200);
+  setTimeout(function() {compareElements(currentUser, currentComp)}, 4300);
+  setTimeout(function() {resetText(compareBox)}, 5500);
+  setTimeout(function() {compareQualities(currentUser.sign, currentComp.sign)},5600);
+  // debugger
+  setTimeout(function() {resetText(compareBox)}, 6800);
+  setTimeout(function() {compareAdvantages(currentUser.sign, currentComp.sign)}, 6900);
+  setTimeout(function() {resetText(compareBox)}, 8900);
+  setTimeout(function() {hide(compareBox)}, 8900);
+  // currentUser.hasMoved = false;
+  // currentComp.hasMoved = false;
+}
+
+function announce(currentUser, currentComp) {
+  var playerSign = currentUser.sign.name.toUpperCase();
+  var opponentSign = currentComp.sign.name.toUpperCase();
+  resetElement(compareBox);
+  compareBox.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
+  compareBox.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
+  compareBox.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
+}
+
+function compareQualities(user, comp) {
+  // compareBox.innerHTML = "";
+  if (user.quality === comp.quality) {
+    compareBox.innerHTML +=`<p>It was ${user.quality} vs ${comp.quality} - tie!</p>\n`
   }
-  if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'air') {
-    currentPlayer.hasElementAdvantage = true;
-    console.log(`Element win! ${currentPlayer.sign.element} won against ${opponent.sign.element}\n`)
+  if ((user.quality === 'cardinal' && comp.quality === 'fixed') || (user.quality === 'fixed' && comp.quality === 'mutable') || (user.quality === 'mutable' && comp.quality === 'cardinal')) {
+    user.qualityMultiplier = 2;
+    user.buffs.attack = 10;
+    user.buffs.speed = 1.2;
+    comp.buffs.attack = -10;
+    user.hasQualityAdvantage = true;
+    compareBox.innerHTML +=`<p>Quality win! ${user.quality} beats ${comp.quality}!</p>\n`
   }
-    if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'water') {
-    opponent.hasElementAdvantage = true;
-    console.log(`Element loss! ${currentPlayer.sign.element} lost against ${opponent.sign.element}\n`)
-  }
-    if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'earth') {
-    console.log(`Element Tie! ${currentPlayer.sign.element} tied against ${opponent.sign.element}\n`)
+  if ((user.quality === 'cardinal' && comp.quality === 'mutable') || (user.quality === 'fixed' && comp.quality === 'cardinal') || (user.quality === 'mutable' && comp.quality === 'fixed')) {
+    user.buffs.attack = -10;
+    comp.buffs.attack = 10;
+    comp.buffs.speed = 1.2;
+    comp.qualityMultiplier = 2;
+    comp.hasQualityAdvantage = true;
+    compareBox.innerHTML +=`<p>Quality loss! ${user.quality} lost against ${comp.quality}</p>\n`
   }
 }
+
+function compareElements(currentPlayer, opponent) {
+  compareBox.innerHTML = "";
+  if (currentPlayer.sign.element === opponent.sign.element) {
+    compareBox.innerHTML =`Element Tie! ${currentPlayer.sign.element} is the same as ${opponent.sign.element}\n`
+  }
+  if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'air') {
+    currentPlayer.sign.hasElementAdvantage = true;
+    compareBox.innerHTML =`Element win! ${currentPlayer.sign.element} won against ${opponent.sign.element}\n`
+  }
+    if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'earth' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'water') {
+    opponent.sign.hasElementAdvantage = true;
+    compareBox.innerHTML =`Element loss! ${currentPlayer.sign.element} lost against ${opponent.sign.element}\n`
+  }
+    if (currentPlayer.sign.element === 'air' && opponent.sign.element === 'water' || currentPlayer.sign.element === 'earth' && opponent.sign.element === 'fire' || currentPlayer.sign.element === 'water' && opponent.sign.element === 'air' || currentPlayer.sign.element === 'fire' && opponent.sign.element === 'earth') {
+    compareBox.innerHTML =`Element Tie! ${currentPlayer.sign.element} tied against ${opponent.sign.element}\n`
+  }
+}
+
+function compareAdvantages(currentPlayer, opponent) {
+  if (!currentPlayer.hasElementAdvantage && !currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
+    compareBox.innerHTML = "You are both evenly matched!\n"
+  }
+
+  if (currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
+    compareBox.innerHTML = "All right! You have an elemental advantage!\n"
+  }
+  if (opponent.hasElementAdvantage && !opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
+    compareBox.innerHTML = "Yikes! You're at an elemental disadvantage!\n"
+  }
+  if (!currentPlayer.hasElementAdvantage && currentPlayer.hasQualityAdvantage && !opponent.hasQualityAdvantage && !opponent.hasElementAdvantage) {
+    compareBox.innerHTML = "Yes! You have a quality advantage!\n"
+  }
+  if (!opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
+    compareBox.innerHTML = "Uh oh! The opponent has a quality advantage!\n"
+  }
+  else if (currentPlayer.hasElementAdvantage && currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
+    compareBox.innerHTML = `${currentPlayer.name} has a total advantage!\n`
+  }
+  else if (opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
+    compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n"
+  }
+}
+
 
 
 function compareSpeeds(currentPlayer, opponent) {
@@ -143,7 +219,10 @@ function compareSpeeds(currentPlayer, opponent) {
   if (((currentPlayerSpeed + currentPlayerBuff) > (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
     runMove(currentPlayer, opponent)
   }
-  else if (((currentPlayerSpeed + currentPlayerBuff) === (opponentSpeed + opponentBuff))) {
+  else if (((currentPlayerSpeed + currentPlayerBuff) < (opponentSpeed + opponentBuff)) && !opponent.hasMoved) {
+    runMove(opponent, currentPlayer)
+  }
+  else if (((currentPlayerSpeed + currentPlayerBuff) === (opponentSpeed + opponentBuff)) && !currentPlayer.hasMoved) {
     runMove(currentPlayer, opponent)
   }
   else if (currentPlayer.hasMoved && !opponent.hasMoved){
@@ -164,16 +243,18 @@ function checkOpponentHealth(currentPlayer, opponent) {
     currentPlayer.isWinner = true;
     currentPlayer.winRound();
     opponent.signLoss();
-    if (currentPlayer.name === "User" && currentPlayer.isWinner) {
+    if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
+      gameOver()
+      setTimeout(function() {playAnotherBotz()}, 3500);
+      // var playBotzAgainBtn = document.getElementById("playBotzAgain");
+      // playBotzAgainBtn.addEventListener("click", playAnotherBotz);
+    }
+    else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
       console.log("NEW CHALLENGER APPROACHES")
+      hide(playerBox)
+      hide(computerBox)
       gameRound();
     }
-    else if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
-      gameOver()
-      var playBotzAgainBtn = document.getElementById("playBotzAgain");
-      playBotzAgainBtn.addEventListener("click", playAnotherBotz);
-    }
-
   }
 }
 
@@ -233,22 +314,25 @@ function setNewGame() {
 }
 
 function gameOver() {
-    hide(playerBattleText)
+    resetElement(playerBattleText)
     hide(playerMoveText)
-    battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`
-    playerBox.innerHTML = ""
-    playerBox.innerHTML += `
-    <div id="playBotzAgain" class="play-again-box">
-    <h4>GAME OVER</h4>
-    <button>Play Again</button>
-    </div>
-    `
+    console.log("GAME ENDED AT LINE 315");
+    battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
+    playerBox.innerHTML = "";
+    // playerBox.innerHTML += `
+    // <div id="playBotzAgain" class="play-again-box">
+    // <h4>GAME OVER</h4>
+    // <button>Play Again</button>
+    // </div>
+    // `;
+    console.log("what about here?")
 }
 
 function endBotzGame() {
   hide(computerBox)
   hide(playerBox)
   setNewGame()
+  show(goBackBtn)
   show(zodiacSignSelection)
   battleText.innerText = "Choose your fighter"
 }

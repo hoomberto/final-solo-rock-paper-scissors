@@ -4,17 +4,60 @@ class Game {
     this.description = gameDescription;
     this.ties = 0;
     this.choices = ["rock", "paper", "scissors"];
+    this.zodiac = [];
     this.currentZodiac = zodiac;
   }
   renderRPS() {
     gameSelections.innerHTML = "";
     for (var choice of this.choices) {
       gameSelections.innerHTML += `
-      <img id="${choice}" class="choice" src="./assets/${choice}.png" alt="${choice}">
+      <div id="${choice}ChoiceContainer" class="choice-container choice">
+        <img id="${choice}" src="./assets/${choice}.png" alt="${choice}">
+        <p id="${choice}Text" class="choice-icon"></p>
+      </div>
       `
     }
   }
 
+  initializeZodiac() {
+    // Fire Signs
+    var aries = new Zodiac("aries", "fire", "cardinal", '🐏');
+    var leo = new Zodiac("leo", "fire", "fixed", '🦁');
+    var sagittarius = new Zodiac("sagittarius", "fire", "mutable", '🐴');
+
+    // Earth Signs
+    var virgo = new Zodiac("virgo", "earth", "cardinal", '🌾');
+    var taurus = new Zodiac("taurus", "earth", "fixed", '🐂');
+    var capricorn = new Zodiac("capricorn", "earth", "mutable", '🐐');
+
+    // Air Signs
+    var libra = new Zodiac("libra", "air", "cardinal", '⚖️');
+    var aquarius = new Zodiac("aquarius", "air", "fixed", '🏺');
+    var gemini = new Zodiac("gemini", "air", "mutable", '👯‍♀️');
+
+    // Water Signs
+    var cancer = new Zodiac("cancer", "water", "cardinal", '🦀');
+    var scorpio = new Zodiac("scorpio", "water", "fixed", '🦂');
+    var pisces = new Zodiac("pisces", "water", "mutable", '🐟');
+
+    let zodiac = [
+      aries,
+      taurus,
+      gemini,
+      cancer,
+      leo,
+      virgo,
+      libra,
+      scorpio,
+      sagittarius,
+      capricorn,
+      aquarius,
+      pisces
+    ];
+  for (var sign of zodiac) {
+    this.zodiac.push(sign);
+  }
+}
   playGame(userInput) {
     currentComp.currentChoice = randomChoice(this.choices)
     var compInput = currentComp.currentChoice
@@ -40,10 +83,14 @@ class Game {
       resultText.innerText = `${user} lost against ${comp}! You lost!`
     }
     showBothChoices();
-    setTimeout(function() {playAnother()}, 2500)
+    setTimeout(function() {playClassicGame()}, 2500)
   }
-
 }
+
+// function setPlayerChoice(player) {
+//   var selected = document.getElementById("selectedChoice")
+//   selected.innerText += currentUser.icon
+// }
 
 function randomIndex(array) {
   return Math.floor(Math.random() * array.length);
@@ -54,33 +101,42 @@ function randomChoice(choices) {
 }
 
 function hideAllChoices() {
-  rpsChoices = document.querySelectorAll(".choice");
-  for (var choice of rpsChoices) {
+      var choiceContainers = document.querySelectorAll(".choice-container")
+  // rpsChoices = document.querySelectorAll(".choice");
+  for (var choice of choiceContainers) {
     hide(choice)
   }
 }
 
 function showAllChoices() {
-  let rpsChoices = document.querySelectorAll(".choice");
-  for (var choice of rpsChoices) {
-    show(choice)
-  }
+    goBackBtn.style.pointerEvents = 'auto'
+    var choiceContainers = document.querySelectorAll(".choice-container")
+    for (var choice of choiceContainers) {
+        show(choice)
+        choice.style.pointerEvents = 'auto'
+    }
 }
 
 
 
-function showChoice(playerChoice) {
+function showChoice(player) {
+  var playerChoice = player.currentChoice
   let rpsChoices = document.querySelectorAll(".choice");
-  for (var choice of rpsChoices) {
-    if (choice.id === playerChoice) {
+  let choiceContainers = document.querySelectorAll(".choice-container")
+  goBackBtn.style.pointerEvents = 'none'
+  for (var choice of choiceContainers) {
+    if (choice.children[0].id === playerChoice) {
       show(choice)
+      choice.style.pointerEvents = 'none';
+      choice.children[1].innerText += `${player.icon}`
     }
   }
+
 }
 
 function showBothChoices() {
-  showChoice(currentUser.currentChoice);
-  showChoice(currentComp.currentChoice);
+  showChoice(currentUser);
+  showChoice(currentComp);
 }
 
 function selectChoice(event) {

@@ -12,12 +12,13 @@
   <body>
     <section id="userSide" class="user player-section">
       <div id="userInfo" class="player-info">
-        <h2 class="user-icon">🟢</h2>
-        <h2 class="comp-icon">Player</h2>
+        <h2 id="userIcon" class="user-icon"></h2>
+        <h2 class="user-icon">Player</h2>
         <h3 id="playerWins" class="win-count">Wins:  </h3>
+        <button id="goBack" class="go-back-button hidden">Go Back</button>
         <section id="playerWinLosses" class="zodiac-stats"></section>
       </div>
-      <button id="goBack" class="hidden">Go Back</button>
+      <!-- <button id="goBack" class="go-back-button hidden">Go Back</button> -->
     </section>
     <section id="mainGame" class="main game-section">
       <h1 id="gameHeader">Rock, Paper, Scissors</h1>
@@ -25,7 +26,7 @@
       <section id="gameChoices" class="game-choices hidden">
         <div id="gameSelections" class="selections">
         </div>
-        <h3 id="resultText"></h3>
+        <h3 id="resultText" class="result-text"></h3>
         <button id="playAgain" class="hidden">Play again</button>
       </section>
       <section id="classicGame" class="game-type">
@@ -33,7 +34,7 @@
         <p id="classicRules">Rules:</p>
       </section>
       <section id="botzGame" class="game-type">
-        <h3>BotZ</h3>
+        <h3>Battle of the Zodiac</h3>
         <p id="botzRules"></p>
       </section>
     </section>
@@ -44,6 +45,7 @@
         <div id="signs" class="icons-section"></div>
       </section>
       <div id="computerBox"class="comp player-box hidden"></div>
+      <div id="comparisonBox"class="comparison-box hidden"></div>
       <div id="playerBox" class="player player-box hidden"></div>
       <h2 id="playerBattleText" class="player-battle-text hidden">user side text</h2>
       <h2 id="playerMoveText" class="player-move-text hidden">user side text</h2>
@@ -51,7 +53,7 @@
     </section>
     <section id="compSide" class="computer player-section">
       <div id="compInfo" class="player-info">
-        <h2 class="comp-icon">🤖</h2>
+        <h2 id="compIcon" class="comp-icon"></h2>
         <h2 class="comp-icon">Computer</h2>
         <h3 id="compWins" class="win-count">Wins:  </h3>
         <section id="compWinLosses" class="zodiac-stats"></section>
