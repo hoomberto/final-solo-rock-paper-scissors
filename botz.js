@@ -261,6 +261,19 @@ function hitOrMiss(currentPlayer, opponent) {
   }
 }
 
+function checkWhoLost(currentPlayer, opponent) {
+  if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
+    gameOver()
+    setTimeout(function() {delayPlayBotzAgain()}, 3500);
+    return
+  }
+  else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
+    hide(playerBox)
+    hide(computerBox)
+    gameRound();
+  }
+}
+
 function checkOpponentHealth(currentPlayer, opponent) {
   if (opponent.sign.hp > 0) {
     showPlayerBattleText(opponent)
@@ -270,28 +283,22 @@ function checkOpponentHealth(currentPlayer, opponent) {
     updateBattleLog(`<p>${opponent.sign.name} still standing with ${opponent.sign.hp} HP</p>`);
   }
   else {
-    // opponent.sign.hp = 0;
-    // opponent.lostRound = true;
-    // currentPlayer.lostRound = false;
-    // currentPlayer.isWinner = true;
-    // currentPlayer.winRound();
-    // opponent.signLoss();
     setWinnerLoser(currentPlayer, opponent);
-    if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
-      gameOver()
-      setTimeout(function() {delayPlayBotzAgain()}, 3500);
-      // setTimeout(function() {resetElement(playerBattleText)}, 3400);
-      // setTimeout(function() {resetElement(battleText)}, 3450)
-      // setTimeout(function() {playAnotherBotz()}, 3500);
-      return
-    }
-    else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
-      hide(playerBox)
-      hide(computerBox)
-      gameRound();
-    }
+    checkWhoLost(currentPlayer, opponent)
+    // if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
+    //   gameOver()
+    //   setTimeout(function() {delayPlayBotzAgain()}, 3500);
+    //   return
+    // }
+    // else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
+    //   hide(playerBox)
+    //   hide(computerBox)
+    //   gameRound();
+    // }
   }
 }
+
+
 
 function setWinnerLoser(currentPlayer, opponent) {
   opponent.sign.hp = 0;
