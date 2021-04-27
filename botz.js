@@ -102,7 +102,7 @@ function addMoves(sign) {
 }
 
 function checkAccuracy(moveAccuracy) {
-  var randomToCompare = Math.floor(Math.random() * 100 + 1);
+  var randomToCompare = Math.floor(Math.random() * 120 + 1);
   if (randomToCompare > moveAccuracy) {
     return false
   }
@@ -131,13 +131,17 @@ function battleLogAnnounce() {
   updateBattleLog(`${currentComp.sign.name} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}`);
 }
 
+function compareBoxAnnounce() {
+  updateInner(compareBox, `${currentUser.sign.name} encounters ${currentComp.sign.name}!!`)
+  updateInner(compareBox, `${currentUser.sign.name} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}`)
+  updateInner(compareBox, `${currentComp.sign.name} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}`)
+}
+
 function announce(currentUser, currentComp) {
   var playerSign = currentUser.sign.name.toUpperCase();
   var opponentSign = currentComp.sign.name.toUpperCase();
   resetElement(compareBox);
-  compareBox.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
-  compareBox.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`;
-  compareBox.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`;
+  compareBoxAnnounce()
   battleLogAnnounce();
 }
 
@@ -147,21 +151,21 @@ function compareQualities(user, comp) {
     compareBox.innerHTML +=`<p>It was ${user.quality} vs ${comp.quality} - tie!</p>\n`;
   }
   if ((user.quality === 'cardinal' && comp.quality === 'fixed') || (user.quality === 'fixed' && comp.quality === 'mutable') || (user.quality === 'mutable' && comp.quality === 'cardinal')) {
-    user.qualityMultiplier = 2;
-    user.buffs.attack = 10;
-    user.buffs.speed = 1.2;
-    comp.buffs.attack = -10;
-    user.hasQualityAdvantage = true;
+    buffAndWeaken(user, comp);
     compareBox.innerHTML +=`<p>Quality win! ${user.quality} beats ${comp.quality}!</p>\n`;
   }
   if ((user.quality === 'cardinal' && comp.quality === 'mutable') || (user.quality === 'fixed' && comp.quality === 'cardinal') || (user.quality === 'mutable' && comp.quality === 'fixed')) {
-    user.buffs.attack = -10;
-    comp.buffs.attack = 10;
-    comp.buffs.speed = 1.2;
-    comp.qualityMultiplier = 2;
-    comp.hasQualityAdvantage = true;
+    buffAndWeaken(comp, user);
     compareBox.innerHTML +=`<p>Quality loss! ${user.quality} lost against ${comp.quality}</p>\n`;
   }
+}
+
+function buffAndWeaken(player, opponent) {
+  player.qualityMultiplier = 2;
+  player.hasQualityAdvantage = true;
+  player.buffs.attack = 10;
+  player.buffs.speed = 1.2;
+  opponent.buffs.attack = -10;
 }
 
 function compareElements(currentPlayer, opponent) {
@@ -285,20 +289,8 @@ function checkOpponentHealth(currentPlayer, opponent) {
   else {
     setWinnerLoser(currentPlayer, opponent);
     checkWhoLost(currentPlayer, opponent)
-    // if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
-    //   gameOver()
-    //   setTimeout(function() {delayPlayBotzAgain()}, 3500);
-    //   return
-    // }
-    // else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
-    //   hide(playerBox)
-    //   hide(computerBox)
-    //   gameRound();
-    // }
   }
 }
-
-
 
 function setWinnerLoser(currentPlayer, opponent) {
   opponent.sign.hp = 0;

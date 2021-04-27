@@ -301,6 +301,10 @@ function setBoxesAndMoves() {
   makeMovesSelectable();
 }
 
+function updateInner(element, content) {
+  element.innerHTML += `<p>${content}</p>`
+}
+
 function newChallenger() {
   if (!currentGame.currentZodiac.length) {
     hide(computerBox)
