@@ -321,6 +321,7 @@ function setNewGame() {
 function gameOver() {
     resetElement(playerBattleText)
     battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
+    battleLog.innerHTML += `<p>Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}</p>`
     playerBox.innerHTML = "";
 }
 
