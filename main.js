@@ -27,8 +27,7 @@ var compWinLosses = document.getElementById("compWinLosses");
 var goBackBtn = document.getElementById("goBack");
 var choiceContainers = document.querySelectorAll(".choice-container")
 var botzExplanation = document.getElementById("botzExplanation");
-
-
+var battleLog = document.getElementById("battleLog");
 
 
 // Battle Elements
@@ -36,14 +35,11 @@ var compareBox = document.getElementById("comparisonBox");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
-playAgainBtn.addEventListener("click", playAnother);
 botzGameChoice.addEventListener("click", playBotzGame);
 goBackBtn.addEventListener("click", goBack)
-// console.log(rpsChoices)
 
 
 function makeChoicesSelectable() {
-  // var rpsChoices = document.querySelectorAll(".choice");
     var choiceContainers = document.querySelectorAll(".choice-container")
     for (var choice of choiceContainers) {
       choice.addEventListener("click", function() {
@@ -56,38 +52,49 @@ var currentGame;
 var currentUser;
 var currentComp;
 
-// function generateGame()
-
-function displayDefaultGame() {
-  checkLocalStorage();
-  var gameName = "Rock, Paper, Scissors";
-  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
-  var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock"
-  currentGame = new Game(gameName, gameDescription);
-  currentUser = new Player("User", "🟢");
-  currentComp = new Player("Computer", "🤖");
-  var currentLocalGame = getGameFromLocal();
+function renderDefaultPage(currentLocalGame) {
   if (!currentLocalGame.player1.wins) {
     saveToStorage(currentUser, currentComp);
   }
   renderFromLocal();
-
   currentGame.renderRPS();
-  makeChoicesSelectable();
-  // userIcon.innerText += currentUser.icon
-  // compIcon.innerText += currentComp.icon
-  // playerWins.innerText += `${currentUser.wins}`;
-  // compWins.innerText += `${currentComp.wins}`;
+}
+
+function initializeDefaultText(currentGame) {
+  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!";
   gameTitle.innerText = currentGame.name;
   classicRules.innerText += currentGame.description;
   botzRules.innerText += botzDescription;
 }
 
+function displayDefaultGame() {
+  checkLocalStorage();
+  var gameName = "Rock, Paper, Scissors";
+  var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock";
+  currentGame = new Game(gameName, gameDescription);
+  currentUser = new Player("User", "🟢");
+  currentComp = new Player("Computer", "🤖");
+  var currentLocalGame = getGameFromLocal();
+  renderDefaultPage(currentLocalGame);
+  initializeDefaultText(currentGame);
+  makeChoicesSelectable();
+}
+
 function goBack() {
-  playAnother()
-  hide(botzGameSection)
+  playAnother();
+  hide(botzGameSection);
   resetBotz();
-  show(mainGameSection)
+  show(mainGameSection);
+}
+
+function playAnother() {
+  hide(gameChoices);
+  hide(goBackBtn);
+  resultText.innerText = "";
+  show(gameSelections);
+  show(classicGameChoice);
+  show(botzGameChoice);
+  gameSubtitle.innerText = "Choose your game!"
 }
 
 function resetBotz() {
@@ -105,17 +112,6 @@ function resetTokens() {
       resetText(choice);
     }
   }
-}
-
-function playAnother() {
-  resultText.innerText = "";
-  showAllChoices();
-  show(gameSelections);
-  hide(gameChoices);
-  hide(goBackBtn);
-  show(classicGameChoice);
-  show(botzGameChoice);
-  gameSubtitle.innerText = "Choose your game!"
 }
 
 function resetWinCount() {
@@ -137,24 +133,18 @@ function show(element) {
   element.classList.remove("hidden");
 }
 
-// function resetPlayerChoices(choiceContainers) {
-//   for (var choice of choiceContainers) {
-//     resetText(choice.children[1])
-//   }
-// }
-
-function playClassicGame() {
-  resultText.innerText = "Take your pick";
+function displayClassicGame() {
   hide(classicGameChoice)
   hide(botzGameChoice)
   show(goBackBtn);
   show(gameChoices)
   showAllChoices();
-  resetTokens();
-  // if (choiceContainers.children) {
-  //   currentGame.resetPlayerChoices();
-  // }
+}
 
+function playClassicGame() {
+  displayClassicGame()
+  resultText.innerText = "Take your pick";
+  resetTokens();
   gameSubtitle.innerText = "Make a choice:";
 }
 
@@ -170,14 +160,17 @@ function showSigns() {
   }
 }
 
-
-function playBotzGame() {
+function displayZodiacSelection() {
   hide(mainGameSection);
   show(botzGameSection);
   show(goBackBtn)
   show(battleText)
   show(signs)
-  // endBotzGame();
+}
+
+
+function playBotzGame() {
+  displayZodiacSelection()
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
   currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
@@ -205,7 +198,6 @@ function setPlayerMoves(infoContainer, player) {
       <p>${move.description}</p>`
     }
   }
-
 }
 
 function makeIconsSelectable() {
@@ -220,8 +212,6 @@ function makeIconsSelectable() {
 function makeMovesSelectable() {
   var moveChoices = document.querySelectorAll(".move");
   for (var move of moveChoices) {
-    // console.log(move)
-
     move.addEventListener("click", function() {
       selectMove(event);
     });
@@ -232,7 +222,6 @@ function makeMovesSelectable() {
 function makeMovesUnselectable() {
   var moveChoices = document.querySelectorAll(".move");
   for (var move of moveChoices) {
-    // console.log(move)
     move.style.pointerEvents = "none";
   }
 }
@@ -268,28 +257,18 @@ function setPlayerBox(infoContainer, player) {
 }
 
 function selectMove(event) {
-  // debugger
   var selectedMove = event.srcElement.innerText
   currentUser.currentChoice = selectedMove;
   for (var move of currentUser.sign.moves) {
     if (selectedMove === move.name) {
       currentUser.currentMove = move;
       console.log(`User selected ${currentUser.currentMove.name}`)
-      // resetPlayers(currentUser, currentComp)
     }
   }
-  // resetPlayers(currentUser, currentComp)
   makeMovesUnselectable()
-  // debugger
   showPlayerChoice();
-  // setBothBoxes();
   gameRound();
   hide(playerMoveText);
-  // setTimeout(function() {gameRound()}, 1000);
-  // setTimeout(function() {hide(playerMoveText)}, 900)
-  // gameRound();
-  // startBattle();
-
 }
 
 function setBoxesAndMoves() {
@@ -303,22 +282,23 @@ function newChallenger() {
     hide(computerBox)
     hide(battleText)
     show(playerBox)
+    var userSign = currentUser.sign.name.toUpperCase();
     playerBox.innerHTML = ""
     playerBox.innerHTML += `
-    <h4>YOU BEAT THE ZODIAC AS ${currentUser.sign.name}!</h4>
+    <h4>YOU BEAT THE ZODIAC AS ${userSign}!</h4>
     `
-    setTimeout(function() {playAnotherBotz()}, 4000)
+    battleLog.innerHTML += `
+    <p>YOU BEAT THE ZODIAC AS ${userSign}!</p>
+    `
+    setTimeout(function() {playAnotherBotz()}, 3500);
+    return
   }
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
+  battleLog.innerHTML += `<p>NEW CHALLENGER APPEARS: ${currentComp.sign.name}</p>`
   removeSign(currentComp, currentGame.currentZodiac);
   hide(playerBattleText);
   resetAdvantages(currentUser, currentComp)
-  // evaluateSigns(currentUser, currentComp);
-  // setTimeout(function() {startBotzGame()}, 9000);
-  // setBothBoxes();
-  // setPlayerMoves(playerBox, currentUser);
-  // makeMovesSelectable();
 }
 
 function resetAdvantages(currentUser, currentComp) {
@@ -329,16 +309,10 @@ function resetAdvantages(currentUser, currentComp) {
 }
 
 function gameRound() {
-  // debugger
   if (!currentComp.sign.hp) {
-
     newChallenger()
-    // setTimeout(function() {startBotzGame()}, 9000);
     startBotzGame()
-    // resetPlayers(currentUser, currentComp)
-    console.log("RESET")
   }
-
   else {
     startBattle();
   }
@@ -384,43 +358,16 @@ function showPlayerChoice() {
   playerMoveText.innerText = `${currentUser.name} selected ${currentUser.currentMove.name}`
 }
 
-// function beginFight() {
-//   compareSpeeds(currentUser, currentComp);
-//
-//   checkMoved(currentUser, currentComp)
-//   resetPlayers(currentUser, currentComp)
-//   setPlayerMoves(playerBox, currentUser)
-//   // delayShowMoves();
-//   makeMovesSelectable();
-// }
 
 function startBattle() {
   setBothBoxes()
   makeMovesUnselectable();
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
   var currentRoundMove = currentComp.currentMove;
-  // setTimeout(function() {beginFight()}, 6900);
   compareSpeeds(currentUser, currentComp)
-  // setTimeout(function() {compareSpeeds(currentUser, currentComp)}, 100)
   checkMoved(currentUser, currentComp)
   setPlayerMoves(playerBox, currentUser)
   resetPlayers(currentUser, currentComp)
-  // setTimeout(function() {checkMoved(currentUser, currentComp)}, 2500)
-  // setTimeout(function() {setPlayerMoves(playerBox, currentUser)}, 3500)
-  // setTimeout(function() {checkMoved(currentUser, currentComp)}, 2550)
-  // setTimeout(function() {resetPlayers(currentUser, currentComp)}, 3600)
-  // checkMoved(currentUser, currentComp)
-  // resetPlayers(currentUser, currentComp)
-  // setPlayerMoves(playerBox, currentUser)
-  // delayShowMoves();
-  // makeMovesSelectable();
-  // compareSpeeds(currentUser, currentComp);
-  //
-  // checkMoved(currentUser, currentComp)
-  // setTimeout(function() {resetPlayers(currentUser, currentComp)}, 2600)
-  // setPlayerMoves(playerBox, currentUser)
-  // // delayShowMoves();
-  // makeMovesSelectable();
 }
 
 function delayShowMoves() {
@@ -451,6 +398,8 @@ function initialBattleText() {
 function startBotzGame() {
   show(playerBox);
   show(computerBox);
+  // Add function to show battle log
+  show(battleLog)
   setBothBoxes()
   setPlayerMoves(playerBox, currentUser)
   makeMovesSelectable();
@@ -479,12 +428,11 @@ function selectSign(event) {
     }
     currentUser.sign.hp = 100;
     currentComp.sign.hp = 100;
-    // setTimeout(initialBattleText, 1000)
+
     initialBattleText();
     hide(zodiacSignSelection);
     hide(botzExplanation)
     show(goBackBtn)
-    // startBotzGame()
 
     evaluateSigns(currentUser, currentComp)
     setTimeout(function() {show(goBackBtn)}, 9000)
