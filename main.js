@@ -179,8 +179,8 @@ function playBotzGame() {
   show(battleText)
   show(signs)
   // endBotzGame();
-  // currentUser = new Player("User", "🟢");
-  // currentComp = new Player("Computer", "🤖");
+  currentUser = new Player("User", "🟢");
+  currentComp = new Player("Computer", "🤖");
   currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
   if (currentGame.currentZodiac.length < 12 || !currentGame.currentZodiac.length) {
     var resetZodiac = setZodiacSigns();
@@ -278,6 +278,12 @@ function selectMove(event) {
 
 }
 
+function setBoxesAndMoves() {
+  setBothBoxes();
+  setPlayerMoves(playerBox, currentUser);
+  makeMovesSelectable();
+}
+
 function newChallenger() {
   if (!currentGame.currentZodiac.length) {
     hide(computerBox)
@@ -290,20 +296,28 @@ function newChallenger() {
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
   removeSign(currentComp, currentGame.currentZodiac);
-  hide(playerBattleText)
-  setBothBoxes();
-  setPlayerMoves(playerBox, currentUser);
-  makeMovesSelectable();
+  hide(playerBattleText);
+  resetAdvantages(currentUser, currentComp)
+  evaluateSigns(currentUser, currentComp);
+  setTimeout(function() {startBotzGame()}, 9000);
+  // setBothBoxes();
+  // setPlayerMoves(playerBox, currentUser);
+  // makeMovesSelectable();
+}
+
+function resetAdvantages(currentUser, currentComp) {
+  currentUser.sign.hasElementAdvantage = false;
+  currentUser.sign.hasQualityAdvantage = false;
+  currentComp.sign.hasElementAdvantage = false;
+  currentComp.sign.hasQualityAdvantage = false;
 }
 
 function gameRound() {
   // debugger
   if (!currentComp.sign.hp) {
 
-    setTimeout(newChallenger, 800);
-
+    newChallenger()
     resetPlayers(currentUser, currentComp)
-
     console.log("RESET")
   }
 

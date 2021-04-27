@@ -118,14 +118,17 @@ function evaluateSigns(currentUser, currentComp) {
   hide(goBackBtn)
   show(compareBox)
   announce(currentUser, currentComp)
-  setTimeout(function() {resetText(compareBox)}, 4000);
-  setTimeout(function() {compareElements(currentUser, currentComp)}, 4100);
-  // setTimeout(function() {resetText(compareBox)}, 4500);
-  setTimeout(function() {compareQualities(currentUser.sign, currentComp.sign)},4100);
+  setTimeout(function() {resetText(compareBox)}, 4200);
+  setTimeout(function() {compareElements(currentUser, currentComp)}, 4300);
+  setTimeout(function() {resetText(compareBox)}, 5500);
+  setTimeout(function() {compareQualities(currentUser.sign, currentComp.sign)},5600);
+  // debugger
   setTimeout(function() {resetText(compareBox)}, 6800);
   setTimeout(function() {compareAdvantages(currentUser.sign, currentComp.sign)}, 6900);
   setTimeout(function() {resetText(compareBox)}, 8900);
   setTimeout(function() {hide(compareBox)}, 8900);
+  // currentUser.hasMoved = false;
+  // currentComp.hasMoved = false;
 }
 
 function announce(currentUser, currentComp) {
@@ -239,6 +242,8 @@ function checkOpponentHealth(currentPlayer, opponent) {
     opponent.signLoss();
     if (currentPlayer.name === "User" && currentPlayer.isWinner) {
       console.log("NEW CHALLENGER APPROACHES")
+      hide(playerBox)
+      hide(computerBox)
       gameRound();
     }
     else if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
@@ -322,6 +327,7 @@ function endBotzGame() {
   hide(computerBox)
   hide(playerBox)
   setNewGame()
+  show(goBackBtn)
   show(zodiacSignSelection)
   battleText.innerText = "Choose your fighter"
 }
