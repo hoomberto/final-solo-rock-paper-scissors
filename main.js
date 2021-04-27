@@ -202,6 +202,7 @@ function playBotzGame() {
     setZodiacMoves(resetZodiac)
     currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", resetZodiac)
   }
+  show(botzExplanation)
   showSigns();
   makeIconsSelectable();
 }
