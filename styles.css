@@ -125,7 +125,6 @@ grid-template-rows: repeat(2, 1fr);
   width: 80%;
   display: flex;
   flex-direction: column;
-/*   justify-content: space-around; */
   align-items: center;
   font-family: Roboto;
   font-size: 13px;
@@ -141,7 +140,6 @@ grid-template-rows: repeat(2, 1fr);
 
 .matchups-container {
   display: flex;
-  /* flex-direction: column; */
   justify-content: space-between;
 }
 
@@ -210,8 +208,6 @@ grid-template-rows: repeat(2, 1fr);
   }
 }
 
-
-
 .game-section {
   width: 70%;
   text-align: center;
@@ -258,17 +254,19 @@ grid-template-rows: repeat(2, 1fr);
   margin: 0;
 }
 
-
 .choice {
   cursor: pointer;
   margin-bottom: 5%;
   margin-top: 5%;
 }
 
-
-
 .icon, .move {
   cursor: pointer;
+}
+
+.move {
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .icon-container {
@@ -356,7 +354,10 @@ grid-template-rows: repeat(2, 1fr);
   justify-content: center;
   align-items: center;
   font-family: Roboto;
-  background-color: lightgray;
+  padding: 10px;
+  text-transform: uppercase;
+  font-weight: 400;
+  background-color: #F0F4EF;
   width: 200px;
   min-height: 40%;
   border-radius: 4px;
@@ -367,18 +368,15 @@ grid-template-rows: repeat(2, 1fr);
   flex-direction: column;
   padding: 4px;
   margin-top: 2%;
-  /* justify-content: center; */
   align-items: center;
   font-family: Roboto;
-  background-color: lightgray;
+  background-color: #F0F4EF;
   min-width: 40%;
   height: 90px;
-  /* overflow: auto; */
   border-radius: 4px;
 }
 
 .battle {
-
   display: flex;
   flex-direction: column;
   overflow: auto;

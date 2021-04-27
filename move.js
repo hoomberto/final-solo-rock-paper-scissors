@@ -9,9 +9,9 @@ class Move {
 }
 
 var rockin = new Move("PSI-Rockin", "Deals 20 damage most of the time", 20, 90, "earth");
-var psiThunder = new Move("PSI-Thunder", "Deals 30 damage without fail", 30, 100, "air");
-var psiFire = new Move("PSI-Fire", "Deals lots of damage, but tends to miss", 60, 20, "fire");
-var psiFreeze = new Move("PSI-Freeze", "Deals 40 with decent accuracy", 40, 80, "water");
+var psiThunder = new Move("PK Thunder", "Deals 30 damage without fail", 30, 100, "air");
+var psiFire = new Move("PK Fire", "Deals lots of damage, but tends to miss", 60, 20, "fire");
+var psiFreeze = new Move("PK Freeze", "Deals 40 with decent accuracy", 40, 80, "water");
 
 
 var emeraldSplash = new Move("Emerald Splash", "Nobody can deflect this?!", 35, 70, "water");
@@ -19,7 +19,7 @@ var detroitSmash = new Move("Detroit Smash", "デトロイトスマッシュ", 5
 var negativeEnergy = new Move("Negative Energy", "Overwhelming bad vibes!", 35, 70, "water");
 
 var poke = new Move("Poke", "Doesn't do much, but usually work", 15, 70, "earth");
-var machineWashCold = new Move("Macine Wash Cold", "Less likely to fade!", 50, 80, "water");
+var machineWashCold = new Move("Machine Wash Cold", "Less likely to fade!", 50, 80, "water");
 var sneeze = new Move("Sneeze", "Is your opponent wearing a mask?", 35, 70, "water");
 
 var moodKill = new Move("Mood Kill", "Bring it to a halt!", 35, 70, "water");
