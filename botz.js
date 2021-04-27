@@ -278,11 +278,8 @@ function checkMoved(currentPlayer, opponent) {
   else if (!currentPlayer.hasMoved && opponent.hasMoved) {
     runMove(currentPlayer, opponent)
   }
-  else if (currentPlayer.hasMoved && opponent.hasMoved) {
-    return
-  }
   else {
-    console.log("NOT WORKING")
+    return
   }
 }
 

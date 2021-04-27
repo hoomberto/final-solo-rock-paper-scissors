@@ -31,23 +31,7 @@ var battleLog = document.getElementById("battleLog");
 var battleLogContainer = document.getElementById("battleLogContainer");
 
 
-// Battle Elements
-var compareBox = document.getElementById("comparisonBox");
 
-window.onload = displayDefaultGame();
-classicGameChoice.addEventListener("click", playClassicGame);
-botzGameChoice.addEventListener("click", playBotzGame);
-goBackBtn.addEventListener("click", goBack)
-
-
-function makeChoicesSelectable() {
-    var choiceContainers = document.querySelectorAll(".choice-container")
-    for (var choice of choiceContainers) {
-      choice.addEventListener("click", function() {
-      selectChoice(event);
-    });
-  }
-}
 
 var currentGame;
 var currentUser;
@@ -201,23 +185,38 @@ function scrollToTop(element) {
   });
 }
 
+function setZodiacAndMoves() {
+  currentGame.currentZodiac = []
+  currentGame.initializeZodiac();
+  setZodiacMoves(currentGame.currentZodiac);
+}
+
 function playBotzGame() {
   displayZodiacSelection()
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
-  // currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
   currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale")
-  currentGame.initializeZodiac();
-  setZodiacMoves(currentGame.currentZodiac);
-  if (currentGame.currentZodiac.length < 12 || !currentGame.currentZodiac.length) {
-    var resetZodiac = setZodiacSigns();
-    setZodiacMoves(resetZodiac)
-    currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", resetZodiac)
-  }
+  setZodiacAndMoves()
   show(botzExplanation)
   showSigns();
   makeIconsSelectable();
 }
+
+function selectSign(event) {
+  evaluateAndSet(event)
+
+  currentUser.sign.hp = 100;
+  currentComp.sign.hp = 100;
+
+  initialBattleText();
+  hide(zodiacSignSelection);
+  hide(botzExplanation)
+  show(goBackBtn)
+
+  evaluateSigns(currentUser, currentComp)
+  setTimeout(function() {show(goBackBtn)}, 9000)
+  setTimeout(function() {startBotzGame()}, 9000)
+};
 
 function setBothBoxes() {
   setPlayerBox(playerBox, currentUser);
@@ -458,18 +457,20 @@ function evaluateAndSet(event) {
   }
 }
 
-function selectSign(event) {
-  evaluateAndSet(event)
+// Battle Elements
+var compareBox = document.getElementById("comparisonBox");
 
-  currentUser.sign.hp = 100;
-  currentComp.sign.hp = 100;
+window.onload = displayDefaultGame();
+classicGameChoice.addEventListener("click", playClassicGame);
+botzGameChoice.addEventListener("click", playBotzGame);
+goBackBtn.addEventListener("click", goBack)
 
-  initialBattleText();
-  hide(zodiacSignSelection);
-  hide(botzExplanation)
-  show(goBackBtn)
 
-  evaluateSigns(currentUser, currentComp)
-  setTimeout(function() {show(goBackBtn)}, 9000)
-  setTimeout(function() {startBotzGame()}, 9000)
-};
+function makeChoicesSelectable() {
+    var choiceContainers = document.querySelectorAll(".choice-container")
+    for (var choice of choiceContainers) {
+      choice.addEventListener("click", function() {
+      selectChoice(event);
+    });
+  }
+}
