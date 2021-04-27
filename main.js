@@ -58,31 +58,27 @@ function renderDefaultPage(currentLocalGame) {
     saveToStorage(currentUser, currentComp);
   }
   renderFromLocal();
-
   currentGame.renderRPS();
+}
+
+function initializeDefaultText(currentGame) {
+  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
+  gameTitle.innerText = currentGame.name;
+  classicRules.innerText += currentGame.description;
+  botzRules.innerText += botzDescription;
 }
 
 function displayDefaultGame() {
   checkLocalStorage();
   var gameName = "Rock, Paper, Scissors";
-  // var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
   var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock"
   currentGame = new Game(gameName, gameDescription);
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
   var currentLocalGame = getGameFromLocal();
   renderDefaultPage(currentLocalGame)
-  // if (!currentLocalGame.player1.wins) {
-  //   saveToStorage(currentUser, currentComp);
-  // }
-  // renderFromLocal();
-  //
-  // currentGame.renderRPS();
+  initializeDefaultText(currentGame)
   makeChoicesSelectable();
-  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
-  gameTitle.innerText = currentGame.name;
-  classicRules.innerText += currentGame.description;
-  botzRules.innerText += botzDescription;
 }
 
 function goBack() {
