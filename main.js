@@ -27,8 +27,7 @@ var compWinLosses = document.getElementById("compWinLosses");
 var goBackBtn = document.getElementById("goBack");
 var choiceContainers = document.querySelectorAll(".choice-container")
 var botzExplanation = document.getElementById("botzExplanation");
-
-
+var battleLog = document.getElementById("battleLog");
 
 
 // Battle Elements
@@ -62,7 +61,7 @@ function renderDefaultPage(currentLocalGame) {
 }
 
 function initializeDefaultText(currentGame) {
-  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
+  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!";
   gameTitle.innerText = currentGame.name;
   classicRules.innerText += currentGame.description;
   botzRules.innerText += botzDescription;
@@ -71,21 +70,21 @@ function initializeDefaultText(currentGame) {
 function displayDefaultGame() {
   checkLocalStorage();
   var gameName = "Rock, Paper, Scissors";
-  var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock"
+  var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock";
   currentGame = new Game(gameName, gameDescription);
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
   var currentLocalGame = getGameFromLocal();
-  renderDefaultPage(currentLocalGame)
-  initializeDefaultText(currentGame)
+  renderDefaultPage(currentLocalGame);
+  initializeDefaultText(currentGame);
   makeChoicesSelectable();
 }
 
 function goBack() {
-  playAnother()
-  hide(botzGameSection)
+  playAnother();
+  hide(botzGameSection);
   resetBotz();
-  show(mainGameSection)
+  show(mainGameSection);
 }
 
 function playAnother() {
@@ -283,11 +282,13 @@ function newChallenger() {
     hide(computerBox)
     hide(battleText)
     show(playerBox)
+    var userSign = currentUser.sign.name.toUpperCase();
     playerBox.innerHTML = ""
     playerBox.innerHTML += `
-    <h4>YOU BEAT THE ZODIAC AS ${currentUser.sign.name}!</h4>
+    <h4>YOU BEAT THE ZODIAC AS ${userSign}!</h4>
     `
-    setTimeout(function() {playAnotherBotz()}, 4000)
+    setTimeout(function() {playAnotherBotz()}, 3500);
+    return
   }
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
@@ -304,16 +305,10 @@ function resetAdvantages(currentUser, currentComp) {
 }
 
 function gameRound() {
-  // debugger
   if (!currentComp.sign.hp) {
-
     newChallenger()
-    // setTimeout(function() {startBotzGame()}, 9000);
     startBotzGame()
-    // resetPlayers(currentUser, currentComp)
-    console.log("RESET")
   }
-
   else {
     startBattle();
   }
@@ -359,43 +354,16 @@ function showPlayerChoice() {
   playerMoveText.innerText = `${currentUser.name} selected ${currentUser.currentMove.name}`
 }
 
-// function beginFight() {
-//   compareSpeeds(currentUser, currentComp);
-//
-//   checkMoved(currentUser, currentComp)
-//   resetPlayers(currentUser, currentComp)
-//   setPlayerMoves(playerBox, currentUser)
-//   // delayShowMoves();
-//   makeMovesSelectable();
-// }
 
 function startBattle() {
   setBothBoxes()
   makeMovesUnselectable();
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
   var currentRoundMove = currentComp.currentMove;
-  // setTimeout(function() {beginFight()}, 6900);
   compareSpeeds(currentUser, currentComp)
-  // setTimeout(function() {compareSpeeds(currentUser, currentComp)}, 100)
   checkMoved(currentUser, currentComp)
   setPlayerMoves(playerBox, currentUser)
   resetPlayers(currentUser, currentComp)
-  // setTimeout(function() {checkMoved(currentUser, currentComp)}, 2500)
-  // setTimeout(function() {setPlayerMoves(playerBox, currentUser)}, 3500)
-  // setTimeout(function() {checkMoved(currentUser, currentComp)}, 2550)
-  // setTimeout(function() {resetPlayers(currentUser, currentComp)}, 3600)
-  // checkMoved(currentUser, currentComp)
-  // resetPlayers(currentUser, currentComp)
-  // setPlayerMoves(playerBox, currentUser)
-  // delayShowMoves();
-  // makeMovesSelectable();
-  // compareSpeeds(currentUser, currentComp);
-  //
-  // checkMoved(currentUser, currentComp)
-  // setTimeout(function() {resetPlayers(currentUser, currentComp)}, 2600)
-  // setPlayerMoves(playerBox, currentUser)
-  // // delayShowMoves();
-  // makeMovesSelectable();
 }
 
 function delayShowMoves() {
@@ -426,6 +394,8 @@ function initialBattleText() {
 function startBotzGame() {
   show(playerBox);
   show(computerBox);
+  // Add function to show battle log
+  show(battleLog)
   setBothBoxes()
   setPlayerMoves(playerBox, currentUser)
   makeMovesSelectable();
@@ -454,12 +424,11 @@ function selectSign(event) {
     }
     currentUser.sign.hp = 100;
     currentComp.sign.hp = 100;
-    // setTimeout(initialBattleText, 1000)
+
     initialBattleText();
     hide(zodiacSignSelection);
     hide(botzExplanation)
     show(goBackBtn)
-    // startBotzGame()
 
     evaluateSigns(currentUser, currentComp)
     setTimeout(function() {show(goBackBtn)}, 9000)

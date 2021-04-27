@@ -155,6 +155,8 @@ grid-template-rows: repeat(2, 1fr);
 .element-matchup-container p,
 .quality-matchups-container p {
   margin: 0;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .element-matchup-container ,
@@ -357,6 +359,25 @@ grid-template-rows: repeat(2, 1fr);
   width: 200px;
   min-height: 40%;
   border-radius: 4px;
+}
+
+.battle-log {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  /* justify-content: center; */
+  align-items: center;
+  font-family: Roboto;
+  background-color: lightgray;
+  min-width: 40%;
+  height: 90px;
+  overflow: auto;
+  border-radius: 4px;
+}
+
+.battle-log p,
+.battle-log h3 {
+  margin: 0;
 }
 
 /* .botz-header-text {

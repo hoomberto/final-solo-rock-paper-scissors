@@ -104,7 +104,6 @@ function addMoves(sign) {
 }
 
 function checkAccuracy(moveAccuracy) {
-  debugger
   var randomToCompare = Math.floor(Math.random() * 100 + 1);
   if (randomToCompare > moveAccuracy) {
     return false
@@ -135,6 +134,9 @@ function announce(currentUser, currentComp) {
   compareBox.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
   compareBox.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
   compareBox.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
+  battleLog.innerHTML += `<p>${playerSign} encounters ${opponentSign}!!</p>\n`
+  battleLog.innerHTML += `<p>${playerSign} belongs to the ${currentUser.sign.element} element and its quality is ${currentUser.sign.quality}</p> \n`
+  battleLog.innerHTML += `<p>${opponentSign} belongs to the ${currentComp.sign.element} element and its quality is ${currentComp.sign.quality}</p> \n`
 }
 
 function compareQualities(user, comp) {
@@ -196,7 +198,7 @@ function compareAdvantages(currentPlayer, opponent) {
     compareBox.innerHTML += "Uh oh! The opponent has a quality advantage!\n"
   }
   else if (currentPlayer.hasElementAdvantage && currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
-    compareBox.innerHTML = `${currentPlayer.name} has a total advantage!\n`
+    compareBox.innerHTML += `${currentPlayer.name} has a total advantage!\n`
   }
   else if (opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
     compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n"
@@ -205,8 +207,6 @@ function compareAdvantages(currentPlayer, opponent) {
     compareBox.innerHTML = "This could be a close one!\n"
   }
 }
-
-
 
 function compareSpeeds(currentPlayer, opponent) {
   var currentPlayerSpeed = currentPlayer.sign.stats.speed;
@@ -271,6 +271,7 @@ function checkOpponentHealth(currentPlayer, opponent) {
     if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
       gameOver()
       setTimeout(function() {resetElement(playerBattleText)}, 3400);
+      setTimeout(function() {resetElement(battleText)}, 3450)
       setTimeout(function() {playAnotherBotz()}, 3500);
       return
     }
