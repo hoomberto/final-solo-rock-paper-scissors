@@ -100,6 +100,29 @@ function show(element) {
   element.classList.remove("hidden");
 }
 
+function updateInner(element, content) {
+  element.innerHTML += `<p>${content}</p>`
+}
+
+function resetElement(element) {
+  element.innerHTML = "";
+}
+
+function resetText(element) {
+  element.innerText = "";
+}
+
+function resetWinCount() {
+  playerWins.innerText = "Wins: ";
+  compWins.innerText = "Wins: ";
+}
+
+function setWinCount() {
+  resetWinCount()
+  playerWins.innerText += `${currentUser.wins}`;
+  compWins.innerText += `${currentComp.wins}`;
+}
+
 // Classic Game Functionality
 
 function playAnother() {
@@ -121,32 +144,6 @@ function resetTokens() {
   }
 }
 
-
-// Battle of the Zodiac (Botz) game Functionality
-
-function resetBotz() {
-  hide(playerBox)
-  hide(computerBox)
-  battleText.innerHTML = "Choose your fighter"
-  hide(battleText)
-  hide(playerBattleText)
-}
-
-
-
-function resetWinCount() {
-  playerWins.innerText = "Wins: ";
-  compWins.innerText = "Wins: ";
-}
-
-function setWinCount() {
-  resetWinCount()
-  playerWins.innerText += `${currentUser.wins}`;
-  compWins.innerText += `${currentComp.wins}`;
-}
-
-
-
 function displayClassicGame() {
   hide(classicGameChoice)
   hide(botzGameChoice)
@@ -160,6 +157,16 @@ function playClassicGame() {
   resultText.innerText = "Take your pick";
   resetTokens();
   gameSubtitle.innerText = "Make a choice:";
+}
+
+// Battle of the Zodiac (Botz) game Functionality
+
+function resetBotz() {
+  hide(playerBox)
+  hide(computerBox)
+  battleText.innerHTML = "Choose your fighter"
+  hide(battleText)
+  hide(playerBattleText)
 }
 
 function showSigns() {
@@ -198,7 +205,10 @@ function playBotzGame() {
   displayZodiacSelection()
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
-  currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
+  // currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
+  currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale")
+  currentGame.initializeZodiac();
+  setZodiacMoves(currentGame.currentZodiac);
   if (currentGame.currentZodiac.length < 12 || !currentGame.currentZodiac.length) {
     var resetZodiac = setZodiacSigns();
     setZodiacMoves(resetZodiac)
@@ -299,29 +309,26 @@ function setBoxesAndMoves() {
   makeMovesSelectable();
 }
 
-function updateInner(element, content) {
-  element.innerHTML += `<p>${content}</p>`
-}
-
 function newChallenger() {
   if (!currentGame.currentZodiac.length) {
+    debugger
     hide(computerBox)
     hide(battleText)
+    resetElement(playerBattleText)
     show(playerBox)
     var userSign = currentUser.sign.name.toUpperCase();
     playerBox.innerHTML = ""
     playerBox.innerHTML += `
     <h4>YOU BEAT THE ZODIAC AS ${userSign}!</h4>
     `
-    battleLog.innerHTML += `
-    <p>YOU BEAT THE ZODIAC AS ${userSign}!</p>
-    `
+    updateBattleLog(`YOU BEAT THE ZODIAC AS ${userSign}!`)
+
     setTimeout(function() {playAnotherBotz()}, 3500);
     return
   }
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
-  battleLog.innerHTML += `<p>NEW CHALLENGER APPEARS: ${currentComp.sign.name}</p>`
+  updateBattleLog(`NEW CHALLENGER APPEARS: ${currentComp.sign.name}`)
   removeSign(currentComp, currentGame.currentZodiac);
   hide(playerBattleText);
   resetAdvantages(currentUser, currentComp)
@@ -388,10 +395,14 @@ function startBattle() {
   makeMovesUnselectable();
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
   var currentRoundMove = currentComp.currentMove;
-  compareSpeeds(currentUser, currentComp)
-  checkMoved(currentUser, currentComp)
-  setPlayerMoves(playerBox, currentUser)
-  resetPlayers(currentUser, currentComp)
+  runBattleSequence()
+}
+
+function runBattleSequence() {
+  compareSpeeds(currentUser, currentComp);
+  checkMoved(currentUser, currentComp);
+  setPlayerMoves(playerBox, currentUser);
+  resetPlayers(currentUser, currentComp);
 }
 
 function delayShowMoves() {
@@ -409,13 +420,12 @@ function updateWinCount() {
 }
 
 function resetPlayers(currentPlayer, opponent) {
-  console.log("players reset")
   currentPlayer.hasMoved = false;
   opponent.hasMoved = false;
 }
 
 function initialBattleText() {
-  battleText.innerText = "";
+  resetText(battleText)
   battleText.innerText += "FIGHT!!"
 }
 
@@ -428,13 +438,6 @@ function startBotzGame() {
   makeMovesSelectable();
 }
 
-function resetElement(element) {
-  element.innerHTML = "";
-}
-
-function resetText(element) {
-  element.innerText = "";
-}
 
 function pullAndSetFromZodiac(sign) {
   currentUser.sign = sign;

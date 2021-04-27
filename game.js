@@ -1,11 +1,11 @@
 class Game {
-  constructor(gameName, gameDescription, zodiac) {
+  constructor(gameName, gameDescription) {
     this.name = gameName;
     this.description = gameDescription;
     this.ties = 0;
     this.choices = ["rock", "paper", "scissors"];
     this.zodiac = [];
-    this.currentZodiac = zodiac;
+    this.currentZodiac = [];
     this.player1 = "";
     this.player2 = "";
   }
@@ -57,7 +57,7 @@ class Game {
       pisces
     ];
   for (var sign of zodiac) {
-    this.zodiac.push(sign);
+    this.currentZodiac.push(sign);
   }
 }
   playGame(userInput) {
