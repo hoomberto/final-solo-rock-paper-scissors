@@ -268,6 +268,9 @@ function checkRounds(currentPlayer, opponent) {
 }
 
 function checkMoved(currentPlayer, opponent) {
+  if (!currentPlayer.sign.hp) {
+    return
+  }
 
   if (currentPlayer.hasMoved && !opponent.hasMoved) {
     runMove(opponent, currentPlayer)
