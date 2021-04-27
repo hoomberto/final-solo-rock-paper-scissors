@@ -145,7 +145,6 @@ function announce(currentUser, currentComp) {
   battleLogAnnounce();
 }
 
-
 function compareQualities(user, comp) {
   if (user.quality === comp.quality) {
     compareBox.innerHTML +=`<p>It was ${user.quality} vs ${comp.quality} - tie!</p>\n`;
