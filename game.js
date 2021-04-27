@@ -6,6 +6,8 @@ class Game {
     this.choices = ["rock", "paper", "scissors"];
     this.zodiac = [];
     this.currentZodiac = zodiac;
+    this.player1 = "";
+    this.player2 = "";
   }
   renderRPS() {
     gameSelections.innerHTML = "";
@@ -59,29 +61,35 @@ class Game {
   }
 }
   playGame(userInput) {
+    debugger
     currentComp.currentChoice = randomChoice(this.choices)
     var compInput = currentComp.currentChoice
     this.compareChoices(userInput, compInput);
-    setWinCount();
+    // setWinCount();
   }
 
   compareChoices(user, comp) {
     hideAllChoices();
+    let localGame = getGameFromLocal();
+    let player1 = localGame.player1;
+    let player2 = localGame.player2;
     // show(playAgainBtn);
     if (user === comp) {
     this.ties++;
     resultText.innerText = `It was ${user} vs ${comp} - tie! Play again`
     }
     else if (user === 'rock' && comp === 'scissors' || user === 'scissors' && comp === 'paper' || user === 'paper' && comp === 'rock') {
-      currentUser.wins++
-      currentComp.losses++
+      player1.wins++
+      player2.losses++
       resultText.innerText = `${user} beats ${comp}! You win!`
     }
     else if (user === 'rock' && comp === 'paper' || user === 'scissors' && comp === 'rock' || user === 'paper' && comp === 'scissors') {
-      currentUser.losses++
-      currentComp.wins++
+      player1.losses++
+      player2.wins++
       resultText.innerText = `${user} lost against ${comp}! You lost!`
     }
+    saveToStorage(player1, player2)
+    renderFromLocal();
     showBothChoices();
     setTimeout(function() {playClassicGame()}, 2500)
   }
@@ -155,4 +163,43 @@ function selectChoice(event) {
     }
     currentGame.playGame(currentUser.currentChoice);
 
+}
+
+function resetStorage() {
+  var gameObject = { player1: "", player2: "" };
+  var strGameObject = JSON.stringify(gameObject);
+  localStorage.setItem("game", strGameObject);
+}
+
+function checkLocalStorage() {
+  if (!localStorage.getItem("game")) {
+    resetStorage()
+  }
+}
+
+function saveToStorage(player1, player2) {
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  parsedGame.player1 = player1;
+  parsedGame.player2 = player2;
+  localStorage.setItem("game", JSON.stringify(parsedGame));
+}
+
+function renderFromLocal() {
+  userIcon.innerText = "";
+  compIcon.innerText = "";
+  playerWins.innerText = "";
+  compWins.innerText = "";
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  userIcon.innerText += parsedGame.player1.icon
+  compIcon.innerText += parsedGame.player2.icon
+  playerWins.innerText += `Wins: ${parsedGame.player1.wins}`;
+  compWins.innerText += `Wins: ${parsedGame.player2.wins}`;
+}
+
+function getGameFromLocal() {
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  return parsedGame;
 }

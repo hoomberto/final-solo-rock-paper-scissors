@@ -105,7 +105,7 @@ function addMoves(sign) {
 
 function checkAccuracy(moveAccuracy) {
   debugger
-  var randomToCompare = Math.floor(Math.random() * 150 + 1);
+  var randomToCompare = Math.floor(Math.random() * 100 + 1);
   if (randomToCompare > moveAccuracy) {
     return false
   }
@@ -122,13 +122,10 @@ function evaluateSigns(currentUser, currentComp) {
   setTimeout(function() {compareElements(currentUser, currentComp)}, 4300);
   setTimeout(function() {resetText(compareBox)}, 5500);
   setTimeout(function() {compareQualities(currentUser.sign, currentComp.sign)},5600);
-  // debugger
   setTimeout(function() {resetText(compareBox)}, 6800);
   setTimeout(function() {compareAdvantages(currentUser.sign, currentComp.sign)}, 6900);
   setTimeout(function() {resetText(compareBox)}, 8900);
   setTimeout(function() {hide(compareBox)}, 8900);
-  // currentUser.hasMoved = false;
-  // currentComp.hasMoved = false;
 }
 
 function announce(currentUser, currentComp) {
@@ -184,25 +181,28 @@ function compareElements(currentPlayer, opponent) {
 function compareAdvantages(currentPlayer, opponent) {
   if (!currentPlayer.hasElementAdvantage && !currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = "You are both evenly matched!\n"
+    return
   }
-
   if (currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = "All right! You have an elemental advantage!\n"
   }
   if (opponent.hasElementAdvantage && !opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
-    compareBox.innerHTML = "Yikes! You're at an elemental disadvantage!\n"
+    compareBox.innerHTML += "Yikes! You're at an elemental disadvantage!\n"
   }
   if (!currentPlayer.hasElementAdvantage && currentPlayer.hasQualityAdvantage && !opponent.hasQualityAdvantage && !opponent.hasElementAdvantage) {
-    compareBox.innerHTML = "Yes! You have a quality advantage!\n"
+    compareBox.innerHTML += "Yes! You have a quality advantage!\n"
   }
   if (!opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
-    compareBox.innerHTML = "Uh oh! The opponent has a quality advantage!\n"
+    compareBox.innerHTML += "Uh oh! The opponent has a quality advantage!\n"
   }
   else if (currentPlayer.hasElementAdvantage && currentPlayer.hasElementAdvantage && !opponent.hasElementAdvantage && !opponent.hasQualityAdvantage) {
     compareBox.innerHTML = `${currentPlayer.name} has a total advantage!\n`
   }
   else if (opponent.hasElementAdvantage && opponent.hasQualityAdvantage && !currentPlayer.hasElementAdvantage && !currentPlayer.hasQualityAdvantage) {
     compareBox.innerHTML = "Oh no! You're at a total disadvantage!\n"
+  }
+  else  {
+    compareBox.innerHTML = "This could be a close one!\n"
   }
 }
 
@@ -230,10 +230,35 @@ function compareSpeeds(currentPlayer, opponent) {
   }
 }
 
+function runMove(currentPlayer, opponent) {
+  currentPlayer.hasMoved = true;
+  var currentPlayerHp = currentPlayer.sign.hp
+  currentMove = currentPlayer.currentMove;
+  hitOrMiss(currentPlayer, opponent)
+  setTimeout(function() {checkOpponentHealth(currentPlayer, opponent)}, 1000)
+}
+
+function hitOrMiss(currentPlayer, opponent) {
+  if (checkAccuracy(currentPlayer.currentMove.accuracy)) {
+    var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier
+    showMoveUsed(currentPlayer);
+    console.log(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes`)
+
+    opponent.sign.hp -= damageCalculation
+
+  }
+  else {
+    announceMiss(currentPlayer);
+    console.log(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
+  }
+}
+
 function checkOpponentHealth(currentPlayer, opponent) {
   if (opponent.sign.hp > 0) {
     showPlayerBattleText(opponent)
     setBothBoxes();
+    setPlayerMoves(playerBox, currentUser)
+    makeMovesSelectable();
     console.log(`${opponent.sign.name} still standing with ${opponent.sign.hp} HP`)
   }
   else {
@@ -245,9 +270,9 @@ function checkOpponentHealth(currentPlayer, opponent) {
     opponent.signLoss();
     if (currentPlayer.name === currentComp.name && currentPlayer.isWinner && opponent.lostRound) {
       gameOver()
+      setTimeout(function() {resetElement(playerBattleText)}, 3400);
       setTimeout(function() {playAnotherBotz()}, 3500);
-      // var playBotzAgainBtn = document.getElementById("playBotzAgain");
-      // playBotzAgainBtn.addEventListener("click", playAnotherBotz);
+      return
     }
     else if (currentPlayer.name === currentUser.name && currentPlayer.isWinner) {
       console.log("NEW CHALLENGER APPROACHES")
@@ -268,8 +293,13 @@ function checkRounds(currentPlayer, opponent) {
 }
 
 function checkMoved(currentPlayer, opponent) {
-
+  if (!currentPlayer.sign.hp || !opponent.sign.hp) {
+    return
+  }
+  console.log(`${currentPlayer.hasMoved}`, `${opponent.hasMoved}`);
+  debugger;
   if (currentPlayer.hasMoved && !opponent.hasMoved) {
+    console.log("current player should have moved and opponent should not have moved for this to run")
     runMove(opponent, currentPlayer)
   }
   else if (!currentPlayer.hasMoved && opponent.hasMoved) {
@@ -278,34 +308,15 @@ function checkMoved(currentPlayer, opponent) {
   else if (currentPlayer.hasMoved && opponent.hasMoved) {
     checkRounds(currentPlayer, opponent)
   }
-
-}
-
-function hitOrMiss(currentPlayer, opponent) {
-  if (checkAccuracy(currentPlayer.currentMove)) {
-    var damageCalculation = (currentMove.damage + currentPlayer.sign.stats.attack + currentPlayer.sign.buffs.attack) * currentPlayer.sign.elementMultiplier * currentPlayer.sign.qualityMultiplier
-    showMoveUsed(currentPlayer);
-    console.log(`${currentPlayer.sign.name} uses ${currentPlayer.currentMove.name}! It causes`)
-
-    opponent.sign.hp -= damageCalculation
-
-  }
   else {
-
-    compMiss(currentPlayer);
-    console.log(`${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`)
+    console.log("NOT WORKING")
   }
+
 }
 
-function runMove(currentPlayer, opponent) {
 
-  currentPlayer.hasMoved = true;
-  var currentPlayerHp = currentPlayer.sign.hp
-  currentMove = currentPlayer.currentMove;
 
-  hitOrMiss(currentPlayer, opponent)
-  checkOpponentHealth(currentPlayer, opponent)
-}
+
 
 function setNewGame() {
   var newZodiac = setZodiacSigns();
@@ -314,17 +325,15 @@ function setNewGame() {
 }
 
 function gameOver() {
+  // debugger
     resetElement(playerBattleText)
-    hide(playerMoveText)
+    playerBattleText.classList.add("hidden")
+    // hide(playerBattleText)
+    // hide(playerMoveText)
+
     console.log("GAME ENDED AT LINE 315");
     battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
     playerBox.innerHTML = "";
-    // playerBox.innerHTML += `
-    // <div id="playBotzAgain" class="play-again-box">
-    // <h4>GAME OVER</h4>
-    // <button>Play Again</button>
-    // </div>
-    // `;
     console.log("what about here?")
 }
 

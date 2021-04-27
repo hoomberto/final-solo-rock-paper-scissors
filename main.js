@@ -58,18 +58,25 @@ var currentComp;
 // function generateGame()
 
 function displayDefaultGame() {
+  checkLocalStorage();
   var gameName = "Rock, Paper, Scissors";
   var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!"
   var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock"
   currentGame = new Game(gameName, gameDescription);
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
+  var currentLocalGame = getGameFromLocal();
+  if (!currentLocalGame.player1.wins) {
+    saveToStorage(currentUser, currentComp);
+  }
+  renderFromLocal();
+
   currentGame.renderRPS();
   makeChoicesSelectable();
-  userIcon.innerText += currentUser.icon
-  compIcon.innerText += currentComp.icon
-  playerWins.innerText += `${currentUser.wins}`;
-  compWins.innerText += `${currentComp.wins}`;
+  // userIcon.innerText += currentUser.icon
+  // compIcon.innerText += currentComp.icon
+  // playerWins.innerText += `${currentUser.wins}`;
+  // compWins.innerText += `${currentComp.wins}`;
   gameTitle.innerText = currentGame.name;
   classicRules.innerText += currentGame.description;
   botzRules.innerText += botzDescription;
@@ -102,8 +109,6 @@ function resetTokens() {
 function playAnother() {
   resultText.innerText = "";
   showAllChoices();
-  // resetTokens();
-  // resetPlayerChoices();
   show(gameSelections);
   hide(gameChoices);
   hide(goBackBtn);
@@ -111,13 +116,6 @@ function playAnother() {
   show(botzGameChoice);
   gameSubtitle.innerText = "Choose your game!"
 }
-
-// function resetPlayerChoices() {
-//   if ()
-//   resetText(rockText)
-//   resetText(paperText)
-//   resetText(scissorsText)
-// }
 
 function resetWinCount() {
   playerWins.innerText = "Wins: ";
@@ -222,9 +220,19 @@ function makeMovesSelectable() {
   var moveChoices = document.querySelectorAll(".move");
   for (var move of moveChoices) {
     // console.log(move)
+
     move.addEventListener("click", function() {
       selectMove(event);
     });
+    move.style.pointerEvents = "auto";
+  }
+}
+
+function makeMovesUnselectable() {
+  var moveChoices = document.querySelectorAll(".move");
+  for (var move of moveChoices) {
+    // console.log(move)
+    move.style.pointerEvents = "none";
   }
 }
 
@@ -266,8 +274,11 @@ function selectMove(event) {
     if (selectedMove === move.name) {
       currentUser.currentMove = move;
       console.log(`User selected ${currentUser.currentMove.name}`)
+      // resetPlayers(currentUser, currentComp)
     }
   }
+  // resetPlayers(currentUser, currentComp)
+  makeMovesUnselectable()
   // debugger
   showPlayerChoice();
   // setBothBoxes();
@@ -302,8 +313,8 @@ function newChallenger() {
   removeSign(currentComp, currentGame.currentZodiac);
   hide(playerBattleText);
   resetAdvantages(currentUser, currentComp)
-  evaluateSigns(currentUser, currentComp);
-  setTimeout(function() {startBotzGame()}, 9000);
+  // evaluateSigns(currentUser, currentComp);
+  // setTimeout(function() {startBotzGame()}, 9000);
   // setBothBoxes();
   // setPlayerMoves(playerBox, currentUser);
   // makeMovesSelectable();
@@ -321,7 +332,9 @@ function gameRound() {
   if (!currentComp.sign.hp) {
 
     newChallenger()
-    resetPlayers(currentUser, currentComp)
+    // setTimeout(function() {startBotzGame()}, 9000);
+    startBotzGame()
+    // resetPlayers(currentUser, currentComp)
     console.log("RESET")
   }
 
@@ -334,12 +347,13 @@ function showCompMove() {
   battleText.innerText = `${currentComp.name} selected ${currentComp.currentMove.name}`
 }
 
-function compMiss(currentPlayer) {
+function announceMiss(currentPlayer) {
   var missText = `${currentPlayer.sign.name} tried using ${currentMove.name}, but it missed!`
-  if (currentPlayer.name === "Computer") {
+  if (currentPlayer.name === currentComp.name) {
     battleText.innerText = missText;
   }
   else {
+    show(playerBattleText)
     playerBattleText.innerText = missText;
   }
 
@@ -381,19 +395,28 @@ function showPlayerChoice() {
 
 function startBattle() {
   setBothBoxes()
+  makeMovesUnselectable();
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
+  var currentRoundMove = currentComp.currentMove;
   // setTimeout(function() {beginFight()}, 6900);
-  compareSpeeds(currentUser, currentComp);
-
+  compareSpeeds(currentUser, currentComp)
+  // setTimeout(function() {compareSpeeds(currentUser, currentComp)}, 100)
   checkMoved(currentUser, currentComp)
-  resetPlayers(currentUser, currentComp)
   setPlayerMoves(playerBox, currentUser)
+  resetPlayers(currentUser, currentComp)
+  // setTimeout(function() {checkMoved(currentUser, currentComp)}, 2500)
+  // setTimeout(function() {setPlayerMoves(playerBox, currentUser)}, 3500)
+  // setTimeout(function() {checkMoved(currentUser, currentComp)}, 2550)
+  // setTimeout(function() {resetPlayers(currentUser, currentComp)}, 3600)
+  // checkMoved(currentUser, currentComp)
+  // resetPlayers(currentUser, currentComp)
+  // setPlayerMoves(playerBox, currentUser)
   // delayShowMoves();
-  makeMovesSelectable();
+  // makeMovesSelectable();
   // compareSpeeds(currentUser, currentComp);
   //
   // checkMoved(currentUser, currentComp)
-  // resetPlayers(currentUser, currentComp)
+  // setTimeout(function() {resetPlayers(currentUser, currentComp)}, 2600)
   // setPlayerMoves(playerBox, currentUser)
   // // delayShowMoves();
   // makeMovesSelectable();
@@ -414,6 +437,7 @@ function updateWinCount() {
 }
 
 function resetPlayers(currentPlayer, opponent) {
+  console.log("players reset")
   currentPlayer.hasMoved = false;
   opponent.hasMoved = false;
 }
@@ -457,6 +481,10 @@ function selectSign(event) {
     // setTimeout(initialBattleText, 1000)
     initialBattleText();
     hide(zodiacSignSelection);
+
+    show(goBackBtn)
+    // startBotzGame()
+
     evaluateSigns(currentUser, currentComp)
     setTimeout(function() {show(goBackBtn)}, 9000)
     setTimeout(function() {startBotzGame()}, 9000)
