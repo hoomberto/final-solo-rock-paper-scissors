@@ -283,40 +283,23 @@ function checkOpponentHealth(currentPlayer, opponent) {
   }
 }
 
-function checkRounds(currentPlayer, opponent) {
-    if (opponent.lostRound) {
-    console.log("ROUND OVER, NEXT ROUND SOON");
-  }
-  else if (currentPlayer.lostRound) {
-    console.log("Player lost!")
-  }
-}
-
 function checkMoved(currentPlayer, opponent) {
   if (!currentPlayer.sign.hp || !opponent.sign.hp) {
     return
   }
-  console.log(`${currentPlayer.hasMoved}`, `${opponent.hasMoved}`);
-  debugger;
   if (currentPlayer.hasMoved && !opponent.hasMoved) {
-    console.log("current player should have moved and opponent should not have moved for this to run")
     runMove(opponent, currentPlayer)
   }
   else if (!currentPlayer.hasMoved && opponent.hasMoved) {
     runMove(currentPlayer, opponent)
   }
   else if (currentPlayer.hasMoved && opponent.hasMoved) {
-    checkRounds(currentPlayer, opponent)
+    return
   }
   else {
     console.log("NOT WORKING")
   }
-
 }
-
-
-
-
 
 function setNewGame() {
   var newZodiac = setZodiacSigns();
@@ -325,16 +308,9 @@ function setNewGame() {
 }
 
 function gameOver() {
-  // debugger
     resetElement(playerBattleText)
-    playerBattleText.classList.add("hidden")
-    // hide(playerBattleText)
-    // hide(playerMoveText)
-
-    console.log("GAME ENDED AT LINE 315");
     battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
     playerBox.innerHTML = "";
-    console.log("what about here?")
 }
 
 function endBotzGame() {

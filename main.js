@@ -36,14 +36,11 @@ var compareBox = document.getElementById("comparisonBox");
 
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
-// playAgainBtn.addEventListener("click", playAnother);
 botzGameChoice.addEventListener("click", playBotzGame);
 goBackBtn.addEventListener("click", goBack)
-// console.log(rpsChoices)
 
 
 function makeChoicesSelectable() {
-  // var rpsChoices = document.querySelectorAll(".choice");
     var choiceContainers = document.querySelectorAll(".choice-container")
     for (var choice of choiceContainers) {
       choice.addEventListener("click", function() {
@@ -55,8 +52,6 @@ function makeChoicesSelectable() {
 var currentGame;
 var currentUser;
 var currentComp;
-
-// function generateGame()
 
 function displayDefaultGame() {
   checkLocalStorage();
