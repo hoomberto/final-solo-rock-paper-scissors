@@ -198,6 +198,13 @@ grid-template-rows: repeat(2, 1fr);
   .go-back-button {
     width: 90%;
   }
+
+  .matchups-container {
+    flex-direction: column;
+  }
+  .quality-matchups-container {
+    margin-top: 4%;
+  }
 }
 
 

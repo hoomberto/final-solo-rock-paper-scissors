@@ -343,6 +343,7 @@ function endBotzGame() {
   setNewGame()
   show(goBackBtn)
   show(zodiacSignSelection)
+  show(botzExplanation)
   battleText.innerText = "Choose your fighter"
 }
 

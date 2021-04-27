@@ -26,6 +26,7 @@ var playerWinLosses = document.getElementById("playerWinLosses");
 var compWinLosses = document.getElementById("compWinLosses");
 var goBackBtn = document.getElementById("goBack");
 var choiceContainers = document.querySelectorAll(".choice-container")
+var botzExplanation = document.getElementById("botzExplanation");
 
 
 
@@ -481,7 +482,7 @@ function selectSign(event) {
     // setTimeout(initialBattleText, 1000)
     initialBattleText();
     hide(zodiacSignSelection);
-
+    hide(botzExplanation)
     show(goBackBtn)
     // startBotzGame()
 
