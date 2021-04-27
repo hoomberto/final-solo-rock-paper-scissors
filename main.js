@@ -28,6 +28,7 @@ var goBackBtn = document.getElementById("goBack");
 var choiceContainers = document.querySelectorAll(".choice-container")
 var botzExplanation = document.getElementById("botzExplanation");
 var battleLog = document.getElementById("battleLog");
+var battleLogContainer = document.getElementById("battleLogContainer");
 
 
 // Battle Elements
@@ -83,6 +84,8 @@ function displayDefaultGame() {
 function goBack() {
   playAnother();
   hide(botzGameSection);
+  hide(battleLogContainer)
+  resetBattleLog();
   resetBotz();
   show(mainGameSection);
 }
@@ -168,6 +171,26 @@ function displayZodiacSelection() {
   show(signs)
 }
 
+function updateBattleLog(content) {
+
+  battleLog.innerHTML += `<p>${content}</p>`
+  // battleLog.scrollTop = 0;
+  // battleLog.scrollBottom = battleLog.scrollHeight;
+  // battleLog.scrollTop(battleLog.height)
+  scrollToTop(battleLog)
+  // battleLog.scrollBottom = battleLog.scrollHeight;
+  // scrollToBottom(battleLog)
+}
+
+function scrollToTop(element) {
+  element.scrollTo({
+    top: element.scrollHeight,
+    behavior: "smooth"
+  });
+}
+// function scrollToBottom(element) {
+//   element.scroll({ top: element.scrollHeight, behavior: 'smooth' });
+// }
 
 function playBotzGame() {
   displayZodiacSelection()
@@ -399,7 +422,7 @@ function startBotzGame() {
   show(playerBox);
   show(computerBox);
   // Add function to show battle log
-  show(battleLog)
+  show(battleLogContainer)
   setBothBoxes()
   setPlayerMoves(playerBox, currentUser)
   makeMovesSelectable();
