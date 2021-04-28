@@ -54,13 +54,19 @@ function initializeDefaultText(currentGame) {
   botzRules.innerText += botzDescription;
 }
 
-function displayDefaultGame() {
-  checkLocalStorage();
+function initializeGame() {
   var gameName = "Rock, Paper, Scissors";
   var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock";
   currentGame = new Game(gameName, gameDescription);
-  currentUser = new Player("User", "🟢");
-  currentComp = new Player("Computer", "🤖");
+  currentGame.player1 = new Player("User", "🟢");
+  currentGame.player2 = new Player("Computer", "🤖");
+  currentUser = currentGame.player1
+  currentComp = currentGame.player2
+}
+
+function displayDefaultGame() {
+  checkLocalStorage();
+  initializeGame()
   var currentLocalGame = getGameFromLocal();
   renderDefaultPage(currentLocalGame);
   initializeDefaultText(currentGame);
@@ -310,7 +316,6 @@ function setBoxesAndMoves() {
 
 function newChallenger() {
   if (!currentGame.currentZodiac.length) {
-    debugger
     hide(computerBox)
     hide(battleText)
     resetElement(playerBattleText)
@@ -413,10 +418,10 @@ function updateBothHealth(currentPlayer, opponent) {
   updateHealth(opponent);
 }
 
-function updateWinCount() {
-  playerWins.innerText = `Rounds won: ${currentUser.wins}`
-  compWins.innerText = `Rounds won: ${currentComp.wins}`
-}
+// function updateWinCount() {
+//   playerWins.innerText = `Rounds won: ${currentUser.wins}`
+//   compWins.innerText = `Rounds won: ${currentComp.wins}`
+// }
 
 function resetPlayers(currentPlayer, opponent) {
   currentPlayer.hasMoved = false;

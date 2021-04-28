@@ -61,11 +61,9 @@ class Game {
   }
 }
   playGame(userInput) {
-    debugger
     currentComp.currentChoice = randomChoice(this.choices)
     var compInput = currentComp.currentChoice
     this.compareChoices(userInput, compInput);
-    // setWinCount();
   }
 
   compareChoices(user, comp) {
@@ -73,7 +71,6 @@ class Game {
     let localGame = getGameFromLocal();
     let player1 = localGame.player1;
     let player2 = localGame.player2;
-    // show(playAgainBtn);
     if (user === comp) {
     this.ties++;
     resultText.innerText = `It was ${user} vs ${comp} - tie! Play again`
@@ -93,6 +90,10 @@ class Game {
     showBothChoices();
     setTimeout(function() {playClassicGame()}, 2500)
   }
+  updateWinCount() {
+    playerWins.innerText = `Rounds won: ${currentUser.wins}`
+    compWins.innerText = `Rounds won: ${currentComp.wins}`
+  }
 }
 
 function randomIndex(array) {
@@ -104,23 +105,20 @@ function randomChoice(choices) {
 }
 
 function hideAllChoices() {
-      var choiceContainers = document.querySelectorAll(".choice-container")
-  // rpsChoices = document.querySelectorAll(".choice");
+  var choiceContainers = document.querySelectorAll(".choice-container");
   for (var choice of choiceContainers) {
-    hide(choice)
+    hide(choice);
   }
 }
 
 function showAllChoices() {
-    goBackBtn.style.pointerEvents = 'auto'
-    var choiceContainers = document.querySelectorAll(".choice-container")
-    for (var choice of choiceContainers) {
-        show(choice)
-        choice.style.pointerEvents = 'auto'
-    }
+  goBackBtn.style.pointerEvents = 'auto'
+  var choiceContainers = document.querySelectorAll(".choice-container")
+  for (var choice of choiceContainers) {
+      show(choice)
+      choice.style.pointerEvents = 'auto'
+  }
 }
-
-
 
 function showChoice(player) {
   var playerChoice = player.currentChoice
