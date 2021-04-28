@@ -79,9 +79,14 @@ class Game {
     setTimeout(function() {playClassicGame()}, 2500)
   }
   updateWinCount() {
-    playerWins.innerText = `Rounds won: ${currentUser.wins}`
-    compWins.innerText = `Rounds won: ${currentComp.wins}`
+    saveToStorage(currentUser, currentComp)
+    resetElement(playerWins);
+    resetElement(compWins);
+    var localGame = getGameFromLocal();
+    playerWins.innerText += `Rounds won: ${localGame.player1.roundsWon}`
+    compWins.innerText += `Rounds won: ${localGame.player2.roundsWon}`
   }
+
   setZodiacMoves() {
     for (var sign of this.currentZodiac) {
       this.addMoves(sign)

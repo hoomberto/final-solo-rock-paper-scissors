@@ -114,6 +114,16 @@ function displayDefaultGame() {
   makeChoicesSelectable();
 }
 
+function initializeGame() {
+  var gameName = "Rock, Paper, Scissors";
+  var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock";
+  currentGame = new Game(gameName, gameDescription);
+  currentGame.player1 = new Player("User", "🟢");
+  currentGame.player2 = new Player("Computer", "🤖");
+  currentUser = currentGame.player1
+  currentComp = currentGame.player2
+}
+
 function resetUserCompText() {
   userIcon.innerText = "";
   compIcon.innerText = "";
@@ -178,16 +188,6 @@ function initializeDefaultText(currentGame) {
 
 // Classic Game Functionality
 
-function initializeGame() {
-  var gameName = "Rock, Paper, Scissors";
-  var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock";
-  currentGame = new Game(gameName, gameDescription);
-  currentGame.player1 = new Player("User", "🟢");
-  currentGame.player2 = new Player("Computer", "🤖");
-  currentUser = currentGame.player1
-  currentComp = currentGame.player2
-}
-
 function playAnother() {
   hide(gameChoices);
   hide(goBackBtn);
@@ -226,6 +226,7 @@ function displayClassicGame() {
 
 function playClassicGame() {
   displayClassicGame()
+  renderFromLocal();
   resultText.innerText = "Take your pick";
   resetTokens();
   gameSubtitle.innerText = "Make a choice:";
@@ -280,6 +281,14 @@ function selectChoice(event) {
 
 // Battle of the Zodiac (Botz) game Functionality
 
+function displayRoundsWon() {
+  resetElement(playerWins);
+  resetElement(compWins);
+  var localGame = getGameFromLocal();
+  playerWins.innerText += `Rounds won: ${localGame.player1.roundsWon}`
+  compWins.innerText += `Rounds won: ${localGame.player2.roundsWon}`
+}
+
 function resetBotz() {
   hide(playerBox)
   hide(computerBox)
@@ -327,6 +336,7 @@ function setZodiacAndMoves() {
 }
 
 function playBotzGame() {
+  displayRoundsWon()
   displayZodiacSelection()
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
@@ -547,10 +557,10 @@ function updateBothHealth(currentPlayer, opponent) {
   updateHealth(opponent);
 }
 
-function updateWinCount() {
-  playerWins.innerText = `Rounds won: ${currentUser.roundsWon}`
-  compWins.innerText = `Rounds won: ${currentComp.roundsWon}`
-}
+// function updateWinCount() {
+//   playerWins.innerText = `Rounds won: ${currentUser.roundsWon}`
+//   compWins.innerText = `Rounds won: ${currentComp.roundsWon}`
+// }
 
 function resetPlayers(currentPlayer, opponent) {
   currentPlayer.hasMoved = false;

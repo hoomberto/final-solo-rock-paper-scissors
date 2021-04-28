@@ -203,6 +203,8 @@ function setWinnerLoser(currentPlayer, opponent) {
   currentPlayer.isWinner = true;
   currentPlayer.winRound();
   opponent.signLoss();
+  // saveToStorage(currentUser, currentComp)
+  // resetUserCompText()
 }
 
 function delayPlayBotzAgain() {
