@@ -323,7 +323,7 @@ function scrollToTop(element) {
 function setZodiacAndMoves() {
   currentGame.currentZodiac = []
   currentGame.initializeZodiac();
-  setZodiacMoves(currentGame.currentZodiac);
+  currentGame.setZodiacMoves();
 }
 
 function playBotzGame() {

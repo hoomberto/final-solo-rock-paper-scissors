@@ -1,22 +1,8 @@
-function setZodiacMoves(array) {
-  for (var sign of array) {
-    addMoves(sign)
-  }
-}
-
 function removeSign(player, array) {
   for (var i = 0; i < array.length; i++) {
     if (array[i].name === player.sign.name) {
       array.splice(i, 1);
     }
-  }
-}
-
-function addMoves(sign) {
-  var i = 0;
-  while (i < 2) {
-    sign.moves.push(randomChoice(moves))
-    i++
   }
 }
 

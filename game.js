@@ -82,4 +82,16 @@ class Game {
     playerWins.innerText = `Rounds won: ${currentUser.wins}`
     compWins.innerText = `Rounds won: ${currentComp.wins}`
   }
+  setZodiacMoves() {
+    for (var sign of this.currentZodiac) {
+      this.addMoves(sign)
+    }
+  }
+  addMoves(sign) {
+    var i = 0;
+    while (i < 2) {
+      sign.moves.push(randomChoice(moves))
+      i++
+    }
+  }
 }
