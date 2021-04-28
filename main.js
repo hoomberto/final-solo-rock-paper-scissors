@@ -1,3 +1,4 @@
+// Query Selectors
 var classicGameChoice = document.getElementById("classicGame");
 var botzGameChoice = document.getElementById("botzGame");
 var gameTitle = document.getElementById("gameHeader");
@@ -11,7 +12,6 @@ var playerWins = document.getElementById("playerWins");
 var compWins = document.getElementById("compWins");
 var userIcon = document.getElementById("userIcon");
 var compIcon = document.getElementById("compIcon");
-// var rpsChoices = document.querySelectorAll(".choice");
 var resultText = document.getElementById("resultText");
 var playAgainBtn = document.getElementById("playAgain");
 var botzGameSection = document.getElementById("botz");
@@ -30,18 +30,20 @@ var botzExplanation = document.getElementById("botzExplanation");
 var battleLog = document.getElementById("battleLog");
 var battleLogContainer = document.getElementById("battleLogContainer");
 var compareBox = document.getElementById("comparisonBox");
-// Default / Global Functionality
+
+// Global Variables
 
 var currentGame;
 var currentUser;
 var currentComp;
-
 
 // Event Handlers
 window.onload = displayDefaultGame();
 classicGameChoice.addEventListener("click", playClassicGame);
 botzGameChoice.addEventListener("click", playBotzGame);
 goBackBtn.addEventListener("click", goBack)
+
+// DOM Rendering
 
 function renderDefaultPage(currentLocalGame) {
   if (!currentLocalGame.player1.wins) {
@@ -63,6 +65,8 @@ function renderRPS() {
   }
 }
 
+// localStorage
+
 function renderFromLocal() {
   resetUserCompText()
   checkLocalStorage();
@@ -73,22 +77,33 @@ function renderFromLocal() {
   compWins.innerText += `Wins: ${parsedGame.player2.wins}`;
 }
 
-function initializeDefaultText(currentGame) {
-  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!";
-  gameTitle.innerText = currentGame.name;
-  classicRules.innerText += currentGame.description;
-  botzRules.innerText += botzDescription;
+function resetStorage() {
+  var gameObject = { player1: "", player2: "" };
+  var strGameObject = JSON.stringify(gameObject);
+  localStorage.setItem("game", strGameObject);
 }
 
-function initializeGame() {
-  var gameName = "Rock, Paper, Scissors";
-  var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock";
-  currentGame = new Game(gameName, gameDescription);
-  currentGame.player1 = new Player("User", "🟢");
-  currentGame.player2 = new Player("Computer", "🤖");
-  currentUser = currentGame.player1
-  currentComp = currentGame.player2
+function checkLocalStorage() {
+  if (!localStorage.getItem("game")) {
+    resetStorage()
+  }
 }
+
+function saveToStorage(player1, player2) {
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  parsedGame.player1 = player1;
+  parsedGame.player2 = player2;
+  localStorage.setItem("game", JSON.stringify(parsedGame));
+}
+
+function getGameFromLocal() {
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  return parsedGame;
+}
+
+// Default / Global Functionality
 
 function displayDefaultGame() {
   checkLocalStorage();
@@ -97,6 +112,13 @@ function displayDefaultGame() {
   renderDefaultPage(currentLocalGame);
   initializeDefaultText(currentGame);
   makeChoicesSelectable();
+}
+
+function resetUserCompText() {
+  userIcon.innerText = "";
+  compIcon.innerText = "";
+  playerWins.innerText = "";
+  compWins.innerText = "";
 }
 
 function goBack() {
@@ -147,7 +169,24 @@ function setWinCount() {
   compWins.innerText += `${currentComp.wins}`;
 }
 
+function initializeDefaultText(currentGame) {
+  var botzDescription = "\nFace the other signs in a battle royale - see how many rounds you last!";
+  gameTitle.innerText = currentGame.name;
+  classicRules.innerText += currentGame.description;
+  botzRules.innerText += botzDescription;
+}
+
 // Classic Game Functionality
+
+function initializeGame() {
+  var gameName = "Rock, Paper, Scissors";
+  var gameDescription = "\nRock Beats Scissors\nScissors Beats Paper\nPaper Beats Rock";
+  currentGame = new Game(gameName, gameDescription);
+  currentGame.player1 = new Player("User", "🟢");
+  currentGame.player2 = new Player("Computer", "🤖");
+  currentUser = currentGame.player1
+  currentComp = currentGame.player2
+}
 
 function playAnother() {
   hide(gameChoices);
@@ -190,6 +229,53 @@ function playClassicGame() {
   resultText.innerText = "Take your pick";
   resetTokens();
   gameSubtitle.innerText = "Make a choice:";
+}
+
+function hideAllChoices() {
+  var choiceContainers = document.querySelectorAll(".choice-container");
+  for (var choice of choiceContainers) {
+    hide(choice);
+  }
+}
+
+function showAllChoices() {
+  goBackBtn.style.pointerEvents = 'auto'
+  var choiceContainers = document.querySelectorAll(".choice-container")
+  for (var choice of choiceContainers) {
+      show(choice)
+      choice.style.pointerEvents = 'auto'
+  }
+}
+
+function showChoice(player) {
+  var playerChoice = player.currentChoice
+  let choiceContainers = document.querySelectorAll(".choice-container")
+  goBackBtn.style.pointerEvents = 'none'
+  for (var choice of choiceContainers) {
+    if (choice.children[0].id === playerChoice) {
+      show(choice)
+      choice.style.pointerEvents = 'none';
+      choice.children[1].innerText += `${player.icon}`
+    }
+  }
+}
+
+function showBothChoices() {
+  showChoice(currentUser);
+  showChoice(currentComp);
+}
+
+function selectChoice(event) {
+    if (event.target.id === "rock") {
+      currentUser.currentChoice = "rock"
+    }
+    if (event.target.id === "paper") {
+      currentUser.currentChoice = "paper"
+    }
+    if (event.target.id === "scissors") {
+      currentUser.currentChoice = "scissors"
+    }
+    currentGame.playGame(currentUser.currentChoice);
 }
 
 // Battle of the Zodiac (Botz) game Functionality

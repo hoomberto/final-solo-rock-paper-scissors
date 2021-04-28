@@ -4,22 +4,10 @@ class Game {
     this.description = gameDescription;
     this.ties = 0;
     this.choices = ["rock", "paper", "scissors"];
-    // this.zodiac = [];
     this.currentZodiac = [];
     this.player1 = "";
     this.player2 = "";
   }
-  // renderRPS() {
-  //   gameSelections.innerHTML = "";
-  //   for (var choice of this.choices) {
-  //     gameSelections.innerHTML += `
-  //     <div id="${choice}ChoiceContainer" class="choice-container choice">
-  //       <img id="${choice}" src="./assets/${choice}.png" alt="${choice}">
-  //       <p id="${choice}Text" class="choice-icon"></p>
-  //     </div>
-  //     `
-  //   }
-  // }
 
   initializeZodiac() {
     // Fire Signs
@@ -94,84 +82,4 @@ class Game {
     playerWins.innerText = `Rounds won: ${currentUser.wins}`
     compWins.innerText = `Rounds won: ${currentComp.wins}`
   }
-}
-
-function resetStorage() {
-  var gameObject = { player1: "", player2: "" };
-  var strGameObject = JSON.stringify(gameObject);
-  localStorage.setItem("game", strGameObject);
-}
-
-function checkLocalStorage() {
-  if (!localStorage.getItem("game")) {
-    resetStorage()
-  }
-}
-
-function saveToStorage(player1, player2) {
-  checkLocalStorage();
-  var parsedGame = JSON.parse(localStorage.getItem("game"));
-  parsedGame.player1 = player1;
-  parsedGame.player2 = player2;
-  localStorage.setItem("game", JSON.stringify(parsedGame));
-}
-
-function resetUserCompText() {
-  userIcon.innerText = "";
-  compIcon.innerText = "";
-  playerWins.innerText = "";
-  compWins.innerText = "";
-}
-
-function getGameFromLocal() {
-  checkLocalStorage();
-  var parsedGame = JSON.parse(localStorage.getItem("game"));
-  return parsedGame;
-}
-
-function hideAllChoices() {
-  var choiceContainers = document.querySelectorAll(".choice-container");
-  for (var choice of choiceContainers) {
-    hide(choice);
-  }
-}
-
-function showAllChoices() {
-  goBackBtn.style.pointerEvents = 'auto'
-  var choiceContainers = document.querySelectorAll(".choice-container")
-  for (var choice of choiceContainers) {
-      show(choice)
-      choice.style.pointerEvents = 'auto'
-  }
-}
-
-function showChoice(player) {
-  var playerChoice = player.currentChoice
-  let choiceContainers = document.querySelectorAll(".choice-container")
-  goBackBtn.style.pointerEvents = 'none'
-  for (var choice of choiceContainers) {
-    if (choice.children[0].id === playerChoice) {
-      show(choice)
-      choice.style.pointerEvents = 'none';
-      choice.children[1].innerText += `${player.icon}`
-    }
-  }
-}
-
-function showBothChoices() {
-  showChoice(currentUser);
-  showChoice(currentComp);
-}
-
-function selectChoice(event) {
-    if (event.target.id === "rock") {
-      currentUser.currentChoice = "rock"
-    }
-    if (event.target.id === "paper") {
-      currentUser.currentChoice = "paper"
-    }
-    if (event.target.id === "scissors") {
-      currentUser.currentChoice = "scissors"
-    }
-    currentGame.playGame(currentUser.currentChoice);
 }
