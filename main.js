@@ -29,22 +29,48 @@ var choiceContainers = document.querySelectorAll(".choice-container")
 var botzExplanation = document.getElementById("botzExplanation");
 var battleLog = document.getElementById("battleLog");
 var battleLogContainer = document.getElementById("battleLogContainer");
-
-
-
+var compareBox = document.getElementById("comparisonBox");
+// Default / Global Functionality
 
 var currentGame;
 var currentUser;
 var currentComp;
 
-// Default / Global Functionality
+
+// Event Handlers
+window.onload = displayDefaultGame();
+classicGameChoice.addEventListener("click", playClassicGame);
+botzGameChoice.addEventListener("click", playBotzGame);
+goBackBtn.addEventListener("click", goBack)
 
 function renderDefaultPage(currentLocalGame) {
   if (!currentLocalGame.player1.wins) {
     saveToStorage(currentUser, currentComp);
   }
   renderFromLocal();
-  currentGame.renderRPS();
+  renderRPS();
+}
+
+function renderRPS() {
+  gameSelections.innerHTML = "";
+  for (var choice of currentGame.choices) {
+    gameSelections.innerHTML += `
+    <div id="${choice}ChoiceContainer" class="choice-container choice">
+      <img id="${choice}" src="./assets/${choice}.png" alt="${choice}">
+      <p id="${choice}Text" class="choice-icon"></p>
+    </div>
+    `
+  }
+}
+
+function renderFromLocal() {
+  resetUserCompText()
+  checkLocalStorage();
+  var parsedGame = JSON.parse(localStorage.getItem("game"));
+  userIcon.innerText += parsedGame.player1.icon
+  compIcon.innerText += parsedGame.player2.icon
+  playerWins.innerText += `Wins: ${parsedGame.player1.wins}`;
+  compWins.innerText += `Wins: ${parsedGame.player2.wins}`;
 }
 
 function initializeDefaultText(currentGame) {
@@ -80,6 +106,14 @@ function goBack() {
   resetBattleLog();
   resetBotz();
   show(mainGameSection);
+}
+
+function randomIndex(array) {
+  return Math.floor(Math.random() * array.length);
+}
+
+function randomChoice(choices) {
+  return choices[randomIndex(choices)];
 }
 
 function hide(element) {
@@ -123,6 +157,15 @@ function playAnother() {
   show(classicGameChoice);
   show(botzGameChoice);
   gameSubtitle.innerText = "Choose your game!"
+}
+
+function makeChoicesSelectable() {
+    var choiceContainers = document.querySelectorAll(".choice-container")
+    for (var choice of choiceContainers) {
+      choice.addEventListener("click", function() {
+      selectChoice(event);
+    });
+  }
 }
 
 function resetTokens() {
@@ -418,10 +461,10 @@ function updateBothHealth(currentPlayer, opponent) {
   updateHealth(opponent);
 }
 
-// function updateWinCount() {
-//   playerWins.innerText = `Rounds won: ${currentUser.wins}`
-//   compWins.innerText = `Rounds won: ${currentComp.wins}`
-// }
+function updateWinCount() {
+  playerWins.innerText = `Rounds won: ${currentUser.roundsWon}`
+  compWins.innerText = `Rounds won: ${currentComp.roundsWon}`
+}
 
 function resetPlayers(currentPlayer, opponent) {
   currentPlayer.hasMoved = false;
@@ -442,7 +485,6 @@ function startBotzGame() {
   makeMovesSelectable();
 }
 
-
 function pullAndSetFromZodiac(sign) {
   currentUser.sign = sign;
   removeSign(currentUser, currentGame.currentZodiac)
@@ -459,23 +501,5 @@ function evaluateAndSet(event) {
     if (lowerCase === sign.name || currentUser.currentChoice === sign.icon) {
       pullAndSetFromZodiac(sign);
     }
-  }
-}
-
-// Battle Elements
-var compareBox = document.getElementById("comparisonBox");
-
-window.onload = displayDefaultGame();
-classicGameChoice.addEventListener("click", playClassicGame);
-botzGameChoice.addEventListener("click", playBotzGame);
-goBackBtn.addEventListener("click", goBack)
-
-
-function makeChoicesSelectable() {
-    var choiceContainers = document.querySelectorAll(".choice-container")
-    for (var choice of choiceContainers) {
-      choice.addEventListener("click", function() {
-      selectChoice(event);
-    });
   }
 }
