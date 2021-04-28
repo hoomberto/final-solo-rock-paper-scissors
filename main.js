@@ -66,7 +66,6 @@ function renderRPS() {
 
 function renderFromLocal() {
   resetUserCompText()
-  // checkLocalStorage();
   var parsedGame = JSON.parse(localStorage.getItem("game"));
   userIcon.innerText += parsedGame.player1.icon
   compIcon.innerText += parsedGame.player2.icon
@@ -90,7 +89,6 @@ function checkLocalStorage() {
 }
 
 function saveToStorage(player1, player2) {
-  // checkLocalStorage();
   var parsedGame = JSON.parse(localStorage.getItem("game"));
   parsedGame.player1 = player1;
   parsedGame.player2 = player2;
@@ -98,9 +96,6 @@ function saveToStorage(player1, player2) {
 }
 
 function getGameFromLocal() {
-  // if (!localStorage.getItem("game")) {
-  //   initializeGame()
-  // }
   var parsedGame = JSON.parse(localStorage.getItem("game"));
   return parsedGame;
 }
@@ -108,7 +103,6 @@ function getGameFromLocal() {
 // Default / Global Functionality
 
 function displayDefaultGame() {
-  debugger
   initializeGame()
   checkLocalStorage();
   var currentLocalGame = getGameFromLocal();
@@ -354,9 +348,6 @@ function playBotzGame() {
   displayRoundsWon()
   displayZodiacSelection()
   checkPlayerExistence()
-  // currentUser = new Player("User", "🟢");
-  // currentComp = new Player("Computer", "🤖");
-  // currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale")
   setZodiacAndMoves()
   show(botzExplanation)
   showSigns();
