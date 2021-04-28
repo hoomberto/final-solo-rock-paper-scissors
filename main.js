@@ -81,7 +81,7 @@ function resetStorage() {
 
 function checkLocalStorage() {
   var localGame = getGameFromLocal();
-  if (!localGame.player1) {
+  if (!localGame) {
     resetStorage();
     initializeGame()
     saveToStorage(currentUser, currentComp);
