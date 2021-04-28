@@ -253,6 +253,7 @@ grid-template-rows: repeat(2, 1fr);
 
 .result-text {
   margin: 0;
+  text-transform: uppercase;
 }
 
 .choice {

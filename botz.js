@@ -1,65 +1,8 @@
-function setZodiacSigns() {
-  // Fire Signs
-  var aries = new Zodiac("aries", "fire", "cardinal", '🐏');
-  var leo = new Zodiac("leo", "fire", "fixed", '🦁');
-  var sagittarius = new Zodiac("sagittarius", "fire", "mutable", '🐴');
-
-  // Earth Signs
-  var virgo = new Zodiac("virgo", "earth", "cardinal", '🌾');
-  var taurus = new Zodiac("taurus", "earth", "fixed", '🐂');
-  var capricorn = new Zodiac("capricorn", "earth", "mutable", '🐐');
-
-  // Air Signs
-  var libra = new Zodiac("libra", "air", "cardinal", '⚖️');
-  var aquarius = new Zodiac("aquarius", "air", "fixed", '🏺');
-  var gemini = new Zodiac("gemini", "air", "mutable", '👯‍♀️');
-
-  // Water Signs
-  var cancer = new Zodiac("cancer", "water", "cardinal", '🦀');
-  var scorpio = new Zodiac("scorpio", "water", "fixed", '🦂');
-  var pisces = new Zodiac("pisces", "water", "mutable", '🐟');
-
-  let zodiac = [
-    aries,
-    taurus,
-    gemini,
-    cancer,
-    leo,
-    virgo,
-    libra,
-    scorpio,
-    sagittarius,
-    capricorn,
-    aquarius,
-    pisces
-  ];
-return zodiac
-}
-
-function setZodiacMoves(array) {
-  for (var sign of array) {
-    addMoves(sign)
-  }
-}
-
-function resetZodiac() {
-  setZodiacSigns();
-  setZodiacMoves();
-}
-
 function removeSign(player, array) {
   for (var i = 0; i < array.length; i++) {
     if (array[i].name === player.sign.name) {
       array.splice(i, 1);
     }
-  }
-}
-
-function addMoves(sign) {
-  var i = 0;
-  while (i < 2) {
-    sign.moves.push(randomChoice(moves))
-    i++
   }
 }
 
@@ -260,6 +203,8 @@ function setWinnerLoser(currentPlayer, opponent) {
   currentPlayer.isWinner = true;
   currentPlayer.winRound();
   opponent.signLoss();
+  // saveToStorage(currentUser, currentComp)
+  // resetUserCompText()
 }
 
 function delayPlayBotzAgain() {
@@ -283,12 +228,6 @@ function checkMoved(currentPlayer, opponent) {
   }
 }
 
-function setNewGame() {
-  var newZodiac = setZodiacSigns();
-  setZodiacMoves(newZodiac);
-  currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", newZodiac)
-}
-
 function gameOver() {
     resetElement(playerBattleText)
     battleText.innerText = `Lasted ${currentUser.roundsWon} rounds with ${currentUser.sign.name}`;
@@ -309,7 +248,7 @@ function endBotzGame() {
   hide(playerBox)
   hide(battleLogContainer)
   resetBattleLog()
-  setNewGame()
+  setZodiacAndMoves()
   show(goBackBtn)
   show(zodiacSignSelection)
   show(botzExplanation)
@@ -317,6 +256,5 @@ function endBotzGame() {
 }
 
 function playAnotherBotz() {
-  currentUser.roundsWon = 0;
   endBotzGame();
 }

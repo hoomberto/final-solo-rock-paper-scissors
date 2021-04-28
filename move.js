@@ -29,7 +29,6 @@ var jojoPose = new Move("JoJo Pose", "Best against enemy stand users", 15, 70, "
 var blink = new Move("Blink", "Is there hidden power behind this move?", 100, 5, "air");
 var pout = new Move("Pout", "Sometimes it's effective?", 50, 30, "water");
 
-
 var moves = [
   rockin, psiThunder, psiFire, psiFreeze, emeraldSplash,
   detroitSmash, negativeEnergy, poke, machineWashCold,

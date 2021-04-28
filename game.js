@@ -4,21 +4,9 @@ class Game {
     this.description = gameDescription;
     this.ties = 0;
     this.choices = ["rock", "paper", "scissors"];
-    this.zodiac = [];
     this.currentZodiac = [];
     this.player1 = "";
     this.player2 = "";
-  }
-  renderRPS() {
-    gameSelections.innerHTML = "";
-    for (var choice of this.choices) {
-      gameSelections.innerHTML += `
-      <div id="${choice}ChoiceContainer" class="choice-container choice">
-        <img id="${choice}" src="./assets/${choice}.png" alt="${choice}">
-        <p id="${choice}Text" class="choice-icon"></p>
-      </div>
-      `
-    }
   }
 
   initializeZodiac() {
@@ -61,11 +49,9 @@ class Game {
   }
 }
   playGame(userInput) {
-    debugger
     currentComp.currentChoice = randomChoice(this.choices)
     var compInput = currentComp.currentChoice
     this.compareChoices(userInput, compInput);
-    // setWinCount();
   }
 
   compareChoices(user, comp) {
@@ -73,7 +59,6 @@ class Game {
     let localGame = getGameFromLocal();
     let player1 = localGame.player1;
     let player2 = localGame.player2;
-    // show(playAgainBtn);
     if (user === comp) {
     this.ties++;
     resultText.innerText = `It was ${user} vs ${comp} - tie! Play again`
@@ -93,107 +78,25 @@ class Game {
     showBothChoices();
     setTimeout(function() {playClassicGame()}, 2500)
   }
-}
-
-function randomIndex(array) {
-  return Math.floor(Math.random() * array.length);
-}
-
-function randomChoice(choices) {
-  return choices[randomIndex(choices)];
-}
-
-function hideAllChoices() {
-      var choiceContainers = document.querySelectorAll(".choice-container")
-  // rpsChoices = document.querySelectorAll(".choice");
-  for (var choice of choiceContainers) {
-    hide(choice)
-  }
-}
-
-function showAllChoices() {
-    goBackBtn.style.pointerEvents = 'auto'
-    var choiceContainers = document.querySelectorAll(".choice-container")
-    for (var choice of choiceContainers) {
-        show(choice)
-        choice.style.pointerEvents = 'auto'
-    }
-}
-
-
-
-function showChoice(player) {
-  var playerChoice = player.currentChoice
-  let rpsChoices = document.querySelectorAll(".choice");
-  let choiceContainers = document.querySelectorAll(".choice-container")
-  goBackBtn.style.pointerEvents = 'none'
-  for (var choice of choiceContainers) {
-    if (choice.children[0].id === playerChoice) {
-      show(choice)
-      choice.style.pointerEvents = 'none';
-      choice.children[1].innerText += `${player.icon}`
-    }
+  updateWinCount() {
+    saveToStorage(currentUser, currentComp)
+    resetElement(playerWins);
+    resetElement(compWins);
+    var localGame = getGameFromLocal();
+    playerWins.innerText += `Rounds won: ${localGame.player1.roundsWon}`
+    compWins.innerText += `Rounds won: ${localGame.player2.roundsWon}`
   }
 
-}
-
-function showBothChoices() {
-  showChoice(currentUser);
-  showChoice(currentComp);
-}
-
-function selectChoice(event) {
-    if (event.target.id === "rock") {
-      currentUser.currentChoice = "rock"
+  setZodiacMoves() {
+    for (var sign of this.currentZodiac) {
+      this.addMoves(sign)
     }
-    if (event.target.id === "paper") {
-      currentUser.currentChoice = "paper"
-    }
-    if (event.target.id === "scissors") {
-      currentUser.currentChoice = "scissors"
-    }
-    currentGame.playGame(currentUser.currentChoice);
-}
-
-function resetStorage() {
-  var gameObject = { player1: "", player2: "" };
-  var strGameObject = JSON.stringify(gameObject);
-  localStorage.setItem("game", strGameObject);
-}
-
-function checkLocalStorage() {
-  if (!localStorage.getItem("game")) {
-    resetStorage()
   }
-}
-
-function saveToStorage(player1, player2) {
-  checkLocalStorage();
-  var parsedGame = JSON.parse(localStorage.getItem("game"));
-  parsedGame.player1 = player1;
-  parsedGame.player2 = player2;
-  localStorage.setItem("game", JSON.stringify(parsedGame));
-}
-
-function resetUserCompText() {
-  userIcon.innerText = "";
-  compIcon.innerText = "";
-  playerWins.innerText = "";
-  compWins.innerText = "";
-}
-
-function renderFromLocal() {
-  resetUserCompText()
-  checkLocalStorage();
-  var parsedGame = JSON.parse(localStorage.getItem("game"));
-  userIcon.innerText += parsedGame.player1.icon
-  compIcon.innerText += parsedGame.player2.icon
-  playerWins.innerText += `Wins: ${parsedGame.player1.wins}`;
-  compWins.innerText += `Wins: ${parsedGame.player2.wins}`;
-}
-
-function getGameFromLocal() {
-  checkLocalStorage();
-  var parsedGame = JSON.parse(localStorage.getItem("game"));
-  return parsedGame;
+  addMoves(sign) {
+    var i = 0;
+    while (i < 2) {
+      sign.moves.push(randomChoice(moves))
+      i++
+    }
+  }
 }
