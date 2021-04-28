@@ -4,7 +4,6 @@
     <link href="styles.css" type="text/css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@100;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel="stylesheet">
     <meta charset="utf-8">
     <title>Rock, Paper, Scissors</title>
@@ -18,7 +17,6 @@
         <button id="goBack" class="go-back-button hidden">Go Back</button>
         <section id="playerWinLosses" class="zodiac-stats"></section>
       </div>
-      <!-- <button id="goBack" class="go-back-button hidden">Go Back</button> -->
     </section>
     <section id="mainGame" class="main game-section">
       <h1 id="gameHeader">Rock, Paper, Scissors</h1>
@@ -45,7 +43,7 @@
         <div id="signs" class="icons-section"></div>
       </section>
       <section id="botzExplanation" class="botz-explanation">
-        <p class="main-botz-description">Select a zodiac sign to start a game. When a sign is selected, the current Zodiac has the players choice removed - the same thing happens immediately after when the computer is assigned a sign from the pool. Using two moves that are randomly assigned to all signs, a battle between the two begins. The icon, name, element, health points, and quality for each are displayed, along with the users move pool. Each zodiac sign has an associated element (fire, earth, water, or air) and quality (cardinal, muted, or fixed). The matchups are as follows:
+        <p class="main-botz-description">Select a sign and try to conquer the zodiac! Using two moves that are randomly set to all signs, a battle between the player and computer begins. Each zodiac sign has an associated element (fire, earth, water, or air) and quality (cardinal, muted, or fixed). The matchup will determine the advantages at play for a given game. The matchups are as follows:
         </p>
         <div class="matchups-container">
           <div class="element-matchup-container">
@@ -102,20 +100,18 @@
       <div id="computerBox"class="comp player-box hidden"></div>
       <div id="comparisonBox"class="comparison-box hidden"></div>
       <div id="playerBox" class="player player-box hidden"></div>
-
       <h2 id="playerBattleText" class="player-battle-text hidden">user side text</h2>
       <h2 id="playerMoveText" class="player-move-text hidden">user side text</h2>
       <div id="battleLogContainer"class="battle-log hidden">
         <h3>Battle Log</h3>
-        <div id="battleLog" class="battle">
-        </div>
+        <div id="battleLog" class="battle"></div>
       </div>
     </section>
     <section id="compSide" class="computer player-section">
       <div id="compInfo" class="player-info">
         <h2 id="compIcon" class="comp-icon"></h2>
         <h2 class="comp-icon">Computer</h2>
-        <h3 id="compWins" class="win-count">Wins:  </h3>
+        <h3 id="compWins" class="win-count">Wins: </h3>
         <section id="compWinLosses" class="zodiac-stats"></section>
       </div>
     </section>

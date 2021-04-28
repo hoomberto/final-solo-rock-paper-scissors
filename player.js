@@ -1,13 +1,3 @@
-// class Player {
-//   constructor() {
-//     this.currentChoice = "";
-//     this.wins = 0;
-//     this.losses = 0;
-//     this.ties = 0;
-//   }
-// }
-
-
 class Player {
   constructor(name, icon, sign) {
     this.currentChoice = "";
@@ -53,18 +43,13 @@ class Player {
   }
   winRound() {
     var capitalSign = this.sign.name.toUpperCase();
-    console.log(`${this.sign.name} is the winner!`)
     playerBattleText.innerText = `${this.sign.name} is the winner!`
     battleLog.innerHTML += `<p>${capitalSign} is the winner!</p>`
     this.roundsWon++
     this.wins++
     this.winsAs[this.sign.name]++;
     updateWinCount();
-    return true
   }
-  // signVictory() {
-  //   this.winsAs[this.sign.name]++;
-  // }
   signLoss() {
     this.lossesAs[this.sign.name]++;
   }

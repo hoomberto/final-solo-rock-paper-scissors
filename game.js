@@ -1,11 +1,11 @@
 class Game {
-  constructor(gameName, gameDescription, zodiac) {
+  constructor(gameName, gameDescription) {
     this.name = gameName;
     this.description = gameDescription;
     this.ties = 0;
     this.choices = ["rock", "paper", "scissors"];
     this.zodiac = [];
-    this.currentZodiac = zodiac;
+    this.currentZodiac = [];
     this.player1 = "";
     this.player2 = "";
   }
@@ -57,7 +57,7 @@ class Game {
       pisces
     ];
   for (var sign of zodiac) {
-    this.zodiac.push(sign);
+    this.currentZodiac.push(sign);
   }
 }
   playGame(userInput) {
@@ -94,11 +94,6 @@ class Game {
     setTimeout(function() {playClassicGame()}, 2500)
   }
 }
-
-// function setPlayerChoice(player) {
-//   var selected = document.getElementById("selectedChoice")
-//   selected.innerText += currentUser.icon
-// }
 
 function randomIndex(array) {
   return Math.floor(Math.random() * array.length);
@@ -148,21 +143,16 @@ function showBothChoices() {
 }
 
 function selectChoice(event) {
-  console.log("SOMETHING HAPPENING")
     if (event.target.id === "rock") {
       currentUser.currentChoice = "rock"
-      // return "rock"
     }
     if (event.target.id === "paper") {
       currentUser.currentChoice = "paper"
-      // return "paper"
     }
     if (event.target.id === "scissors") {
       currentUser.currentChoice = "scissors"
-      // return "scissors"
     }
     currentGame.playGame(currentUser.currentChoice);
-
 }
 
 function resetStorage() {
@@ -185,11 +175,15 @@ function saveToStorage(player1, player2) {
   localStorage.setItem("game", JSON.stringify(parsedGame));
 }
 
-function renderFromLocal() {
+function resetUserCompText() {
   userIcon.innerText = "";
   compIcon.innerText = "";
   playerWins.innerText = "";
   compWins.innerText = "";
+}
+
+function renderFromLocal() {
+  resetUserCompText()
   checkLocalStorage();
   var parsedGame = JSON.parse(localStorage.getItem("game"));
   userIcon.innerText += parsedGame.player1.icon

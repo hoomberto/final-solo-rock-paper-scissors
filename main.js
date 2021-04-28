@@ -31,27 +31,13 @@ var battleLog = document.getElementById("battleLog");
 var battleLogContainer = document.getElementById("battleLogContainer");
 
 
-// Battle Elements
-var compareBox = document.getElementById("comparisonBox");
 
-window.onload = displayDefaultGame();
-classicGameChoice.addEventListener("click", playClassicGame);
-botzGameChoice.addEventListener("click", playBotzGame);
-goBackBtn.addEventListener("click", goBack)
-
-
-function makeChoicesSelectable() {
-    var choiceContainers = document.querySelectorAll(".choice-container")
-    for (var choice of choiceContainers) {
-      choice.addEventListener("click", function() {
-      selectChoice(event);
-    });
-  }
-}
 
 var currentGame;
 var currentUser;
 var currentComp;
+
+// Default / Global Functionality
 
 function renderDefaultPage(currentLocalGame) {
   if (!currentLocalGame.player1.wins) {
@@ -90,31 +76,24 @@ function goBack() {
   show(mainGameSection);
 }
 
-function playAnother() {
-  hide(gameChoices);
-  hide(goBackBtn);
-  resultText.innerText = "";
-  show(gameSelections);
-  show(classicGameChoice);
-  show(botzGameChoice);
-  gameSubtitle.innerText = "Choose your game!"
+function hide(element) {
+  element.classList.add("hidden");
 }
 
-function resetBotz() {
-  hide(playerBox)
-  hide(computerBox)
-  battleText.innerHTML = "Choose your fighter"
-  hide(battleText)
-  hide(playerBattleText)
+function show(element) {
+  element.classList.remove("hidden");
 }
 
-function resetTokens() {
-  var choiceIcons = document.querySelectorAll(".choice-icon")
-  for (var choice of choiceIcons) {
-    if (choice.innerText) {
-      resetText(choice);
-    }
-  }
+function updateInner(element, content) {
+  element.innerHTML += `<p>${content}</p>`
+}
+
+function resetElement(element) {
+  element.innerHTML = "";
+}
+
+function resetText(element) {
+  element.innerText = "";
 }
 
 function resetWinCount() {
@@ -128,12 +107,25 @@ function setWinCount() {
   compWins.innerText += `${currentComp.wins}`;
 }
 
-function hide(element) {
-  element.classList.add("hidden");
+// Classic Game Functionality
+
+function playAnother() {
+  hide(gameChoices);
+  hide(goBackBtn);
+  resultText.innerText = "";
+  show(gameSelections);
+  show(classicGameChoice);
+  show(botzGameChoice);
+  gameSubtitle.innerText = "Choose your game!"
 }
 
-function show(element) {
-  element.classList.remove("hidden");
+function resetTokens() {
+  var choiceIcons = document.querySelectorAll(".choice-icon")
+  for (var choice of choiceIcons) {
+    if (choice.innerText) {
+      resetText(choice);
+    }
+  }
 }
 
 function displayClassicGame() {
@@ -149,6 +141,16 @@ function playClassicGame() {
   resultText.innerText = "Take your pick";
   resetTokens();
   gameSubtitle.innerText = "Make a choice:";
+}
+
+// Battle of the Zodiac (Botz) game Functionality
+
+function resetBotz() {
+  hide(playerBox)
+  hide(computerBox)
+  battleText.innerHTML = "Choose your fighter"
+  hide(battleText)
+  hide(playerBattleText)
 }
 
 function showSigns() {
@@ -172,14 +174,8 @@ function displayZodiacSelection() {
 }
 
 function updateBattleLog(content) {
-
   battleLog.innerHTML += `<p>${content}</p>`
-  // battleLog.scrollTop = 0;
-  // battleLog.scrollBottom = battleLog.scrollHeight;
-  // battleLog.scrollTop(battleLog.height)
   scrollToTop(battleLog)
-  // battleLog.scrollBottom = battleLog.scrollHeight;
-  // scrollToBottom(battleLog)
 }
 
 function scrollToTop(element) {
@@ -188,30 +184,44 @@ function scrollToTop(element) {
     behavior: "smooth"
   });
 }
-// function scrollToBottom(element) {
-//   element.scroll({ top: element.scrollHeight, behavior: 'smooth' });
-// }
+
+function setZodiacAndMoves() {
+  currentGame.currentZodiac = []
+  currentGame.initializeZodiac();
+  setZodiacMoves(currentGame.currentZodiac);
+}
 
 function playBotzGame() {
   displayZodiacSelection()
   currentUser = new Player("User", "🟢");
   currentComp = new Player("Computer", "🤖");
-  currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", zodiac)
-  if (currentGame.currentZodiac.length < 12 || !currentGame.currentZodiac.length) {
-    var resetZodiac = setZodiacSigns();
-    setZodiacMoves(resetZodiac)
-    currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale", resetZodiac)
-  }
+  currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale")
+  setZodiacAndMoves()
+  show(botzExplanation)
   showSigns();
   makeIconsSelectable();
 }
+
+function selectSign(event) {
+  evaluateAndSet(event)
+
+  currentUser.sign.hp = 100;
+  currentComp.sign.hp = 100;
+
+  initialBattleText();
+  hide(zodiacSignSelection);
+  hide(botzExplanation)
+  show(goBackBtn)
+
+  evaluateSigns(currentUser, currentComp)
+  setTimeout(function() {show(goBackBtn)}, 9000)
+  setTimeout(function() {startBotzGame()}, 9000)
+};
 
 function setBothBoxes() {
   setPlayerBox(playerBox, currentUser);
   setPlayerBox(computerBox, currentComp);
 }
-
-
 
 function setPlayerMoves(infoContainer, player) {
   if (currentUser.sign.hp > 0) {
@@ -249,8 +259,6 @@ function makeMovesUnselectable() {
   }
 }
 
-
-
 function updateHealth(player) {
   let playerHP = player.sign.hp
   if (playerHP < 0) {
@@ -285,7 +293,7 @@ function selectMove(event) {
   for (var move of currentUser.sign.moves) {
     if (selectedMove === move.name) {
       currentUser.currentMove = move;
-      console.log(`User selected ${currentUser.currentMove.name}`)
+      updateBattleLog(`User selected ${currentUser.currentMove.name}`)
     }
   }
   makeMovesUnselectable()
@@ -302,23 +310,24 @@ function setBoxesAndMoves() {
 
 function newChallenger() {
   if (!currentGame.currentZodiac.length) {
+    debugger
     hide(computerBox)
     hide(battleText)
+    resetElement(playerBattleText)
     show(playerBox)
     var userSign = currentUser.sign.name.toUpperCase();
     playerBox.innerHTML = ""
     playerBox.innerHTML += `
     <h4>YOU BEAT THE ZODIAC AS ${userSign}!</h4>
     `
-    battleLog.innerHTML += `
-    <p>YOU BEAT THE ZODIAC AS ${userSign}!</p>
-    `
+    updateBattleLog(`YOU BEAT THE ZODIAC AS ${userSign}!`)
+
     setTimeout(function() {playAnotherBotz()}, 3500);
     return
   }
   currentComp.sign = randomChoice(currentGame.currentZodiac);
   battleText.innerText = `NEW CHALLENGER APPEARS: ${currentComp.sign.name}`
-  battleLog.innerHTML += `<p>NEW CHALLENGER APPEARS: ${currentComp.sign.name}</p>`
+  updateBattleLog(`NEW CHALLENGER APPEARS: ${currentComp.sign.name}`)
   removeSign(currentComp, currentGame.currentZodiac);
   hide(playerBattleText);
   resetAdvantages(currentUser, currentComp)
@@ -354,7 +363,6 @@ function announceMiss(currentPlayer) {
     show(playerBattleText)
     playerBattleText.innerText = missText;
   }
-
 }
 
 function showMoveUsed(currentPlayer) {
@@ -381,16 +389,19 @@ function showPlayerChoice() {
   playerMoveText.innerText = `${currentUser.name} selected ${currentUser.currentMove.name}`
 }
 
-
 function startBattle() {
   setBothBoxes()
   makeMovesUnselectable();
   currentComp.currentMove = randomChoice(currentComp.sign.moves);
   var currentRoundMove = currentComp.currentMove;
-  compareSpeeds(currentUser, currentComp)
-  checkMoved(currentUser, currentComp)
-  setPlayerMoves(playerBox, currentUser)
-  resetPlayers(currentUser, currentComp)
+  runBattleSequence()
+}
+
+function runBattleSequence() {
+  compareSpeeds(currentUser, currentComp);
+  checkMoved(currentUser, currentComp);
+  setPlayerMoves(playerBox, currentUser);
+  resetPlayers(currentUser, currentComp);
 }
 
 function delayShowMoves() {
@@ -408,57 +419,58 @@ function updateWinCount() {
 }
 
 function resetPlayers(currentPlayer, opponent) {
-  console.log("players reset")
   currentPlayer.hasMoved = false;
   opponent.hasMoved = false;
 }
 
 function initialBattleText() {
-  battleText.innerText = "";
+  resetText(battleText)
   battleText.innerText += "FIGHT!!"
 }
 
 function startBotzGame() {
   show(playerBox);
   show(computerBox);
-  // Add function to show battle log
   show(battleLogContainer)
   setBothBoxes()
   setPlayerMoves(playerBox, currentUser)
   makeMovesSelectable();
 }
 
-function resetElement(element) {
-  element.innerHTML = "";
+
+function pullAndSetFromZodiac(sign) {
+  currentUser.sign = sign;
+  removeSign(currentUser, currentGame.currentZodiac)
+  currentComp.sign = randomChoice(currentGame.currentZodiac);
+  removeSign(currentComp, currentGame.currentZodiac)
 }
 
-function resetText(element) {
-  element.innerText = "";
-}
-
-function selectSign(event) {
-    currentUser.currentChoice = "";
-    let selectedSign = event.srcElement.innerText
-    currentUser.currentChoice = selectedSign;
-    var lowerCase = currentUser.currentChoice.toLowerCase();
-    for (var sign of currentGame.currentZodiac) {
-      if (lowerCase === sign.name || currentUser.currentChoice === sign.icon) {
-        currentUser.sign = sign;
-        removeSign(currentUser, currentGame.currentZodiac)
-        currentComp.sign = randomChoice(currentGame.currentZodiac);
-        removeSign(currentComp, currentGame.currentZodiac)
-      }
+function evaluateAndSet(event) {
+  currentUser.currentChoice = "";
+  let selectedSign = event.srcElement.innerText
+  currentUser.currentChoice = selectedSign;
+  var lowerCase = currentUser.currentChoice.toLowerCase();
+  for (var sign of currentGame.currentZodiac) {
+    if (lowerCase === sign.name || currentUser.currentChoice === sign.icon) {
+      pullAndSetFromZodiac(sign);
     }
-    currentUser.sign.hp = 100;
-    currentComp.sign.hp = 100;
+  }
+}
 
-    initialBattleText();
-    hide(zodiacSignSelection);
-    hide(botzExplanation)
-    show(goBackBtn)
+// Battle Elements
+var compareBox = document.getElementById("comparisonBox");
 
-    evaluateSigns(currentUser, currentComp)
-    setTimeout(function() {show(goBackBtn)}, 9000)
-    setTimeout(function() {startBotzGame()}, 9000)
+window.onload = displayDefaultGame();
+classicGameChoice.addEventListener("click", playClassicGame);
+botzGameChoice.addEventListener("click", playBotzGame);
+goBackBtn.addEventListener("click", goBack)
 
-};
+
+function makeChoicesSelectable() {
+    var choiceContainers = document.querySelectorAll(".choice-container")
+    for (var choice of choiceContainers) {
+      choice.addEventListener("click", function() {
+      selectChoice(event);
+    });
+  }
+}

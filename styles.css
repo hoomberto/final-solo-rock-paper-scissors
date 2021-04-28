@@ -1,10 +1,6 @@
-/* * {
-  border: 1px solid blue;
-} */
 html {
   height: 100%
 }
-
 
 body {
   display: flex;
@@ -119,7 +115,6 @@ grid-template-columns: repeat(2, 1fr);
 grid-template-rows: repeat(2, 1fr);
 }
 
-
 .botz-explanation {
   height: auto;
   width: 80%;
@@ -182,7 +177,6 @@ grid-template-rows: repeat(2, 1fr);
   .player-section h2,
   .player-section h3,
   .go-back-button {
-
     margin: 0 25% -20% 0;
     padding: 10%;
   }
@@ -193,9 +187,12 @@ grid-template-rows: repeat(2, 1fr);
     grid-column-gap: 50px;
     grid-row-gap: 0px;
   }
+
   .game-type {
     width: 150px;
+    padding: 10px;
   }
+
   .go-back-button {
     width: 90%;
   }
@@ -205,6 +202,10 @@ grid-template-rows: repeat(2, 1fr);
   }
   .quality-matchups-container {
     margin-top: 4%;
+  }
+
+  .quality-matchups {
+    flex-direction: column;
   }
 }
 
@@ -291,10 +292,6 @@ grid-template-rows: repeat(2, 1fr);
   padding-left: 1vw;
   padding-right: 1vw;
   border-radius: 4px;
-}
-
-.player.player-box {
-
 }
 
 .comp.player-box {
@@ -384,17 +381,10 @@ grid-template-rows: repeat(2, 1fr);
   font-weight: 400;
 }
 
-
 .battle-log p,
 .battle-log h3 {
   margin: 0;
 }
-
-/* .botz-header-text {
-  font-family: 'MuseoModerno', cursive;
-  font-weight: 800;
-} */
-
 
 .hidden {
   display: none;
