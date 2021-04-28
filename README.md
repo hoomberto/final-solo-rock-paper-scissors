@@ -43,7 +43,7 @@ A battle between the two signs ensues - if the user wins, a new challenger from 
 
 ## Contributors
 [Bobby Vasquez](https://github.com/hoomberto/)<br>
-[Nick Teets](https://github.com/nicktu12) (Code Review)
+[Nick Teets](https://github.com/nicktu12) (Code Review)<br>
 [Will Mitchell](https://github.com/wvmitchell) (Project Manager)
 
 ## Languages
