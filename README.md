@@ -29,7 +29,7 @@ Users can go back from anywhere in site to main page
 Users can play a game of Battle of the Zodiac as other game variant
 ![alt text](https://media.giphy.com/media/7CECUYQtwndlF7d0uI/giphy.gif "Battle of the Zodiac")
 
-Users will have an initial evaluation made between the comparison of the user and computers signs' element and quality
+Users have an initial evaluation made between the comparison of the user & computers signs' element and quality
 ![alt text](https://media.giphy.com/media/2kFnjw2qv9I5qRf48i/giphy.gif "Comparison Evaluation")
 
 A battle between the two signs ensues - if the user wins, a new challenger from the Zodiac will appear until the zodiac is empty, otherwise if the user loses, a new game will start. Try to conquer the Zodiac!
