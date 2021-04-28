@@ -167,6 +167,7 @@ ul {
 
 .result-text {
   margin: 0;
+  padding: 5px;
   text-transform: uppercase;
 }
 

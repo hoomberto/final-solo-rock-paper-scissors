@@ -61,7 +61,7 @@ class Game {
     let player2 = localGame.player2;
     if (user === comp) {
     this.ties++;
-    resultText.innerText = `It was ${user} vs ${comp} - tie! Play again`
+    resultText.innerText = `It was ${user} vs ${comp} - tie!`
     }
     else if (user === 'rock' && comp === 'scissors' || user === 'scissors' && comp === 'paper' || user === 'paper' && comp === 'rock') {
       player1.wins++
@@ -71,7 +71,7 @@ class Game {
     else if (user === 'rock' && comp === 'paper' || user === 'scissors' && comp === 'rock' || user === 'paper' && comp === 'scissors') {
       player1.losses++
       player2.wins++
-      resultText.innerText = `${user} lost against ${comp}! You lost!`
+      resultText.innerText = `${user} went against ${comp}! You lost!`
     }
     saveToStorage(player1, player2)
     renderFromLocal();
