@@ -46,9 +46,6 @@ goBackBtn.addEventListener("click", goBack)
 // DOM Rendering
 
 function renderDefaultPage(currentLocalGame) {
-  if (!currentLocalGame.player1.wins) {
-    saveToStorage(currentUser, currentComp);
-  }
   renderFromLocal();
   renderRPS();
 }
@@ -69,7 +66,7 @@ function renderRPS() {
 
 function renderFromLocal() {
   resetUserCompText()
-  checkLocalStorage();
+  // checkLocalStorage();
   var parsedGame = JSON.parse(localStorage.getItem("game"));
   userIcon.innerText += parsedGame.player1.icon
   compIcon.innerText += parsedGame.player2.icon
@@ -84,13 +81,16 @@ function resetStorage() {
 }
 
 function checkLocalStorage() {
-  if (!localStorage.getItem("game")) {
-    resetStorage()
+  var localGame = getGameFromLocal();
+  if (!localGame.player1) {
+    resetStorage();
+    initializeGame()
+    saveToStorage(currentUser, currentComp);
   }
 }
 
 function saveToStorage(player1, player2) {
-  checkLocalStorage();
+  // checkLocalStorage();
   var parsedGame = JSON.parse(localStorage.getItem("game"));
   parsedGame.player1 = player1;
   parsedGame.player2 = player2;
@@ -98,7 +98,9 @@ function saveToStorage(player1, player2) {
 }
 
 function getGameFromLocal() {
-  checkLocalStorage();
+  // if (!localStorage.getItem("game")) {
+  //   initializeGame()
+  // }
   var parsedGame = JSON.parse(localStorage.getItem("game"));
   return parsedGame;
 }
@@ -106,8 +108,9 @@ function getGameFromLocal() {
 // Default / Global Functionality
 
 function displayDefaultGame() {
-  checkLocalStorage();
+  debugger
   initializeGame()
+  checkLocalStorage();
   var currentLocalGame = getGameFromLocal();
   renderDefaultPage(currentLocalGame);
   initializeDefaultText(currentGame);
@@ -335,12 +338,25 @@ function setZodiacAndMoves() {
   currentGame.setZodiacMoves();
 }
 
+function checkPlayerExistence() {
+  var localGame = getGameFromLocal();
+  if (localGame.player1.roundsWon) {
+    return
+  }
+  else {
+    currentUser = new Player("User", "🟢");
+    currentComp = new Player("Computer", "🤖");
+    currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale")
+  }
+}
+
 function playBotzGame() {
   displayRoundsWon()
   displayZodiacSelection()
-  currentUser = new Player("User", "🟢");
-  currentComp = new Player("Computer", "🤖");
-  currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale")
+  checkPlayerExistence()
+  // currentUser = new Player("User", "🟢");
+  // currentComp = new Player("Computer", "🤖");
+  // currentGame = new Game("Battle of the Zodiac", "Face the other signs in a battle royale")
   setZodiacAndMoves()
   show(botzExplanation)
   showSigns();
@@ -557,10 +573,6 @@ function updateBothHealth(currentPlayer, opponent) {
   updateHealth(opponent);
 }
 
-// function updateWinCount() {
-//   playerWins.innerText = `Rounds won: ${currentUser.roundsWon}`
-//   compWins.innerText = `Rounds won: ${currentComp.roundsWon}`
-// }
 
 function resetPlayers(currentPlayer, opponent) {
   currentPlayer.hasMoved = false;

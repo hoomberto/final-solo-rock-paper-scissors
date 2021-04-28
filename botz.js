@@ -256,6 +256,5 @@ function endBotzGame() {
 }
 
 function playAnotherBotz() {
-  currentUser.roundsWon = 0;
   endBotzGame();
 }
